@@ -813,6 +813,7 @@
     titleEl.textContent = g.icon + " " + g.name;
     stage.innerHTML = "";
     modal.hidden = false;
+    modal.style.display = "grid";
     document.body.classList.add("modal-open");
     try {
       cleanupFn = g.init(stage) || null;
@@ -823,7 +824,7 @@
   }
   function closeGame() {
     if (cleanupFn) { try { cleanupFn(); } catch (e) {} cleanupFn = null; }
-    if (modal) modal.hidden = true;
+    if (modal) { modal.hidden = true; modal.style.display = "none"; }
     document.body.classList.remove("modal-open");
     if (stage) stage.innerHTML = "";
     renderCards();

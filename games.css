@@ -13,6 +13,8 @@
 .game-card .gc-best { display: inline-block; margin-top: 10px; font: 600 11px/1 var(--mono); color: var(--accent); }
 
 /* 弹窗 */
+.game-modal[hidden] { display: none !important; }
+
 .game-modal {
   position: fixed; inset: 0; z-index: 80; display: grid; place-items: center;
   padding: 16px; background: rgba(4, 8, 16, .82);

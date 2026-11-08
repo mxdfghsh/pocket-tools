@@ -330,3 +330,12 @@ body.entered .back-home { display: grid; }
   .landing-cta { padding: 15px 28px; font-size: 15px; }
   .landing-icons { font-size: 19px; gap: 9px; }
 }
+
+/* ---------- 入口页回主页 ---------- */
+.home-link {
+  position: absolute; top: 22px; left: 22px; z-index: 2;
+  color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600;
+  padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line);
+  background: rgba(255,255,255,.04); transition: color .18s, background .18s, border-color .18s;
+}
+.home-link:hover { color: var(--text); background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.2); }

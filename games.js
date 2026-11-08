@@ -834,6 +834,10 @@
   modal && modal.addEventListener("click", (e) => { if (e.target === modal) closeGame(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeGame(); });
 
+  // 启动兜底：强制隐藏弹窗（内联样式优先级最高，不怕旧 CSS 缓存）
+  if (modal) { modal.hidden = true; modal.style.display = "none"; }
+  document.body.classList.remove("modal-open");
+
   renderCards();
   window.PocketGames = { games, openGame, closeGame };
 })();

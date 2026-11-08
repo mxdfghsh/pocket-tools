@@ -598,4 +598,5 @@
   });
 
   render();
+  window.PocketTools = { register, render, toast, el, copyBtn, copyText, debounce, enc, tools };
 })();

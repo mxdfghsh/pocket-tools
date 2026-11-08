@@ -14,6 +14,21 @@
   <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
 </div>
 
+
+<section id="landing" class="landing" aria-label="入口">
+  <div class="landing-inner">
+    <div class="landing-badge">🧰 POCKET TOOLS</div>
+    <h1 class="landing-title">把常用的小工具<br><em>装进口袋</em></h1>
+    <p class="landing-sub"><b id="landingCount">17</b> 个纯前端小工具 · 零依赖 · 数据不出本机</p>
+    <button id="enterBtn" class="landing-cta" type="button">进入工具箱 <span aria-hidden="true">→</span></button>
+    <div class="landing-icons" aria-hidden="true">
+      <span>🔤</span><span>⏱️</span><span>🧩</span><span>🔐</span><span>🔑</span><span>🆔</span>
+      <span>📝</span><span>🎨</span><span>🔍</span><span>🎫</span><span>🖼️</span><span>🎲</span>
+    </div>
+    <p class="landing-hint">按 <kbd>Enter</kbd> 或点击按钮进入</p>
+  </div>
+</section>
+
 <header class="hero">
   <nav class="brand">
     <span class="brand-ico">🧰</span>
@@ -21,7 +36,7 @@
     <span class="brand-tag">Pocket Tools</span>
   </nav>
 
-  <h1>把常用的小工具，<em>装进口袋</em></h1>
+  <h1>挑一个工具，<em>立刻开干</em></h1>
   <p class="sub">纯前端实现 · 零依赖 · 离线可用 —— 所有计算都在你的浏览器里完成，数据不出本机。</p>
 
   <div class="search">
@@ -50,8 +65,10 @@
   <p class="muted">所有输入内容不会离开你的设备，刷新即消失。</p>
 </footer>
 
+<button id="backHome" class="back-home" type="button" title="回到入口" aria-label="回到入口">⌂</button>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script src="app.js"></script>
 <script src="extra.js"></script>
+<script src="landing.js"></script>
 </body>
 </html>

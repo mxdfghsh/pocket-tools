@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f19">
+<meta name="description" content="网上搬来的开源经典小游戏：2048、像素小鸟等，手机可玩。">
+<title>网页小游戏 · 口袋小站</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<link rel="stylesheet" href="home.css?v=12">
+<link rel="stylesheet" href="theme.css?v=12">
+<script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
+<style>
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.wg{display:flex;flex-direction:column;gap:6px;padding:18px;border-radius:16px;text-decoration:none;color:inherit;background:rgba(255,255,255,.045);border:1px solid var(--line);min-height:130px;transition:transform .18s,background .18s,border-color .18s}
+.wg:hover{transform:translateY(-3px);background:rgba(255,255,255,.085);border-color:rgba(110,231,255,.4)}
+html[data-theme="light"] .wg{background:#fff;border-color:rgba(0,0,0,.09)}
+html[data-theme="light"] .wg:hover{background:#fff}
+.wg b{font-size:15.5px}
+.wg p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.6;flex:1}
+.wg span{font-size:12.5px;font-weight:700;color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
+<nav class="nav">
+  <a class="nav-brand" href="./">🧰 <span>口袋小站</span></a>
+  <div class="nav-links">
+    <a href="./">首页</a>
+    <a href="tools.html">工具箱</a>
+    <a href="games.html" class="active">小游戏</a>
+    <a href="about.html">关于</a>
+    <button class="theme-btn" type="button" aria-label="切换主题">☀️</button>
+  </div>
+</nav>
+<header class="hero-home" style="padding-bottom:20px">
+  <p class="eyebrow">WEB GAMES</p>
+  <h1>网上搬来的<em>经典</em></h1>
+  <p class="lead">都是成熟的开源作品（做过很多年的那种），不是我自己写的。手机直接玩。</p>
+</header>
+<main class="wrap">
+  <div class="grid">
+    <a class="wg" href="web/2048/index.html"><b>🔢 2048</b><p>原版开源 2048，滑动合并数字，全世界都在玩的那个。</p><span>开始 →</span></a>
+    <a class="wg" href="web/clumsy/index.html"><b>🐦 像素小鸟</b><p>Clumsy Bird，点一下飞一下，别看简单，很容易上瘾。</p><span>开始 →</span></a>
+  </div>
+  <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:30px">
+    来源：<a href="https://github.com/gabrielecirulli/2048" style="color:var(--accent)">2048</a>（MIT）·
+    <a href="https://github.com/ellisonleao/clumsy-bird" style="color:var(--accent)">Clumsy Bird</a>（GPL-3.0）
+  </p>
+</main>
+<footer><p>口袋小站 · 网页小游戏</p><p class="muted">开源作品 · 本地托管</p></footer>
+<script src="theme.js"></script>
+<script src="pwa.js"></script>
+</body>
+</html>

@@ -74,7 +74,8 @@
 
         <script src="code/music.js"></script>
 
-        <script>$(document).ready(function() { new Enjine.Application().Initialize(new Mario.LoadingState(), 320, 240) });</script>
+        <script>document.addEventListener("DOMContentLoaded", function () { new Enjine.Application().Initialize(new Mario.LoadingState(), 320, 240); });
+if (document.readyState !== "loading") { try { new Enjine.Application().Initialize(new Mario.LoadingState(), 320, 240); } catch (e) {} }</script>
 	
 <div class="pad">
   <div class="grp">

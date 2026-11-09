@@ -59,6 +59,17 @@ html[data-theme="light"] .m{background:#fbfcff}
 </header>
 
 <main class="wrap">
+  <div class="box" id="autoBox">
+    <label>测试任意一个 key（自动识别是哪家的）</label>
+    <input id="mykey" placeholder="粘贴任意 API key，例：sk-ant-… / 32位.16位 / sk-proj-…" autocomplete="off">
+    <label>中转站口令（用来转发测试）</label>
+    <input id="rtoken" type="password" placeholder="粘贴中转站口令" autocomplete="off">
+    <button id="goAuto" type="button">识别并测试</button>
+    <div id="autoOut" style="margin-top:12px"></div>
+  </div>
+
+  <div class="box">
+    <p style="font-size:12px;color:var(--muted);margin:0 0 6px">↓ 或者：直接测中转站里已配置的模型</p>
   <div class="box">
     <label>口令</label>
     <input id="token" type="password" placeholder="粘贴中转站口令" autocomplete="off">
@@ -213,6 +224,88 @@ html[data-theme="light"] .m{background:#fbfcff}
     }
     this.disabled = false; this.textContent = "再测一次";
     $("sum").textContent = "共 " + models.length + " 个 · 可用 " + ok + " 个";
+  });
+
+  // ---------- 自动识别 key ----------
+  function guess(key) {
+    var k = key.trim(), out = [];
+    var add = function (prov, model) { out.push({ prov: prov, model: model }); };
+    if (/^sk-proj-/.test(k)) add("openai", "gpt-4o-mini");
+    if (/^sk-ant-/.test(k)) add("claude", null);
+    if (/^sk-or-v1-/.test(k)) add("openrouter", "openai/gpt-4o-mini");
+    if (/^sk-wand-/.test(k)) add("wandapi", null);
+    if (/^sk-api-/.test(k)) add("minimax", "MiniMax-Text-01");
+    if (/^AQ\./.test(k)) add("gemini", "gemini-2.5-flash");
+    if (/^sk-ws-/.test(k)) add("qwen", "qwen-plus");
+    if (/^sk_[A-Za-z0-9]{18,}$/.test(k)) add("ppio", null);
+    if (/^[0-9a-f]{32}\.[A-Za-z0-9]{16}$/.test(k)) add("zhipu", "glm-4-flash");
+    if (/^sk-[0-9a-f]{32}$/.test(k)) { add("deepseek", "deepseek-chat"); add("kimi", "kimi-k2.6"); }
+    if (!out.length) {
+      ["kimi", "deepseek", "qwen", "step", "zhipu"].forEach(function (x) {
+        add(x, { kimi: "kimi-k2.6", deepseek: "deepseek-chat", qwen: "qwen-plus", step: "step-3.5-flash", zhipu: "glm-4-flash" }[x]);
+      });
+    }
+    return out;
+  }
+
+  async function probe(c) {
+    var token = $("rtoken").value.trim();
+    var k = $("mykey").value.trim();
+    var url = B + "/" + c.prov + (c.model ? "/chat/completions" : "/messages");
+    var headers = {
+      "content-type": "application/json",
+      "x-relay-token": token,
+      "x-relay-passthrough": "1",
+      authorization: "Bearer " + k,
+    };
+    if (c.prov === "claude") headers["anthropic-version"] = "2023-06-01";
+    var body = c.prov === "claude"
+      ? { model: "claude-haiku-5-5", max_tokens: 5, messages: [{ role: "user", content: "hi" }] }
+      : { model: c.model, max_tokens: 5, messages: [{ role: "user", content: "hi" }] };
+    try {
+      var r = await fetch(url, { method: "POST", headers: headers, body: JSON.stringify(body), signal: AbortSignal.timeout(25000) });
+      var t = await r.text();
+      var ok = r.ok && t.indexOf("insufficient") < 0 && t.indexOf("balance") < 0 && t.indexOf("credit") < 0;
+      var msg = "";
+      if (!r.ok || !ok) {
+        try { var j = JSON.parse(t); msg = (j.error && (j.error.message || j.base_resp && j.base_resp.status_msg)) || j.message || ""; } catch (e) { msg = t.slice(0, 80); }
+      }
+      return { prov: c.prov, ok: ok, status: r.status, msg: String(msg).slice(0, 100) };
+    } catch (e) {
+      return { prov: c.prov, ok: false, status: "ERR", msg: e.message.slice(0, 60) };
+    }
+  }
+
+  $("goAuto").addEventListener("click", async function () {
+    var k = $("mykey").value.trim();
+    if (!k) { alert("先粘贴要测的 key"); return; }
+    if (!$("rtoken").value.trim()) { alert("还要填中转站口令（用来转发测试）"); return; }
+    var out = $("autoOut");
+    out.innerHTML = '<div class="m wait"><span class="ico">⏳</span><div class="body"><div class="name">识别中…</div></div></div>';
+    var cands = guess(k);
+    out.innerHTML = "";
+    var hit = null;
+    for (var i = 0; i < cands.length; i++) {
+      var r = await probe(cands[i]);
+      var d = document.createElement("div");
+      d.className = "m " + (r.ok ? "ok" : "bad");
+      d.innerHTML = '<span class="ico">' + (r.ok ? "✓" : "✗") + '</span><div class="body"><div class="name"></div><div class="meta"></div></div>';
+      d.querySelector(".name").textContent = r.prov + (r.status !== "ERR" ? "（HTTP " + r.status + "）" : "");
+      d.querySelector(".meta").textContent = r.ok ? "这个 key 可以用" : (r.msg || "不能用");
+      out.appendChild(d);
+      if (r.ok) { hit = r.prov; break; }
+    }
+    if (hit) {
+      var s = document.createElement("p");
+      s.style.cssText = "font-size:13px;margin-top:10px;color:#34d399;font-weight:700";
+      s.textContent = "结论：这是 " + hit + " 的 key，可用 ✅";
+      out.appendChild(s);
+    } else {
+      var s2 = document.createElement("p");
+      s2.style.cssText = "font-size:13px;margin-top:10px;color:#fb7185;font-weight:700";
+      s2.textContent = "结论：试了 " + cands.length + " 个接口都用不了（可能 key 失效 / 没额度 / 没权限）";
+      out.appendChild(s2);
+    }
   });
 
   health();

@@ -74,8 +74,16 @@
 
         <script src="code/music.js"></script>
 
-        <script>document.addEventListener("DOMContentLoaded", function () { new Enjine.Application().Initialize(new Mario.LoadingState(), 320, 240); });
-if (document.readyState !== "loading") { try { new Enjine.Application().Initialize(new Mario.LoadingState(), 320, 240); } catch (e) {} }</script>
+        <script>(function () {
+  var started = false;
+  function boot() {
+    if (started) return;
+    started = true;
+    new Enjine.Application().Initialize(new Mario.LoadingState(), 320, 240);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();</script>
 	
 <div class="pad">
   <div class="grp">

@@ -9,8 +9,8 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👹</text></svg>">
-<link rel="stylesheet" href="home.css?v=7">
-<link rel="stylesheet" href="theme.css?v=7">
+<link rel="stylesheet" href="home.css?v=5">
+<link rel="stylesheet" href="theme.css?v=5">
 <link rel="stylesheet" href="js-dos/js-dos.css">
 <script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
 <style>
@@ -18,14 +18,13 @@
 .picker{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .pick{
   display:flex;flex-direction:column;gap:2px;padding:10px 16px;border-radius:12px;cursor:pointer;
-  border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text);
+  border:1px solid var(--line);background:var(--surface-2);color:var(--ink);
   font:600 13px/1.2 inherit;text-align:left;transition:background .15s,border-color .15s,transform .15s;
 }
 .pick small{font-size:10.5px;color:var(--muted);font-weight:500}
-.pick:hover{background:rgba(255,255,255,.11);transform:translateY(-1px)}
-.pick.active{border-color:rgba(251,113,133,.6);background:rgba(251,113,133,.14)}
-html[data-theme="light"] .pick{background:#fff;border-color:rgba(0,0,0,.1)}
-html[data-theme="light"] .pick:hover{background:#fff}
+.pick:hover{background:var(--surface);transform:translateY(-1px)}
+.pick.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent)}
+
 #dos{
   width:100%;aspect-ratio:4/3;background:#000;border-radius:14px;overflow:hidden;
   border:1px solid var(--line);box-shadow:0 24px 60px -30px rgba(0,0,0,.9);
@@ -35,17 +34,17 @@ html[data-theme="light"] .pick:hover{background:#fff}
 .touch{margin-top:16px;display:none;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}
 body.touch-on .touch{display:flex}
 .tp{display:grid;grid-template-columns:repeat(3,54px);grid-template-rows:repeat(3,54px);gap:6px}
-.tp button{border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.09);color:#fff;font-size:18px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none}
-.tp button:active{background:rgba(255,80,80,.5)}
+.tp button{border-radius:10px;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--ink);font-size:18px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none}
+.tp button:active{background:color-mix(in srgb,var(--accent) 45%,transparent)}
 .tp .u{grid-column:2;grid-row:1}.tp .l{grid-column:1;grid-row:2}.tp .r{grid-column:3;grid-row:2}.tp .d{grid-column:2;grid-row:3}
 .acts{display:flex;gap:10px;flex-wrap:wrap}
-.acts button{width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(251,113,133,.2);color:#fff;font-size:13px;font-weight:700;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none}
-.acts button:active{background:rgba(251,113,133,.55)}
+.acts button{width:64px;height:64px;border-radius:50%;border:1px solid var(--line-strong);background:color-mix(in srgb,var(--accent) 20%,transparent);color:var(--ink);font-size:13px;font-weight:700;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none}
+.acts button:active{background:color-mix(in srgb,var(--accent) 55%,transparent)}
 .acts .small{width:auto;height:42px;border-radius:11px;padding:0 14px;font-size:12px}
 .legal{max-width:720px;margin:22px auto 0;font-size:12px;color:var(--muted);line-height:1.7}
 </style>
-<link rel="stylesheet" href="skins.css?v=1">
-<link rel="stylesheet" href="splash.css?v=1">
+<link rel="stylesheet" href="skins.css?v=5">
+<link rel="stylesheet" href="splash.css?v=2">
 </head>
 <body>
 <div class="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
@@ -180,5 +179,6 @@ body.touch-on .touch{display:flex}
 </script>
 <script src="theme.js"></script>
 <script src="skin.js"></script>
+<script src="ui.js"></script>
 </body>
 </html>

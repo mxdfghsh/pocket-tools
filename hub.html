@@ -1,48 +1,21 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b0f19">
+<meta name="theme-color" content="#12130f">
 <meta name="description" content="游戏中心：本站的网页经典、休闲经营、小游戏、DOS 经典，以及外部游戏站入口。">
 <title>游戏中心 · 口袋小站</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
-<link rel="stylesheet" href="home.css?v=13">
-<link rel="stylesheet" href="theme.css?v=13">
-<link rel="stylesheet" href="skins.css?v=13">
-<link rel="stylesheet" href="splash.css?v=13">
 <script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
-<style>
-.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
-.sec{display:flex;align-items:baseline;gap:10px;margin:34px 0 14px}
-.sec h2{font-size:17px;margin:0}
-.sec span{font-size:12.5px;color:var(--muted)}
-.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
-.big{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
-.b{
-  display:flex;flex-direction:column;gap:8px;padding:22px;border-radius:18px;text-decoration:none;color:inherit;
-  background:rgba(255,255,255,.05);border:1px solid var(--line);min-height:150px;
-  transition:transform .2s,background .2s,border-color .2s,box-shadow .2s;
-}
-.b:hover{transform:translateY(-3px);background:rgba(255,255,255,.09);border-color:rgba(110,231,255,.4);box-shadow:0 18px 40px -26px rgba(0,0,0,.9)}
-html[data-theme="light"] .b{background:#fff;border-color:rgba(0,0,0,.09)}
-html[data-theme="light"] .b:hover{background:#fff}
-.b .n{font-size:30px}
-.b b{font-size:16px}
-.b p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.6;flex:1}
-.b span{font-size:12.5px;font-weight:700;color:var(--accent)}
-.wg{display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:14px;text-decoration:none;color:inherit;background:rgba(255,255,255,.04);border:1px dashed var(--line)}
-.wg:hover{background:rgba(255,255,255,.08)}
-html[data-theme="light"] .wg{background:#fff;border-color:rgba(0,0,0,.12)}
-.wg b{font-size:14px}
-.wg p{margin:0;font-size:12px;color:var(--muted);line-height:1.55}
-.wg span{font-size:12px;font-weight:700;color:var(--muted)}
-</style>
+<link rel="stylesheet" href="home.css?v=5">
+<link rel="stylesheet" href="theme.css?v=5">
+<link rel="stylesheet" href="skins.css?v=5">
+<link rel="stylesheet" href="splash.css?v=2">
 </head>
 <body>
-<div class="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
 
 <nav class="nav">
   <a class="nav-brand" href="./">🧰 <span>口袋小站</span></a>
@@ -55,15 +28,15 @@ html[data-theme="light"] .wg{background:#fff;border-color:rgba(0,0,0,.12)}
   </div>
 </nav>
 
-<header class="hero-home" style="padding-bottom:16px">
+<header class="hero-home">
   <p class="eyebrow">GAME HUB</p>
   <h1>游戏<em>中心</em></h1>
   <p class="lead">本站托管的都是开源或可自由分发的游戏；想要海量游戏，往下翻有外部站入口。</p>
 </header>
 
 <main class="wrap">
-  <div class="sec"><h2>本站游戏</h2><span>点开即玩，数据都在自己站上</span></div>
-  <div class="big">
+  <div class="sec" data-reveal><h2>本站游戏</h2><span>点开即玩，数据都在自己站上</span></div>
+  <div class="big" data-reveal>
     <a class="b" href="web.html"><span class="n">🕹️</span><b>网页经典</b><p>2048、吃豆人、像素小鸟、六边形消除、马里奥、黄金矿工、捕鱼、抓娃娃、钓鱼……</p><span>11 款 →</span></a>
     <a class="b" href="play.html"><span class="n">🌾</span><b>休闲经营</b><p>小农场、掌心城市、晶糖花园、灵兽远征、数独、打地鼠……</p><span>10 款 →</span></a>
     <a class="b" href="games.html"><span class="n">🎮</span><b>小游戏</b><p>贪吃蛇、俄罗斯方块、2048、扫雷、打砖块、记忆翻牌、井字棋、合成大西瓜。</p><span>8 款 →</span></a>
@@ -72,19 +45,20 @@ html[data-theme="light"] .wg{background:#fff;border-color:rgba(0,0,0,.12)}
     <a class="b" href="nes.html"><span class="n">📼</span><b>FC 模拟器</b><p>自己的 .nes 文件拖进去就能玩。</p><span>打开 →</span></a>
   </div>
 
-  <div class="sec"><h2>外部游戏站</h2><span>点开跳走，本站不托管</span></div>
-  <div class="grid">
-    <a class="wg" href="https://www.4399.com/" target="_blank" rel="noopener noreferrer"><b>🎮 4399 小游戏</b><p>国内最大的小游戏站，几万款。</p><span>打开 ↗</span></a>
-    <a class="wg" href="https://www.7k7k.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 7k7k 小游戏</b><p>老牌站，经典 Flash 游戏多。</p><span>打开 ↗</span></a>
-    <a class="wg" href="https://www.2144.cn/" target="_blank" rel="noopener noreferrer"><b>🎯 2144 小游戏</b><p>休闲类居多。</p><span>打开 ↗</span></a>
-    <a class="wg" href="https://www.87g.com/" target="_blank" rel="noopener noreferrer"><b>🧩 87G</b><p>手游资讯 + 在线小游戏。</p><span>打开 ↗</span></a>
+  <div class="sec" data-reveal><h2>外部游戏站</h2><span>点开跳走，本站不托管</span></div>
+  <div class="grid" data-reveal>
+    <a class="wg ext" href="https://www.4399.com/" target="_blank" rel="noopener noreferrer"><b>🎮 4399 小游戏</b><p>国内最大的小游戏站，几万款。</p><span>打开 ↗</span></a>
+    <a class="wg ext" href="https://www.7k7k.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 7k7k 小游戏</b><p>老牌站，经典 Flash 游戏多。</p><span>打开 ↗</span></a>
+    <a class="wg ext" href="https://www.2144.cn/" target="_blank" rel="noopener noreferrer"><b>🎯 2144 小游戏</b><p>休闲类居多。</p><span>打开 ↗</span></a>
+    <a class="wg ext" href="https://www.87g.com/" target="_blank" rel="noopener noreferrer"><b>🧩 87G</b><p>手游资讯 + 在线小游戏。</p><span>打开 ↗</span></a>
   </div>
-  <p style="text-align:center;font-size:12px;color:var(--muted);margin:16px 0 0">⚠️ 外部站点内容不由本站控制，广告弹窗请留意。</p>
+  <p class="muted" style="font-size:12px;margin:16px 0 0">⚠️ 外部站点内容不由本站控制，广告弹窗请留意。</p>
 </main>
 
 <footer><p>口袋小站 · 游戏中心</p><p class="muted">开源游戏 · 本地托管 · 外链跳转</p></footer>
 <script src="theme.js"></script>
 <script src="skin.js"></script>
 <script src="pwa.js"></script>
+<script src="ui.js"></script>
 </body>
 </html>

@@ -14,11 +14,11 @@
 <meta property="og:title" content="关于 · 口袋小站">
 <meta property="og:description" content="一个纯静态的个人小站：17 个本地小工具 + 7 个经典小游戏，零依赖、无后端、不收集数据。">
 <meta property="og:url" content="https://mxdfghsh.github.io/pocket-tools/about.html">
-<link rel="stylesheet" href="home.css?v=4">
-<link rel="stylesheet" href="theme.css?v=4">
+<link rel="stylesheet" href="home.css?v=5">
+<link rel="stylesheet" href="theme.css?v=5">
 <script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
-<link rel="stylesheet" href="skins.css?v=1">
-<link rel="stylesheet" href="splash.css?v=1">
+<link rel="stylesheet" href="skins.css?v=5">
+<link rel="stylesheet" href="splash.css?v=2">
 </head>
 <body>
 <div class="orbs" aria-hidden="true">
@@ -55,7 +55,7 @@
   <section class="section">
     <div class="section-head"><h2>用了什么</h2></div>
     <div class="about">
-      <ul style="padding-left:1.3em;color:#b9c4d6;font-size:14.5px;line-height:1.9">
+      <ul style="padding-left:1.2em;color:var(--muted);font-size:14.5px;line-height:1.9">
         <li>原生 HTML / CSS / JavaScript，<b>零第三方依赖</b></li>
         <li>托管在 GitHub Pages，PWA 离线可用</li>
         <li>没有框架、没有构建步骤，改一行就生效</li>
@@ -89,6 +89,7 @@
 
 <script src="theme.js"></script>
 <script src="pwa.js"></script>
+<script src="ui.js"></script>
 <script>
   // 不蒜子统计：异步加载，失败就保持「—」
   (function () {

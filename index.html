@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b0f19">
+<meta name="theme-color" content="#12130f">
 <meta name="description" content="口袋小站 —— 一些顺手做的小东西。第一个项目是口袋工具箱：17 个纯前端小工具。">
 <title>口袋小站 · Pocket Site</title>
 <meta property="og:type" content="website">
@@ -16,16 +16,13 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧰</text></svg>">
-<link rel="stylesheet" href="home.css">
 <script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
-<link rel="stylesheet" href="theme.css?v=4">
-<link rel="stylesheet" href="skins.css?v=1">
-<link rel="stylesheet" href="splash.css?v=1">
+<link rel="stylesheet" href="home.css?v=5">
+<link rel="stylesheet" href="theme.css?v=5">
+<link rel="stylesheet" href="skins.css?v=5">
+<link rel="stylesheet" href="splash.css?v=2">
 </head>
 <body>
-<div class="orbs" aria-hidden="true">
-  <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
-</div>
 
 <nav class="nav">
   <a class="nav-brand" href="./">🧰 <span>口袋小站</span></a>
@@ -39,128 +36,99 @@
 </nav>
 
 <header class="hero-home">
-  <p class="eyebrow">POCKET SITE</p>
-  <h1>把顺手做的小东西，<br><em>放在一个地方</em></h1>
-  <p class="lead">这里是我的小站。现在有两个项目：「口袋工具箱」17 个纯前端小工具，和 7 个复刻的经典小游戏。打开就能用，数据不离开浏览器。</p>
+  <p class="eyebrow">POCKET INDEX · 沫小汐</p>
+  <h1>把顺手做的小东西，<br><span class="serif">收进一个口袋</span></h1>
+  <p class="lead">这里是我的小站。两个项目：「口袋工具箱」17 个纯前端小工具，和一套复刻的经典小游戏。打开就能用，数据不离开浏览器。</p>
   <div class="cta-row">
-    <a class="btn-primary" href="tools.html">进入工具箱 <span>→</span></a>
-    <a class="btn-ghost" href="#about">看看这个站</a>
+    <a class="btn-primary" href="tools.html">进入工具箱 <span aria-hidden="true">→</span></a>
+    <a class="btn-ghost" href="hub.html">玩两把</a>
   </div>
-  <div class="stats">
-    <div class="stat"><b>17</b><span>个工具</span></div>
-    <div class="stat"><b>0</b><span>依赖</span></div>
-    <div class="stat"><b>100%</b><span>本地运行</span></div>
+  <div class="facts">
+    <div><b data-count="17">17</b><span>个工具</span></div>
+    <div><b data-count="0">0</b><span>依赖</span></div>
+    <div><b data-count="100" data-suffix="%">100%</b><span>本地运行</span></div>
   </div>
 </header>
 
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Base64</span><span>时间戳</span><span>JSON</span><span>哈希</span><span>密码</span><span>UUID</span><span>正则</span><span>JWT</span><span>Markdown</span><span>进制</span><span>抽签</span><span>文本统计</span><span>颜色</span>
+    <span>Base64</span><span>时间戳</span><span>JSON</span><span>哈希</span><span>密码</span><span>UUID</span><span>正则</span><span>JWT</span><span>Markdown</span><span>进制</span><span>抽签</span><span>文本统计</span><span>颜色</span>
+  </div>
+</div>
+
 <main>
-  <section class="section" id="projects">
+  <section class="section" id="projects" data-reveal>
     <div class="section-head">
       <h2>项目</h2>
-      <p>现在只有一件，以后会多起来</p>
+      <p>现在两个入口，以后还会多</p>
     </div>
-    <div class="cards">
-      <a class="card-link" href="tools.html">
-        <div class="card-ico">🧰</div>
-        <h3>口袋工具箱 <span class="tag">已上线</span></h3>
-        <p>Base64、时间戳、JSON、哈希、密码、UUID、正则、JWT、Markdown、进制、抽签……17 个本地小工具。</p>
-        <span class="card-go">打开 →</span>
+    <div class="index-list">
+      <a class="index-row" href="tools.html">
+        <span class="num">01</span>
+        <div>
+          <h3>口袋工具箱 <span class="tag">已上线</span></h3>
+          <p>Base64、时间戳、JSON、哈希、密码、UUID、正则、JWT、Markdown、进制、抽签……17 个本地小工具，还有一个 API Key 检测。</p>
+          <span class="go">打开</span>
+        </div>
       </a>
-      <a class="card-link" href="hub.html">
-        <div class="card-ico">🎮</div>
-        <h3>游戏中心 <span class="tag">新</span></h3>
-        <p>网页经典、休闲经营、小游戏、DOS 经典、象棋、FC 模拟器——全部收在一个入口里。</p>
-        <span class="card-go">开一局 →</span>
+      <a class="index-row" href="hub.html">
+        <span class="num">02</span>
+        <div>
+          <h3>游戏中心 <span class="tag">新</span></h3>
+          <p>网页经典、休闲经营、小游戏、DOS 经典、中国象棋、FC 模拟器——全部收在一个入口里。</p>
+          <span class="go">开一局</span>
+        </div>
       </a>
-      <div class="card-link ghost">
-        <div class="card-ico">✨</div>
-        <h3>更多内容 <span class="tag tag-soft">占位</span></h3>
-        <p>这里留了个位置。以后想放什么——笔记、作品、小游戏、链接——都可以加进来。</p>
-        <span class="card-go muted">敬请期待</span>
+      <div class="index-row ghost">
+        <span class="num">03</span>
+        <div>
+          <h3>更多内容 <span class="tag tag-soft">占位</span></h3>
+          <p>这里留了个位置。以后想放什么——笔记、作品、链接——都可以加进来。</p>
+          <span class="go" style="color:var(--muted)">敬请期待</span>
+        </div>
       </div>
     </div>
   </section>
 
-
-  <section class="section" id="ai">
+  <section class="section" id="ai" data-reveal>
     <div class="section-head">
-      <h2>🤖 AI 工具</h2>
+      <h2>AI 工具</h2>
       <p>外部链接，点开跳走</p>
     </div>
     <div class="ai-grid">
-      <a class="ai-card" href="https://chatglm.cn/" target="_blank" rel="noopener noreferrer">
-        <span class="ai-ico">🧠</span>
-        <b>智谱清言</b>
-        <p>GLM 系列，免费额度大</p>
-      </a>
-      <a class="ai-card" href="https://kimi.moonshot.cn/" target="_blank" rel="noopener noreferrer">
-        <span class="ai-ico">🌙</span>
-        <b>Kimi</b>
-        <p>长文本阅读很强</p>
-      </a>
-      <a class="ai-card" href="https://tongyi.aliyun.com/" target="_blank" rel="noopener noreferrer">
-        <span class="ai-ico">☁️</span>
-        <b>通义千问</b>
-        <p>阿里出品，功能全</p>
-      </a>
-      <a class="ai-card" href="https://www.doubao.com/" target="_blank" rel="noopener noreferrer">
-        <span class="ai-ico">🫘</span>
-        <b>豆包</b>
-        <p>字节出品，语音好用</p>
-      </a>
-      <a class="ai-card" href="https://yiyan.baidu.com/" target="_blank" rel="noopener noreferrer">
-        <span class="ai-ico">🅱️</span>
-        <b>文心一言</b>
-        <p>百度出品</p>
-      </a>
-      <a class="ai-card" href="https://yuanbao.tencent.com/" target="_blank" rel="noopener noreferrer">
-        <span class="ai-ico">🐧</span>
-        <b>腾讯元宝</b>
-        <p>腾讯出品，接 DeepSeek</p>
-      </a>
-      <a class="ai-card" href="https://xinghuo.xfyun.cn/" target="_blank" rel="noopener noreferrer">
-        <span class="ai-ico">✨</span>
-        <b>讯飞星火</b>
-        <p>语音识别强</p>
-      </a>
-      <a class="ai-card" href="https://chat.deepseek.com/" target="_blank" rel="noopener noreferrer">
-        <span class="ai-ico">🐋</span>
-        <b>DeepSeek</b>
-        <p>代码和推理很强</p>
-      </a>
+      <a class="ai-card" href="https://chatglm.cn/" target="_blank" rel="noopener noreferrer"><span class="ai-ico">🧠</span><b>智谱清言</b><p>GLM 系列，免费额度大</p></a>
+      <a class="ai-card" href="https://kimi.moonshot.cn/" target="_blank" rel="noopener noreferrer"><span class="ai-ico">🌙</span><b>Kimi</b><p>长文本阅读很强</p></a>
+      <a class="ai-card" href="https://tongyi.aliyun.com/" target="_blank" rel="noopener noreferrer"><span class="ai-ico">☁️</span><b>通义千问</b><p>阿里出品，功能全</p></a>
+      <a class="ai-card" href="https://www.doubao.com/" target="_blank" rel="noopener noreferrer"><span class="ai-ico">🫘</span><b>豆包</b><p>字节出品，语音好用</p></a>
+      <a class="ai-card" href="https://yiyan.baidu.com/" target="_blank" rel="noopener noreferrer"><span class="ai-ico">🅱️</span><b>文心一言</b><p>百度出品</p></a>
+      <a class="ai-card" href="https://yuanbao.tencent.com/" target="_blank" rel="noopener noreferrer"><span class="ai-ico">🐧</span><b>腾讯元宝</b><p>腾讯出品，接 DeepSeek</p></a>
+      <a class="ai-card" href="https://xinghuo.xfyun.cn/" target="_blank" rel="noopener noreferrer"><span class="ai-ico">✨</span><b>讯飞星火</b><p>语音识别强</p></a>
+      <a class="ai-card" href="https://chat.deepseek.com/" target="_blank" rel="noopener noreferrer"><span class="ai-ico">🐋</span><b>DeepSeek</b><p>代码和推理很强</p></a>
     </div>
-    <a class="ai-card" href="relay.html" style="margin-top:10px;border-color:rgba(110,231,255,.45)">
-        <span class="ai-ico">🛰️</span>
-        <b>中转站检测 <em style="color:#6ee7ff;border-color:rgba(110,231,255,.45)">工具</em></b>
-        <p>测连通性、延迟、首字时间、生成速度，不保存数据</p>
-      </a>
-    <p class="ai-sub">国外（国内直连打不开，需要代理）</p>
+
+    <a class="ai-card" href="relay.html" style="margin-top:8px;border-color:color-mix(in srgb,var(--accent) 45%,transparent)">
+      <span class="ai-ico">🛰️</span>
+      <b>中转站检测 <em style="color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,transparent)">工具</em></b>
+      <p>测连通性、延迟、首字时间、生成速度，不保存数据</p>
+    </a>
+
+    <p class="ai-sub">国外 · 国内直连打不开，需要代理</p>
     <div class="ai-grid">
-      <a class="ai-card" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">
-        <span class="ai-ico">💬</span>
-        <b>ChatGPT <em>需代理</em></b>
-        <p>OpenAI 官方</p>
-      </a>
-      <a class="ai-card" href="https://claude.ai/" target="_blank" rel="noopener noreferrer">
-        <span class="ai-ico">📜</span>
-        <b>Claude <em>需代理</em></b>
-        <p>Anthropic 官方</p>
-      </a>
-      <a class="ai-card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">
-        <span class="ai-ico">♊</span>
-        <b>Gemini <em>需代理</em></b>
-        <p>Google 官方</p>
-      </a>
+      <a class="ai-card" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer"><span class="ai-ico">💬</span><b>ChatGPT <em>需代理</em></b><p>OpenAI 官方</p></a>
+      <a class="ai-card" href="https://claude.ai/" target="_blank" rel="noopener noreferrer"><span class="ai-ico">📜</span><b>Claude <em>需代理</em></b><p>Anthropic 官方</p></a>
+      <a class="ai-card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><span class="ai-ico">♊</span><b>Gemini <em>需代理</em></b><p>Google 官方</p></a>
     </div>
   </section>
-  <section class="section" id="about">
+
+  <section class="section" id="about" data-reveal>
     <div class="section-head">
       <h2>关于</h2>
-      <p>几句话说明这个站是什么</p>
+      <p>这个站是什么</p>
     </div>
     <div class="about">
-      <p>这个站很简单：一个纯静态页面集合，没有后端、没有数据库、没有跟踪脚本。所有工具都在你的浏览器里跑，输入的内容不会发到任何地方。</p>
-      <p>它托管在 GitHub Pages 上，开源，改起来也方便——想加个新工具，往 <code>extra.js</code> 里丢一段就行。</p>
+      <p>一个纯静态页面集合：没有后端、没有数据库、没有跟踪脚本。所有工具都在浏览器里跑，输入的内容不会发到任何地方。</p>
+      <p>托管在 GitHub Pages 上，开源，改起来也方便——想加个新工具，往 <code>extra.js</code> 里丢一段就行。</p>
       <p class="about-note">有问题或想提点什么，<a href="https://github.com/mxdfghsh/pocket-tools">在仓库里说</a>。</p>
     </div>
   </section>
@@ -168,10 +136,12 @@
 
 <footer>
   <p>口袋小站 · 纯静态 · 无后端 · 不收集数据</p>
-  <p class="muted">Built with vanilla HTML / CSS / JS</p>
+  <p class="muted">vanilla HTML / CSS / JS</p>
 </footer>
+
 <script src="pwa.js"></script>
 <script src="theme.js"></script>
 <script src="skin.js"></script>
+<script src="ui.js"></script>
 </body>
 </html>

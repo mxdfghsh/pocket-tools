@@ -839,5 +839,5 @@
   document.body.classList.remove("modal-open");
 
   renderCards();
-  window.PocketGames = { games, openGame, closeGame };
+  window.PocketGames = { games, openGame, closeGame, add, renderCards, el, nextId: null };
 })();

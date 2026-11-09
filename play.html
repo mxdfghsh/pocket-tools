@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f19">
+<meta name="description" content="休闲经营游戏：种田、建城、养成、数独、打地鼠，手机点着就能玩。">
+<title>休闲经营 · 口袋小站</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌾</text></svg>">
+<link rel="stylesheet" href="home.css?v=11">
+<link rel="stylesheet" href="theme.css?v=11">
+<script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
+<style>
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.pg{
+  display:flex;flex-direction:column;gap:6px;padding:18px;border-radius:16px;text-decoration:none;color:inherit;
+  background:rgba(255,255,255,.045);border:1px solid var(--line);min-height:132px;
+  transition:transform .18s,background .18s,border-color .18s;
+}
+.pg:hover{transform:translateY(-3px);background:rgba(255,255,255,.085);border-color:rgba(52,211,153,.4)}
+html[data-theme="light"] .pg{background:#fff;border-color:rgba(0,0,0,.09)}
+html[data-theme="light"] .pg:hover{background:#fff}
+.pg b{font-size:15.5px;font-weight:700}
+.pg p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.6;flex:1}
+.pg span{font-size:12.5px;font-weight:700;color:#34d399}
+</style>
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="./">🧰 <span>口袋小站</span></a>
+  <div class="nav-links">
+    <a href="./">首页</a>
+    <a href="tools.html">工具箱</a>
+    <a href="games.html" class="active">小游戏</a>
+    <a href="about.html">关于</a>
+    <button class="theme-btn" type="button" aria-label="切换主题">☀️</button>
+  </div>
+</nav>
+
+<header class="hero-home" style="padding-bottom:20px">
+  <p class="eyebrow">CASUAL</p>
+  <h1>休闲<em>经营</em></h1>
+  <p class="lead">种田、建城、养成、数独 —— 都能单手点着玩，不用赶时间，不用学操作。</p>
+</header>
+
+<main class="wrap">
+  <div class="grid">
+      <a class="pg" href="play/pocket-farm.html">
+        <b>🌾 四季小农场</b>
+        <p>种地、收获、扩建，慢慢经营</p>
+        <span>开始 →</span>
+      </a>
+      <a class="pg" href="play/skyline-planner.html">
+        <b>🏙️ 掌心城市</b>
+        <p>规划城市布局，点点点就能玩</p>
+        <span>开始 →</span>
+      </a>
+      <a class="pg" href="play/gem-garden.html">
+        <b>💎 晶糖花园</b>
+        <p>种花养成，四季不同</p>
+        <span>开始 →</span>
+      </a>
+      <a class="pg" href="play/prism-orchard.html">
+        <b>🍎 棱镜果园</b>
+        <p>果园经营，看着光谱收成</p>
+        <span>开始 →</span>
+      </a>
+      <a class="pg" href="play/wonder-park.html">
+        <b>🎡 奇想乐园</b>
+        <p>游乐园经营，六城巡回</p>
+        <span>开始 →</span>
+      </a>
+      <a class="pg" href="play/monster-tamer.html">
+        <b>🐲 灵兽远征</b>
+        <p>收集培养灵兽，群岛图鉴</p>
+        <span>开始 →</span>
+      </a>
+      <a class="pg" href="play/metro-weaver.html">
+        <b>🚇 口袋地铁</b>
+        <p>画线路连站点，交通规划</p>
+        <span>开始 →</span>
+      </a>
+      <a class="pg" href="play/clean-slate.html">
+        <b>🧽 焕新清洁队</b>
+        <p>清洁模拟，一点点擦干净</p>
+        <span>开始 →</span>
+      </a>
+      <a class="pg" href="play/mole-market.html">
+        <b>🔨 菜摊敲敲乐</b>
+        <p>打地鼠，纯手速</p>
+        <span>开始 →</span>
+      </a>
+      <a class="pg" href="play/sudoku-studio.html">
+        <b>🔢 数独工坊</b>
+        <p>经典数独，慢慢想</p>
+        <span>开始 →</span>
+      </a>
+  </div>
+  <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:30px">
+    游戏来自开源项目 <a href="https://github.com/wangzifan396-wzf/mini-browser-games" style="color:var(--accent)">mini-browser-games</a>（MIT）
+  </p>
+</main>
+
+<footer>
+  <p>口袋小站 · 休闲经营</p>
+  <p class="muted">开源游戏 · 本地托管</p>
+</footer>
+
+<script src="theme.js"></script>
+<script src="pwa.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 /* 口袋小站 · Service Worker（离线可用） */
-const CACHE = "pocket-v5";
+const CACHE = "pocket-v6";
 const ASSETS = [
   "./", "./index.html", "./tools.html", "./games.html", "./about.html", "./nes.html",
   "./home.css", "./style.css", "./games.css", "./theme.css",
@@ -28,6 +28,8 @@ self.addEventListener("fetch", (e) => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;
+  // 模拟器大文件不进缓存（省空间）
+  if (/\/js-dos\/|\.jsdos$|\.wasm$/.test(url.pathname)) return;
 
   // 页面：网络优先，离线回退缓存
   if (req.mode === "navigate") {

@@ -16,7 +16,8 @@ h1{font-size:18px;margin:6px 0 4px}
 .cfg{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
 .cfg label{display:block;font-size:11.5px;color:var(--muted);margin:8px 0 5px;letter-spacing:.3px}
 .cfg input{width:100%;font:12.5px var(--mono);color:var(--text);background:rgba(0,0,0,.32);border:1px solid var(--line);border-radius:9px;padding:9px 11px;outline:0}
-.cfg input:focus{border-color:rgba(110,231,255,.45)}
+.cfg input:focus,.cfg select:focus{border-color:rgba(110,231,255,.45)}
+.cfg select{width:100%;font:12.5px var(--mono);color:var(--text);background:rgba(0,0,0,.32);border:1px solid var(--line);border-radius:9px;padding:9px 11px;outline:0}
 .cfg .row{display:flex;gap:9px}
 .cfg .row>div{flex:1}
 .cfg small{color:#5f6b81;font-size:11px;display:block;margin-top:6px}
@@ -40,8 +41,18 @@ h1{font-size:18px;margin:6px 0 4px}
   <p class="sub">浏览器里直接调你的中转站，验证能不能通。口令只存在本机浏览器，不会上传。</p>
 
   <div class="cfg">
+    <label>厂商</label>
+    <select id="prov">
+      <option value="zhipu">智谱 GLM</option>
+      <option value="openai">OpenAI</option>
+      <option value="claude">Claude</option>
+      <option value="gemini">Gemini</option>
+      <option value="deepseek">DeepSeek</option>
+      <option value="qwen">通义千问</option>
+      <option value="moonshot">Kimi</option>
+    </select>
     <label>Base URL</label>
-    <input id="base" value="https://relay.3498341186.workers.dev/api/paas/v4" spellcheck="false">
+    <input id="base" value="https://relay.3498341186.workers.dev/zhipu" spellcheck="false">
     <label>访问口令（不是真 key）</label>
     <input id="token" placeholder="填你中转站的口令" spellcheck="false" autocomplete="off">
     <div class="row">
@@ -64,13 +75,22 @@ h1{font-size:18px;margin:6px 0 4px}
 (() => {
   const $ = (id) => document.getElementById(id);
   const log = $("log"), input = $("input"), sendBtn = $("send");
-  const baseI = $("base"), tokenI = $("token"), modelI = $("model");
+  const baseI = $("base"), tokenI = $("token"), modelI = $("model"), provI = $("prov");
   const store = {
     get(k, d) { try { return localStorage.getItem(k) || d; } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
   };
 
+  const ORIGIN = "https://relay.3498341186.workers.dev";
+  const MODEL_DEFAULT = { zhipu: "glm-4-flash", openai: "gpt-4o-mini", claude: "claude-3-5-haiku-latest", gemini: "gemini-2.0-flash", deepseek: "deepseek-chat", qwen: "qwen-plus", moonshot: "moonshot-v1-8k" };
+
   baseI.value = store.get("relay.base", baseI.value);
+  provI.value = store.get("relay.prov", "zhipu");
+  provI.addEventListener("change", () => {
+    baseI.value = ORIGIN + "/" + provI.value;
+    modelI.value = MODEL_DEFAULT[provI.value] || modelI.value;
+    saveCfg();
+  });
   tokenI.value = store.get("relay.token", "");
   modelI.value = store.get("relay.model", "glm-4-flash");
 
@@ -78,6 +98,7 @@ h1{font-size:18px;margin:6px 0 4px}
     store.set("relay.base", baseI.value.trim());
     store.set("relay.token", tokenI.value.trim());
     store.set("relay.model", modelI.value.trim());
+    store.set("relay.prov", provI.value);
   };
   [baseI, tokenI, modelI].forEach((n) => n.addEventListener("change", saveCfg));
 

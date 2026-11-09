@@ -1,0 +1,148 @@
+/* ================= 皮肤：怀旧 / 科技 ================= */
+
+/* ---------- 怀旧风 ---------- */
+html[data-skin="retro"] {
+  --bg: #f6ecd6;
+  --text: #3b2a1c;
+  --muted: #8a7355;
+  --line: rgba(59, 42, 28, .2);
+  --card: #fffdf6;
+  --card-hover: #fffaf0;
+  --accent: #c0392b;
+  --accent2: #1e7a5f;
+}
+html[data-skin="retro"] body {
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(255, 246, 224, .9), transparent 65%),
+    repeating-linear-gradient(0deg, rgba(120, 90, 50, .035) 0 1px, transparent 1px 4px),
+    #f6ecd6;
+  color: var(--text);
+}
+html[data-skin="retro"] .orb { opacity: .08; }
+html[data-skin="retro"] .nav { background: rgba(246, 236, 214, .92); border-bottom: 2px solid rgba(59, 42, 28, .12); }
+html[data-skin="retro"] .card,
+html[data-skin="retro"] .card-link,
+html[data-skin="retro"] .game-card,
+html[data-skin="retro"] .wg,
+html[data-skin="retro"] .pg,
+html[data-skin="retro"] .stat,
+html[data-skin="retro"] .pill,
+html[data-skin="retro"] .search {
+  background: var(--card);
+  border: 2px solid rgba(59, 42, 28, .18);
+  box-shadow: 3px 3px 0 rgba(59, 42, 28, .12);
+  border-radius: 10px;
+}
+html[data-skin="retro"] .card:hover,
+html[data-skin="retro"] .card-link:hover,
+html[data-skin="retro"] .wg:hover,
+html[data-skin="retro"] .pg:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 rgba(59, 42, 28, .18);
+  background: var(--card-hover);
+}
+html[data-skin="retro"] h1, html[data-skin="retro"] h2, html[data-skin="retro"] h3 {
+  font-family: "Songti SC", "STSong", "SimSun", Georgia, serif;
+}
+html[data-skin="retro"] h1 em {
+  background: none; color: var(--accent);
+  text-decoration: underline; text-decoration-style: wavy; text-underline-offset: 6px;
+  -webkit-text-fill-color: currentColor;
+}
+html[data-skin="retro"] .eyebrow {
+  background: #fff8e6; color: #8a5a2b; border: 1px dashed rgba(59, 42, 28, .35);
+  border-radius: 4px; letter-spacing: 1px;
+}
+html[data-skin="retro"] .btn-primary,
+html[data-skin="retro"] .landing-cta {
+  background: linear-gradient(180deg, #f7d9a0, #e8b96a);
+  color: #3b2a1c; border: 2px solid rgba(59, 42, 28, .35); box-shadow: 3px 3px 0 rgba(59, 42, 28, .22);
+}
+html[data-skin="retro"] .tag { background: #f7d9a0; color: #6b4a22; border-radius: 4px; }
+html[data-skin="retro"] .theme-btn { background: #fff8e6; border: 2px solid rgba(59,42,28,.25); }
+html[data-skin="retro"] .toast { background: #fff8e6; color: #3b2a1c; border: 2px solid rgba(59,42,28,.25); }
+/* 老电视扫描线 */
+html[data-skin="retro"] body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply; opacity: .55;
+}
+
+/* ---------- 科技风 ---------- */
+html[data-skin="tech"] {
+  --bg: #04070f;
+  --text: #d9f6ff;
+  --muted: #6f8ba3;
+  --line: rgba(0, 229, 255, .18);
+  --card: rgba(8, 20, 34, .72);
+  --card-hover: rgba(10, 26, 44, .9);
+  --accent: #00e5ff;
+  --accent2: #ff2bd1;
+}
+html[data-skin="tech"] body {
+  background:
+    linear-gradient(rgba(0, 229, 255, .05) 1px, transparent 1px) 0 0 / 100% 40px,
+    linear-gradient(90deg, rgba(0, 229, 255, .05) 1px, transparent 1px) 0 0 / 40px 100%,
+    radial-gradient(900px 500px at 50% -10%, rgba(0, 229, 255, .12), transparent 65%),
+    #04070f;
+}
+html[data-skin="tech"] .orb { opacity: .35; filter: hue-rotate(140deg) saturate(1.4); }
+html[data-skin="tech"] .nav { background: rgba(4, 7, 15, .82); border-bottom: 1px solid rgba(0,229,255,.2); box-shadow: 0 0 24px rgba(0,229,255,.08); }
+html[data-skin="tech"] .nav-brand { color: #00e5ff; text-shadow: 0 0 12px rgba(0,229,255,.6); }
+html[data-skin="tech"] h1, html[data-skin="tech"] h2, html[data-skin="tech"] h3 {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: .5px;
+}
+html[data-skin="tech"] h1 em {
+  background: linear-gradient(90deg, #00e5ff, #ff2bd1);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 18px rgba(0,229,255,.45));
+}
+html[data-skin="tech"] .eyebrow {
+  color: #00e5ff; border: 1px solid rgba(0,229,255,.45); background: rgba(0,229,255,.08);
+  box-shadow: 0 0 18px rgba(0,229,255,.25) inset; letter-spacing: 3px;
+}
+html[data-skin="tech"] .card,
+html[data-skin="tech"] .card-link,
+html[data-skin="tech"] .game-card,
+html[data-skin="tech"] .wg,
+html[data-skin="tech"] .pg,
+html[data-skin="tech"] .stat,
+html[data-skin="tech"] .pill,
+html[data-skin="tech"] .search {
+  background: var(--card);
+  border: 1px solid rgba(0, 229, 255, .28);
+  box-shadow: 0 0 24px -10px rgba(0,229,255,.5), inset 0 0 30px -22px #00e5ff;
+  backdrop-filter: blur(6px);
+  position: relative;
+}
+html[data-skin="tech"] .card::before,
+html[data-skin="tech"] .card-link::before,
+html[data-skin="tech"] .wg::before {
+  content: ""; position: absolute; inset: 6px; pointer-events: none;
+  border-left: 1px solid rgba(0,229,255,.35); border-top: 1px solid rgba(0,229,255,.35);
+  clip-path: polygon(0 0, 18px 0, 18px 1px, 1px 1px, 1px 18px, 0 18px);
+}
+html[data-skin="tech"] .card:hover,
+html[data-skin="tech"] .card-link:hover,
+html[data-skin="tech"] .wg:hover {
+  border-color: rgba(255, 43, 209, .55);
+  box-shadow: 0 0 32px -8px rgba(255,43,209,.45), inset 0 0 30px -20px #ff2bd1;
+}
+html[data-skin="tech"] .btn-primary,
+html[data-skin="tech"] .landing-cta {
+  background: linear-gradient(135deg, rgba(0,229,255,.9), rgba(255,43,209,.9));
+  color: #02060c; box-shadow: 0 0 26px rgba(0,229,255,.45);
+}
+html[data-skin="tech"] .tag { background: rgba(0,229,255,.16); color: #00e5ff; border: 1px solid rgba(0,229,255,.4); }
+html[data-skin="tech"] .theme-btn { border-color: rgba(0,229,255,.35); color: #00e5ff; }
+html[data-skin="tech"] .toast { background: rgba(6,16,28,.95); border: 1px solid rgba(0,229,255,.5); color: #d9f6ff; box-shadow: 0 0 30px rgba(0,229,255,.35); }
+
+/* 皮肤切换按钮 */
+.skin-btn {
+  width: 34px; height: 34px; border-radius: 10px; cursor: pointer; display: grid; place-items: center;
+  font-size: 14px; line-height: 1; border: 1px solid var(--line);
+  background: rgba(255,255,255,.05); color: var(--text); transition: background .18s, transform .18s;
+}
+.skin-btn:hover { background: rgba(255,255,255,.12); transform: translateY(-1px); }
+html[data-theme="light"] .skin-btn { background: rgba(0,0,0,.05); }

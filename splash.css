@@ -1,0 +1,148 @@
+/* ================= 开屏动画 ================= */
+.splash {
+  position: fixed; inset: 0; z-index: 9999;
+  display: grid; place-items: center; overflow: hidden;
+  transition: opacity .55s ease, transform .55s ease;
+}
+.splash.out { opacity: 0; transform: scale(1.04); }
+
+/* ---------- 怀旧：花瓣张开 ---------- */
+.splash-retro {
+  background:
+    radial-gradient(circle at 50% 45%, #fffaf0 0%, #f3e3c3 45%, #e2caa0 100%);
+}
+.splash-retro::before {
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,.07) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply; pointer-events: none;
+}
+.splash-retro::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  box-shadow: inset 0 0 160px 40px rgba(90, 60, 30, .35);
+}
+.petals { position: relative; width: 320px; height: 320px; }
+.petal {
+  position: absolute; left: 50%; top: 50%;
+  width: 150px; height: 150px; margin: -75px;
+  border-radius: 50% 6% 50% 6%;
+  opacity: 0;
+  transform: rotate(calc(var(--i) * 45deg)) scale(.12);
+  animation: petalOpen 1.05s cubic-bezier(.2,.85,.25,1.05) forwards;
+  animation-delay: calc(var(--i) * 55ms);
+  transform-origin: center;
+  box-shadow: 0 6px 18px rgba(90,60,30,.18);
+}
+.petal:nth-child(8n+1) { background: linear-gradient(135deg, #ffd9a0, #ffb86b); }
+.petal:nth-child(8n+2) { background: linear-gradient(135deg, #ffc2d1, #ff8fab); }
+.petal:nth-child(8n+3) { background: linear-gradient(135deg, #c9e4ff, #8ec5ff); }
+.petal:nth-child(8n+4) { background: linear-gradient(135deg, #d8f5c8, #a4e07d); }
+.petal:nth-child(8n+5) { background: linear-gradient(135deg, #ffe9a8, #ffd166); }
+.petal:nth-child(8n+6) { background: linear-gradient(135deg, #e2d1ff, #b79bff); }
+.petal:nth-child(8n+7) { background: linear-gradient(135deg, #bff0ff, #7fd9f5); }
+.petal:nth-child(8n+8) { background: linear-gradient(135deg, #ffd0b8, #ff9f7a); }
+@keyframes petalOpen {
+  0% { opacity: 0; transform: rotate(calc(var(--i) * 45deg)) scale(.12); }
+  55% { opacity: 1; }
+  100% { opacity: .95; transform: rotate(calc(var(--i) * 45deg + 16deg)) scale(1); }
+}
+.splash-text {
+  position: absolute; inset: 0; display: grid; place-content: center; text-align: center;
+  gap: 8px; opacity: 0; animation: fadeUp .8s ease .85s forwards;
+}
+.splash-text .l1 {
+  font: 700 clamp(20px, 5.6vw, 30px)/1.2 "Songti SC", "STSong", "SimSun", serif;
+  color: #6b4a22; letter-spacing: 6px;
+}
+.splash-text .l2 {
+  font: 800 clamp(28px, 8vw, 46px)/1.25 "Songti SC", "STSong", "SimSun", serif;
+  color: #c0392b; letter-spacing: 4px;
+  text-shadow: 2px 2px 0 rgba(255,255,255,.75), 4px 4px 0 rgba(192,57,43,.18);
+}
+.splash-text .l3 {
+  margin-top: 10px; font: 600 12px/1.6 ui-monospace, monospace;
+  color: #8a6a44; letter-spacing: 3px;
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---------- 科技：HUD 启动 ---------- */
+.splash-tech { background: radial-gradient(circle at 50% 45%, #071626 0%, #030509 70%); }
+.splash-tech .gridbg {
+  position: absolute; inset: -40%;
+  background-image:
+    linear-gradient(rgba(0,229,255,.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,.12) 1px, transparent 1px);
+  background-size: 44px 44px;
+  transform: perspective(500px) rotateX(58deg);
+  animation: gridScroll 2.4s linear infinite;
+  mask-image: radial-gradient(circle at 50% 50%, #000 25%, transparent 72%);
+}
+@keyframes gridScroll { from { background-position: 0 0, 0 0; } to { background-position: 0 44px, 44px 0; } }
+.splash-tech .ring {
+  position: absolute; left: 50%; top: 50%; border-radius: 50%;
+  border: 1px dashed rgba(0,229,255,.45);
+  transform: translate(-50%, -50%);
+  animation: spin 5s linear infinite;
+}
+.splash-tech .r1 { width: 210px; height: 210px; box-shadow: 0 0 60px rgba(0,229,255,.25) inset; }
+.splash-tech .r2 { width: 300px; height: 300px; border-color: rgba(255,43,209,.4); animation-direction: reverse; animation-duration: 7s; }
+.splash-tech .r3 { width: 390px; height: 390px; border-style: dotted; animation-duration: 11s; }
+@keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+.splash-tech .scanbar {
+  position: absolute; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #00e5ff, transparent);
+  box-shadow: 0 0 18px #00e5ff;
+  animation: scanY 1.5s ease-in-out infinite;
+}
+@keyframes scanY { 0% { top: 8%; opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { top: 92%; opacity: 0; } }
+.splash-tech .hud {
+  position: relative; text-align: center; padding: 0 24px;
+}
+.splash-tech .t1 {
+  font: 700 clamp(22px, 6.4vw, 40px)/1.2 ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: 8px; color: #d9f6ff;
+  text-shadow: 0 0 18px rgba(0,229,255,.8), 0 0 42px rgba(0,229,255,.35);
+  animation: glitch 2.2s steps(1) infinite;
+}
+.splash-tech .t1::before, .splash-tech .t1::after {
+  content: attr(data-t); position: absolute; left: 0; right: 0; top: 0;
+}
+.splash-tech .t1::before { color: #ff2bd1; clip-path: inset(0 0 55% 0); animation: glitchA 2.4s infinite linear alternate; opacity: .85; }
+.splash-tech .t1::after { color: #00e5ff; clip-path: inset(55% 0 0 0); animation: glitchB 1.9s infinite linear alternate; opacity: .85; }
+@keyframes glitchA { 0%,92%,100% { transform: none; } 93% { transform: translateX(-4px); } 96% { transform: translateX(3px); } }
+@keyframes glitchB { 0%,90%,100% { transform: none; } 91% { transform: translateX(4px); } 95% { transform: translateX(-3px); } }
+.splash-tech .t2 {
+  margin-top: 12px; font: 600 12px/1 ui-monospace, monospace;
+  letter-spacing: 4px; color: #6f8ba3;
+}
+.splash-tech .bar {
+  margin: 26px auto 0; width: min(300px, 70vw); height: 3px;
+  background: rgba(0,229,255,.16); border-radius: 2px; overflow: hidden;
+}
+.splash-tech .bar i {
+  display: block; height: 100%; width: 0;
+  background: linear-gradient(90deg, #00e5ff, #ff2bd1);
+  box-shadow: 0 0 12px #00e5ff;
+  animation: load 2.3s cubic-bezier(.2,.8,.3,1) forwards;
+}
+@keyframes load { to { width: 100%; } }
+.splash-tech .corner {
+  position: absolute; width: 26px; height: 26px; border: 1px solid rgba(0,229,255,.6);
+}
+.splash-tech .c1 { left: 22px; top: 22px; border-right: 0; border-bottom: 0; }
+.splash-tech .c2 { right: 22px; top: 22px; border-left: 0; border-bottom: 0; }
+.splash-tech .c3 { left: 22px; bottom: 22px; border-right: 0; border-top: 0; }
+.splash-tech .c4 { right: 22px; bottom: 22px; border-left: 0; border-top: 0; }
+
+/* 中心风车（少儿频道片花感） */
+.splash-retro .logo {
+  position: absolute; left: 50%; top: 50%; width: 132px; height: 132px;
+  margin: -66px; border-radius: 50%;
+  background: conic-gradient(#ff9f7a 0 25%, #ffd166 0 50%, #7fd9f5 0 75%, #b79bff 0);
+  opacity: 0; animation: logoIn .9s ease .5s forwards, spinLogo 14s linear infinite;
+  box-shadow: 0 0 0 6px rgba(255,255,255,.55), 0 8px 26px rgba(90,60,30,.25);
+  mask-image: radial-gradient(circle, #000 58%, transparent 60%);
+}
+@keyframes logoIn { from { opacity: 0; transform: scale(.4); } to { opacity: .9; transform: scale(1); } }
+@keyframes spinLogo { to { transform: rotate(360deg); } }
+.splash-retro .splash-text { z-index: 3; }
+.splash-retro .splash-text .l1 { margin-top: 74px; }

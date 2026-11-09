@@ -62,8 +62,8 @@ html[data-theme="light"] .m{background:#fbfcff}
   <div class="box" id="autoBox">
     <label>测试任意一个 key（自动识别是哪家的）</label>
     <input id="mykey" placeholder="粘贴任意 API key，例：sk-ant-… / 32位.16位 / sk-proj-…" autocomplete="off">
-    <label>中转站口令（用来转发测试）</label>
-    <input id="rtoken" type="password" placeholder="粘贴中转站口令" autocomplete="off">
+    <label>中转站口令（可留空，留空就是纯直通测试）</label>
+    <input id="rtoken" type="password" placeholder="可以不填" autocomplete="off">
     <button id="goAuto" type="button">识别并测试</button>
     <div id="autoOut" style="margin-top:12px"></div>
   </div>
@@ -254,10 +254,10 @@ html[data-theme="light"] .m{background:#fbfcff}
     var url = B + "/" + c.prov + (c.model ? "/chat/completions" : "/messages");
     var headers = {
       "content-type": "application/json",
-      "x-relay-token": token,
       "x-relay-passthrough": "1",
       authorization: "Bearer " + k,
     };
+    if (token) headers["x-relay-token"] = token;
     if (c.prov === "claude") headers["anthropic-version"] = "2023-06-01";
     var body = c.prov === "claude"
       ? { model: "claude-haiku-5-5", max_tokens: 5, messages: [{ role: "user", content: "hi" }] }
@@ -279,7 +279,7 @@ html[data-theme="light"] .m{background:#fbfcff}
   $("goAuto").addEventListener("click", async function () {
     var k = $("mykey").value.trim();
     if (!k) { alert("先粘贴要测的 key"); return; }
-    if (!$("rtoken").value.trim()) { alert("还要填中转站口令（用来转发测试）"); return; }
+    // 口令可留空：留空时走纯直通（只带你的 key）
     var out = $("autoOut");
     out.innerHTML = '<div class="m wait"><span class="ico">⏳</span><div class="body"><div class="name">识别中…</div></div></div>';
     var cands = guess(k);

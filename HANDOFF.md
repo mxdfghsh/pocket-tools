@@ -51,21 +51,38 @@ skin.js      皮肤切换 + 开屏
 
 ## 设计变量（改皮肤从这里下手）
 
+当前风格是「纸感目录」：暖纸底、墨色字、朱砂点缀，一套强调色用到底。
+
 ```css
-/* theme.css / style.css 里的 :root */
---bg: #0b0f19;        /* 背景 */
---text: #e8edf7;      /* 正文 */
---muted: #8a95ab;     /* 次要文字 */
---line: rgba(255,255,255,.09);  /* 分割线 */
---accent: #6ee7ff;    /* 主强调色（青） */
---accent2: #a78bfa;   /* 次强调色（紫） */
---radius: 18px;
+/* home.css 的 :root（默认暗色） */
+--bg: #12130f;         /* 背景 */
+--surface: #1a1c17;    /* 卡片 / 面板 */
+--surface-2: #22251e;  /* 次级面板、输入框内衬 */
+--ink: #f0ece0;        /* 正文（--text 指向它） */
+--muted: #9d9c90;      /* 次要文字 */
+--line / --line-strong; /* 分割线 / 强分割线 */
+--accent: #ff6b45;     /* 主强调色（朱砂） */
+--accent2: #9bb0ff;    /* 次强调色（只在少量地方用） */
+--radius: 14px;
+--nav-h: 62px;         /* 手机底栏高度，用来给 body 留出底部间距 */
 ```
+
+亮色在 `theme.css` 的 `html[data-theme="light"]` 里翻转（暖纸 #f3efe4 + 墨字 + 朱砂 #c03a20），
+所以**新写样式一律用变量，不要写死颜色**，否则亮色主题会脏。
 
 两套皮肤在 `skins.css`：
 
-- `html[data-skin="retro"]`：米黄纸感、宋体、老电视扫描线、硬阴影
-- `html[data-skin="tech"]`：近黑底、青紫霓虹、HUD 角标、透视网格
+- `html[data-skin="retro"]`：旧纸、宋体标题、硬阴影、老电视扫描线
+- `html[data-skin="tech"]`：近黑底、荧光绿 + 品红、等宽标题、网格背景、卡片右上角切角
+
+## 交互（ui.js）
+
+`ui.js` 只做四件小事，都是渐进的，关掉 JS 或开了「减少动态效果」也能正常看：
+
+1. `[data-reveal]` 滚动到才淡入
+2. `[data-count]` 数字滚动（值写死在属性里，滚的是真实值）
+3. 顶栏滚动加阴影（`.nav.scrolled`）
+4. 精确指针设备上，卡片有一团跟着光标的小光（CSS 变量 `--mx / --my`）
 
 ## 想改哪里
 
@@ -73,9 +90,9 @@ skin.js      皮肤切换 + 开屏
 |---|---|
 | 主页视觉 | `index.html` + `home.css` |
 | 工具箱外观 | `tools.html` + `style.css` |
-| 卡片的通用样式 | `home.css` 里的 `.card-link` / `.b` / `.wg` |
-| 配色 | `theme.css` / `skins.css` 的变量 |
-| 动效 | 各 CSS 里的 `transition` / `@keyframes` |
+| 游戏卡片 / 盘面 | `hub.html`、`games.css` |
+| 配色 | `home.css` 的 `:root`、`theme.css`、`skins.css` |
+| 动效 | `ui.js`、各 CSS 里的 `transition` / `@keyframes` |
 
 ## 怎么提交
 

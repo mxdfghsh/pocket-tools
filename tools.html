@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b0f19">
+<meta name="theme-color" content="#12130f">
 <meta name="description" content="口袋工具箱 —— 纯前端、离线可用的常用小工具合集：Base64、时间戳、JSON、哈希、密码、UUID、文本统计、颜色转换。">
 <title>口袋工具箱 · Pocket Tools</title>
 <meta property="og:type" content="website">
@@ -16,12 +16,13 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧰</text></svg>">
-<link rel="stylesheet" href="home.css">
-<link rel="stylesheet" href="style.css">
 <script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
-<link rel="stylesheet" href="theme.css?v=4">
-<link rel="stylesheet" href="skins.css?v=1">
-<link rel="stylesheet" href="splash.css?v=1">
+<link rel="stylesheet" href="home.css?v=5">
+<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="theme.css?v=5">
+<link rel="stylesheet" href="skins.css?v=5">
+<link rel="stylesheet" href="splash.css?v=2">
+<noscript><style>.landing{display:none!important}body{overflow:auto!important}body .hero,body main,body footer,body .nav{visibility:visible!important}</style></noscript>
 </head>
 <body>
 
@@ -35,11 +36,6 @@
     <button class="theme-btn" type="button" aria-label="切换主题">☀️</button>
   </div>
 </nav>
-
-<div class="orbs" aria-hidden="true">
-  <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
-</div>
-
 
 <section id="landing" class="landing" aria-label="入口">
   <a class="home-link" href="./">← 口袋小站</a>
@@ -57,10 +53,10 @@
 </section>
 
 <header class="hero">
-  <nav class="brand">
+  <nav class="brand" aria-label="工具箱">
     <span class="brand-ico">🧰</span>
     <span class="brand-name">口袋工具箱</span>
-    <span class="brand-tag">Pocket Tools</span>
+    <span class="brand-tag">POCKET TOOLS</span>
   </nav>
 
   <h1>挑一个工具，<em>立刻开干</em></h1>
@@ -68,12 +64,12 @@
 
   <div class="search">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4a6 6 0 1 0 3.9 10.6l4.7 4.7 1.4-1.4-4.7-4.7A6 6 0 0 0 10 4Zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"/></svg>
-    <input id="q" type="search" placeholder="搜索工具，例如 时间戳 / base64 / 密码" autocomplete="off" spellcheck="false">
+    <input id="q" type="search" placeholder="搜索工具，例如 时间戳 / base64 / 密码" autocomplete="off" spellcheck="false" aria-label="搜索工具">
     <kbd>/</kbd>
   </div>
 
   <div class="pills">
-    <span class="pill" id="stat-count">9 个工具</span>
+    <span class="pill" id="stat-count">17 个工具</span>
     <span class="pill">0 依赖</span>
     <span class="pill">100% 本地计算</span>
   </div>
@@ -108,5 +104,6 @@
 <script src="pwa.js"></script>
 <script src="theme.js"></script>
 <script src="skin.js"></script>
+<script src="ui.js"></script>
 </body>
 </html>

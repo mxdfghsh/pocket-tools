@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f19">
+<meta name="description" content="中国象棋，带 AI 对手，中文界面，点两下就能下。">
+<title>中国象棋 · 口袋小站</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🀄</text></svg>">
+<link rel="stylesheet" href="home.css?v=8">
+<link rel="stylesheet" href="theme.css?v=8">
+<script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
+<style>
+.chess-wrap{max-width:520px;margin:0 auto}
+#chess{width:100%;display:block;border-radius:14px;border:1px solid rgba(0,0,0,.25);box-shadow:0 24px 60px -30px rgba(0,0,0,.85);touch-action:manipulation}
+.bar{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.bar button{
+  padding:10px 18px;border-radius:11px;cursor:pointer;font:700 13px/1 inherit;
+  border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);
+}
+.bar button:hover{background:rgba(255,255,255,.13)}
+html[data-theme="light"] .bar button{background:#fff;border-color:rgba(0,0,0,.12)}
+#status{font-size:13px;color:var(--muted);margin:12px 0 0}
+.tip{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="./">🧰 <span>口袋小站</span></a>
+  <div class="nav-links">
+    <a href="./">首页</a>
+    <a href="tools.html">工具箱</a>
+    <a href="games.html" class="active">小游戏</a>
+    <a href="about.html">关于</a>
+    <button class="theme-btn" type="button" aria-label="切换主题">☀️</button>
+  </div>
+</nav>
+
+<header class="hero-home" style="padding-bottom:16px">
+  <p class="eyebrow">中国象棋</p>
+  <h1>楚河<em>汉界</em></h1>
+  <p class="lead">你和电脑下。点棋子选中，再点目标位置落子。「楚河汉界」中间不能过河。</p>
+</header>
+
+<main>
+  <div class="chess-wrap">
+    <canvas id="chess"></canvas>
+    <div class="bar">
+      <button id="restart" type="button">重开一局</button>
+      <button id="undo" type="button">悔棋</button>
+    </div>
+    <p id="status">轮到红方（你）</p>
+    <p class="tip">你执红先手。马走日、象走田、炮打隔山、车走直线。将死对方获胜。</p>
+  </div>
+</main>
+
+<footer>
+  <p>口袋小站 · 中国象棋</p>
+  <p class="muted">带 AI 对手 · 本地运行</p>
+</footer>
+
+<script src="chess.js"></script>
+<script src="theme.js"></script>
+<script src="pwa.js"></script>
+</body>
+</html>

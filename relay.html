@@ -5,40 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b0f19">
 <meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
 <title>中转站检测 · 口袋小站</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛰️</text></svg>">
-<link rel="stylesheet" href="home.css?v=14">
-<link rel="stylesheet" href="theme.css?v=14">
-<link rel="stylesheet" href="skins.css?v=14">
+<link rel="stylesheet" href="home.css?v=15">
+<link rel="stylesheet" href="theme.css?v=15">
+<link rel="stylesheet" href="skins.css?v=15">
 <script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
 <style>
-.wrap{max-width:760px;margin:0 auto;padding:0 20px}
-.card{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
-html[data-theme="light"] .card{background:#fff;border-color:rgba(0,0,0,.09)}
-label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px}
-input,select{width:100%;font:13px var(--mono,monospace);color:var(--text);background:rgba(0,0,0,.28);border:1px solid var(--line);border-radius:10px;padding:11px 13px;outline:0}
-html[data-theme="light"] input,html[data-theme="light"] select{background:#f8fafc;border-color:rgba(0,0,0,.12)}
-.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-button{flex:1;min-width:130px;padding:13px 16px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);font:700 13px/1 inherit;cursor:pointer}
-button.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#04121a;border:0}
-button:active{transform:scale(.98)}
-#out{margin-top:18px}
-.res{display:grid;grid-template-columns:110px 1fr;gap:6px 12px;font-size:13px;margin-top:10px}
-.res dt{color:var(--muted)}
-.res dd{margin:0;font-family:var(--mono,monospace);word-break:break-all}
-.badge{display:inline-block;padding:2px 9px;border-radius:99px;font:700 11px/1.6 var(--mono);margin-right:6px}
-.ok{background:rgba(52,211,153,.18);color:#34d399;border:1px solid rgba(52,211,153,.4)}
-.bad{background:rgba(251,113,133,.18);color:#fb7185;border:1px solid rgba(251,113,133,.4)}
-.warn{background:rgba(251,191,36,.18);color:#fbbf24;border:1px solid rgba(251,191,36,.4)}
-.log{font:12px/1.7 var(--mono,monospace);color:var(--muted);white-space:pre-wrap;max-height:220px;overflow:auto;margin-top:12px}
-p.note{font-size:12px;color:var(--muted);line-height:1.7}
+.wrap{max-width:620px;margin:0 auto;padding:0 20px}
+.box{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px}
+html[data-theme="light"] .box{background:#fff;border-color:rgba(0,0,0,.09)}
+.step{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;margin-bottom:10px}
+.step i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font:700 12px/1 system-ui;font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#04121a;flex:none}
+input{width:100%;font:14px var(--mono,monospace);color:var(--text);background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:12px;padding:14px;outline:0}
+html[data-theme="light"] input{background:#f8fafc;border-color:rgba(0,0,0,.12)}
+input:focus{border-color:rgba(110,231,255,.5)}
+.hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6}
+#go{width:100%;margin-top:16px;padding:17px;border-radius:14px;border:0;cursor:pointer;font:800 16px/1 inherit;color:#04121a;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 14px 34px -16px rgba(110,231,255,.7)}
+#go:disabled{opacity:.5}
+#verdict{display:none}
+.v{font-size:26px;font-weight:800;margin:0 0 6px}
+.v.ok{color:#34d399}
+.v.bad{color:#fb7185}
+.vsub{font-size:13px;color:var(--muted);margin:0 0 16px}
+.items{display:flex;flex-direction:column;gap:8px}
+.item{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:9px 12px;border-radius:10px;background:rgba(255,255,255,.04)}
+html[data-theme="light"] .item{background:#f6f8fc}
+.item span:first-child{color:var(--muted)}
+.item span:last-child{font-family:var(--mono,monospace);text-align:right}
+#log{font:11.5px/1.6 var(--mono,monospace);color:var(--muted);white-space:pre-wrap;margin-top:12px;max-height:140px;overflow:auto}
 </style>
 </head>
 <body>
 <div class="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
-
 <nav class="nav">
   <a class="nav-brand" href="./">🧰 <span>口袋小站</span></a>
   <div class="nav-links">
@@ -50,195 +52,171 @@ p.note{font-size:12px;color:var(--muted);line-height:1.7}
   </div>
 </nav>
 
-<header class="hero-home" style="padding-bottom:10px">
+<header class="hero-home" style="padding-bottom:8px">
   <p class="eyebrow">RELAY CHECK</p>
-  <h1>中转站<em>检测</em></h1>
-  <p class="lead">测连通性、延迟、首字时间和生成速度。**不保存任何数据**——口令只在这个页面内存里，刷新就没了。</p>
+  <h1>中转站<em>能不能用</em></h1>
+  <p class="lead">只要粘贴口令，点一下按钮。不会保存任何东西。</p>
 </header>
 
 <main class="wrap">
-  <div class="card">
-    <label>中转站地址</label>
-    <input id="origin" value="https://relay.3498341186.workers.dev" spellcheck="false" autocomplete="off">
-    <label>访问口令（不保存）</label>
-    <input id="token" type="password" placeholder="粘贴口令，仅本次使用" autocomplete="off">
-    <label>上游（从健康检查自动获取）</label>
-    <select id="provider"><option value="zhipu">zhipu</option></select>
-
-    <div class="row">
-      <button class="primary" id="btnAll" type="button">一键全部检测</button>
-      <button id="btnHealth" type="button">健康检查</button>
-      <button id="btnPing" type="button">测延迟</button>
-      <button id="btnSpeed" type="button">测速</button>
-    </div>
+  <div class="box" id="form">
+    <div class="step"><i>1</i> 粘贴口令</div>
+    <input id="token" type="password" placeholder="例：4176679ecd20e485cbcba13fb0f1a6e089827bee" autocomplete="off">
+    <p class="hint">就是之前给你的那串。填错也能测——它会告诉你口令不对。</p>
+    <button id="go" type="button">开始检测</button>
+    <div id="log"></div>
   </div>
 
-  <div class="card">
-    <div class="res" id="out"><dt>状态</dt><dd>点上面按钮开始</dd></div>
-    <div class="log" id="log"></div>
+  <div class="box" id="verdict">
+    <p class="v" id="vTitle"></p>
+    <p class="vsub" id="vSub"></p>
+    <div class="items" id="items"></div>
   </div>
-
-  <p class="note">
-    说明：本页所有请求都由你自己的浏览器直接发往中转站，不经过本站服务器；<b>没有任何数据被保存或上传</b>（口令不写 localStorage，刷新即清空）。
-  </p>
 </main>
 
-<footer><p>口袋小站 · 中转站检测</p><p class="muted">只读检测 · 不保存数据</p></footer>
+<footer><p>口袋小站 · 中转站检测</p><p class="muted">不保存数据 · 刷新即清空</p></footer>
 
 <script>
 (function () {
+  var ORIGIN = "https://relay.3498341186.workers.dev";
   var $ = function (id) { return document.getElementById(id); };
-  var out = $("out"), log = $("log");
-  var t0 = 0;
+  var log = $("log");
 
-  function say(msg) {
-    var line = "[" + new Date().toLocaleTimeString() + "] " + msg;
-    log.textContent += (log.textContent ? "\n" : "") + line;
-    log.scrollTop = log.scrollHeight;
+  function say(m) { log.textContent += ("[" + new Date().toLocaleTimeString() + "] " + m + "\n"); }
+  function item(k, v) {
+    var d = document.createElement("div");
+    d.className = "item";
+    d.innerHTML = "<span></span><span></span>";
+    d.children[0].textContent = k;
+    d.children[1].textContent = v;
+    $("items").appendChild(d);
   }
-  function set(k, v, cls) {
-    var dd = out.querySelector('[data-v="' + k + '"]');
-    if (!dd) {
-      var dt = document.createElement("dt");
-      dt.textContent = k;
-      dd = document.createElement("dd");
-      dd.setAttribute("data-v", k);
-      out.appendChild(dt);
-      out.appendChild(dd);
-    }
-    dd.textContent = "";
-    if (cls) {
-      var s = document.createElement("span");
-      s.className = "badge " + cls;
-      s.textContent = v;
-      dd.appendChild(s);
-    } else {
-      dd.textContent = v;
-    }
-  }
-  function reset() { out.innerHTML = ""; log.textContent = ""; set("状态", "检测中…"); }
-  function origin() { return $("origin").value.trim().replace(/\/+$/, ""); }
-  function token() { return $("token").value.trim(); }
 
-  // 1) 健康检查
-  async function health(quiet) {
-    var o = origin();
-    say("GET " + o + "/healthz");
-    var t = Date.now();
+  async function run() {
+    var token = $("token").value.trim();
+    var items = $("items");
+    items.innerHTML = "";
+    $("verdict").style.display = "none";
+    log.textContent = "";
+    $("go").disabled = true;
+    $("go").textContent = "检测中…";
+
+    if (!token) {
+      alert("先粘贴口令再点");
+      $("go").disabled = false;
+      $("go").textContent = "开始检测";
+      return;
+    }
+
+    var okHealth = false, provider = null;
+    // 1. 健康检查
+    say("检查中转站是否在线…");
     try {
-      var r = await fetch(o + "/healthz", { signal: AbortSignal.timeout(12000) });
-      var ms = Date.now() - t;
+      var r = await fetch(ORIGIN + "/healthz", { signal: AbortSignal.timeout(12000) });
       var j = await r.json();
-      set("健康检查", "HTTP " + r.status + " · " + ms + "ms", r.ok ? "ok" : "bad");
-      set("上游", j.upstream || "-");
-      set("口令保护", j.relayTokenSet ? "已开启" : "未开启", j.relayTokenSet ? "ok" : "warn");
-      var names = j.providers ? Object.keys(j.providers) : [];
-      set("已配置厂商", names.length ? names.join(" / ") : "无", names.length ? "ok" : "bad");
-      if (names.length) {
-        var sel = $("provider");
-        sel.innerHTML = "";
-        names.forEach(function (n) { var op = document.createElement("option"); op.value = n; op.textContent = n + (j.providers[n].keySet ? "（key 已配）" : "（无 key）"); sel.appendChild(op); });
-        if (j["default"] && names.indexOf(j["default"]) >= 0) sel.value = j["default"];
-      }
-      if (!quiet) say("健康检查通过：" + (j.upstream || "-"));
-      return j;
+      okHealth = r.ok;
+      provider = j["default"] || (j.providers && Object.keys(j.providers)[0]);
+      say("在线，上游：" + (j.upstream || "-"));
     } catch (e) {
-      set("健康检查", "失败", "bad");
-      if (!quiet) say("失败：" + e.message + "（可能没开代理 / 地址写错）");
-      return null;
+      say("连不上：" + e.message);
     }
-  }
 
-  // 2) 延迟：3 次最小请求
-  async function ping(quiet) {
-    var o = origin(), tk = token(), p = $("provider").value;
-    var url = o + "/" + p + "/chat/completions";
-    var arr = [];
+    // 2. 延迟
+    var pings = [];
+    say("测延迟（发 3 次小请求）…");
     for (var i = 0; i < 3; i++) {
       var t = Date.now();
       try {
-        var r = await fetch(url, {
+        var rr = await fetch(ORIGIN + "/" + (provider || "zhipu") + "/chat/completions", {
           method: "POST",
-          headers: { "content-type": "application/json", authorization: "Bearer " + tk },
-          body: JSON.stringify({ model: $("model") ? $("model").value : "glm-4-flash", messages: [{ role: "user", content: "hi" }], max_tokens: 1 }),
+          headers: { "content-type": "application/json", authorization: "Bearer " + token },
+          body: JSON.stringify({ model: "glm-4-flash", messages: [{ role: "user", content: "hi" }], max_tokens: 1 }),
           signal: AbortSignal.timeout(30000),
         });
-        var body = await r.text();
-        var ms = Date.now() - t;
-        if (!r.ok) { set("延迟", "HTTP " + r.status, "bad"); if (!quiet) say("请求失败 " + r.status + ": " + body.slice(0, 160)); return; }
-        arr.push(ms);
-        say("第 " + (i + 1) + " 次：" + ms + "ms");
+        var txt = await rr.text();
+        if (!rr.ok) {
+          var msg = "HTTP " + rr.status;
+          try { var ej = JSON.parse(txt); if (ej.error && ej.error.message) msg += "：" + ej.error.message; } catch (e) {}
+          say("失败 " + msg);
+          show(false, "口令或地址有问题", msg, null);
+          return;
+        }
+        pings.push(Date.now() - t);
+        say("第 " + (i + 1) + " 次 " + pings[pings.length - 1] + "ms");
       } catch (e) {
-        set("延迟", "失败", "bad");
-        if (!quiet) say("请求失败：" + e.message);
+        say("请求失败：" + e.message);
+        show(false, "连不上中转站", "可能是没开代理，或者网络问题", null);
         return;
       }
     }
-    arr.sort(function (a, b) { return a - b; });
-    var avg = Math.round(arr.reduce(function (a, b) { return a + b; }, 0) / arr.length);
-    set("延迟", "最低 " + arr[0] + "ms · 平均 " + avg + "ms", arr[0] < 1500 ? "ok" : "warn");
-  }
+    pings.sort(function (a, b) { return a - b; });
 
-  // 3) 测速：流式，看首字 + 生成速度
-  async function speed(quiet) {
-    var o = origin(), tk = token(), p = $("provider").value;
-    var url = o + "/" + p + "/chat/completions";
-    var model = $("model") ? $("model").value : "glm-4-flash";
-    var t = Date.now();
-    var first = 0, chunks = 0, text = "";
+    // 3. 测速
+    say("测生成速度…");
+    var first = 0, chars = 0, t0 = Date.now();
     try {
-      var r = await fetch(url, {
+      var r2 = await fetch(ORIGIN + "/" + (provider || "zhipu") + "/chat/completions", {
         method: "POST",
-        headers: { "content-type": "application/json", authorization: "Bearer " + tk, accept: "text/event-stream" },
-        body: JSON.stringify({ model: model, stream: true, messages: [{ role: "user", content: "用一句话介绍你自己" }], max_tokens: 80 }),
+        headers: { "content-type": "application/json", authorization: "Bearer " + token, accept: "text/event-stream" },
+        body: JSON.stringify({ model: "glm-4-flash", stream: true, messages: [{ role: "user", content: "用一句话介绍你自己" }], max_tokens: 80 }),
         signal: AbortSignal.timeout(60000),
       });
-      if (!r.ok) { var b = await r.text(); set("测速", "HTTP " + r.status, "bad"); if (!quiet) say("失败：" + b.slice(0, 160)); return; }
-      var reader = r.body.getReader(), dec = new TextDecoder(), buf = "";
+      if (!r2.ok) { var b2 = await r2.text(); say("测速失败 HTTP " + r2.status); show(false, "测速失败", "HTTP " + r2.status, null); return; }
+      var reader = r2.body.getReader(), dec = new TextDecoder(), buf = "";
       for (;;) {
         var x = await reader.read();
         if (x.done) break;
         buf += dec.decode(x.value, { stream: true });
         var lines = buf.split("\n"); buf = lines.pop();
-        for (var i = 0; i < lines.length; i++) {
-          var line = lines[i].trim();
+        for (var k = 0; k < lines.length; k++) {
+          var line = lines[k].trim();
           if (line.indexOf("data:") !== 0) continue;
           var data = line.slice(5).trim();
           if (!data || data === "[DONE]") continue;
           try {
-            var j = JSON.parse(data);
-            var d = j.choices && j.choices[0] && j.choices[0].delta && j.choices[0].delta.content;
-            if (d) { if (!first) first = Date.now() - t; chunks++; text += d; }
+            var pj = JSON.parse(data);
+            var d = pj.choices && pj.choices[0] && pj.choices[0].delta && pj.choices[0].delta.content;
+            if (d) { if (!first) first = Date.now() - t0; chars++; }
           } catch (e) {}
         }
       }
-      var total = Date.now() - t;
-      var tps = chunks ? (chunks / (total / 1000)).toFixed(1) : "0";
-      set("首字延迟", first ? first + "ms" : "无", first && first < 2000 ? "ok" : "warn");
-      set("总耗时", total + "ms");
-      set("生成速度", tps + " 字/秒（约 " + chunks + " 字）", Number(tps) > 5 ? "ok" : "warn");
-      if (!quiet) say("返回：" + text.slice(0, 40));
     } catch (e) {
-      set("测速", "失败", "bad");
-      if (!quiet) say("失败：" + e.message);
+      say("测速异常：" + e.message);
     }
+    var total = Date.now() - t0;
+    var avg = Math.round(pings.reduce(function (a, b) { return a + b; }, 0) / pings.length);
+
+    show(true, "能用 ✅", "中转站正常，口令有效", {
+      ping: pings[0] + " ~ " + pings[pings.length - 1] + "ms",
+      avg: avg + "ms",
+      first: first ? first + "ms" : "—",
+      speed: chars ? (chars / (total / 1000)).toFixed(1) + " 字/秒" : "—",
+    });
   }
 
-  $("btnHealth").addEventListener("click", function () { health(false); });
-  $("btnPing").addEventListener("click", function () { ping(false); });
-  $("btnSpeed").addEventListener("click", function () { speed(false); });
-  $("btnAll").addEventListener("click", async function () {
-    reset();
-    var j = await health(true);
-    if (!j) return;
-    await ping(true);
-    await speed(true);
-    say("全部完成");
-  });
+  function show(ok, title, sub, data) {
+    $("verdict").style.display = "block";
+    var t = $("vTitle");
+    t.textContent = title;
+    t.className = "v " + (ok ? "ok" : "bad");
+    $("vSub").textContent = sub;
+    $("items").innerHTML = "";
+    if (data) {
+      item("延迟范围", data.ping);
+      item("平均延迟", data.avg);
+      item("首字延迟", data.first);
+      item("生成速度", data.speed);
+      item("中转站", ORIGIN.replace("https://", ""));
+    }
+    $("go").disabled = false;
+    $("go").textContent = "再测一次";
+    $("verdict").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  $("go").addEventListener("click", run);
 })();
 </script>
 <script src="theme.js"></script>
 <script src="skin.js"></script>
-<meta name="referrer" content="no-referrer">
 </body>
 </html>

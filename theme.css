@@ -1,0 +1,98 @@
+/* ---------- 主题切换 ---------- */
+html[data-theme="light"] {
+  --bg: #f2f5fb;
+  --text: #101725;
+  --muted: #5a6579;
+  --line: rgba(0, 0, 0, .1);
+  --card: #ffffff;
+  --card-hover: #ffffff;
+  --accent: #0891b2;
+  --accent2: #7c3aed;
+}
+
+html[data-theme="light"] body { background: #f2f5fb; }
+html[data-theme="light"] .orb { opacity: .16; }
+
+/* 导航与按钮 */
+.theme-btn {
+  width: 34px; height: 34px; border-radius: 10px; cursor: pointer;
+  display: grid; place-items: center; font-size: 15px; line-height: 1;
+  border: 1px solid var(--line); background: rgba(255,255,255,.05); color: var(--text);
+  transition: background .18s, transform .18s;
+}
+.theme-btn:hover { background: rgba(255,255,255,.12); transform: translateY(-1px); }
+html[data-theme="light"] .theme-btn { background: rgba(0,0,0,.04); }
+html[data-theme="light"] .theme-btn:hover { background: rgba(0,0,0,.08); }
+
+html[data-theme="light"] .nav { background: rgba(242,245,251,.82); backdrop-filter: blur(14px); }
+html[data-theme="light"] .nav-links a:hover { background: rgba(0,0,0,.05); }
+html[data-theme="light"] .nav-links a.active { background: rgba(8,145,178,.1); }
+
+/* 卡片 / 面板 */
+html[data-theme="light"] .card,
+html[data-theme="light"] .card-link,
+html[data-theme="light"] .game-card,
+html[data-theme="light"] .stat,
+html[data-theme="light"] .cfg,
+html[data-theme="light"] .game-panel,
+html[data-theme="light"] .pill,
+html[data-theme="light"] .search {
+  background: #ffffff;
+  border-color: rgba(0,0,0,.09);
+  box-shadow: 0 12px 30px -26px rgba(16,23,37,.5);
+}
+html[data-theme="light"] .card:hover,
+html[data-theme="light"] .card-link:hover,
+html[data-theme="light"] .game-card:hover { background: #ffffff; box-shadow: 0 18px 40px -26px rgba(16,23,37,.35); }
+
+/* 表单 */
+html[data-theme="light"] textarea,
+html[data-theme="light"] input[type="text"],
+html[data-theme="light"] input[type="number"],
+html[data-theme="light"] select,
+html[data-theme="light"] .composer textarea {
+  background: #fbfcff; border-color: rgba(0,0,0,.12); color: var(--text);
+}
+html[data-theme="light"] output.block,
+html[data-theme="light"] output.mono-big {
+  background: #f7f9fe; border-color: rgba(0,0,0,.1); color: #123;
+}
+html[data-theme="light"] .btn { background: rgba(0,0,0,.045); border-color: rgba(0,0,0,.1); color: var(--text); }
+html[data-theme="light"] .btn:hover { background: rgba(0,0,0,.085); }
+
+/* 入口页 */
+html[data-theme="light"] .landing {
+  background:
+    radial-gradient(1100px 560px at 50% -12%, rgba(8,145,178,.14), transparent 62%),
+    radial-gradient(900px 520px at 82% 112%, rgba(124,58,237,.12), transparent 62%),
+    var(--bg);
+}
+html[data-theme="light"] .home-link { background: rgba(0,0,0,.04); }
+html[data-theme="light"] .back-home { background: rgba(255,255,255,.9); }
+
+/* 游戏盘面 */
+html[data-theme="light"] .snake-board,
+html[data-theme="light"] .tetris-board,
+html[data-theme="light"] .g2048,
+html[data-theme="light"] .mine-grid,
+html[data-theme="light"] .breakout-canvas {
+  background: #e9eef8;
+  border-color: rgba(0,0,0,.1);
+}
+html[data-theme="light"] .snake-board .sc,
+html[data-theme="light"] .tetris-board .tc { background: rgba(0,0,0,.06); }
+html[data-theme="light"] .g2048 .tile[data-v="0"] { background: rgba(0,0,0,.05); }
+html[data-theme="light"] .mc { background: rgba(0,0,0,.1); color: #17202f; }
+html[data-theme="light"] .mc.open { background: rgba(0,0,0,.04); }
+html[data-theme="light"] .mcard .front { background: rgba(0,0,0,.07); }
+html[data-theme="light"] .tt-cell { background: rgba(0,0,0,.05); }
+html[data-theme="light"] .tt-cell:hover { background: rgba(0,0,0,.1); }
+html[data-theme="light"] .g-btn { background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.1); color: var(--text); }
+html[data-theme="light"] .g-btn:hover { background: rgba(0,0,0,.1); }
+html[data-theme="light"] .game-modal { background: rgba(230,236,246,.85); }
+html[data-theme="light"] .game-bar { border-color: rgba(0,0,0,.08); }
+html[data-theme="light"] .game-close { background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.1); }
+
+/* 测试页 */
+html[data-theme="light"] .composer { background: linear-gradient(to top, #f2f5fb 60%, rgba(242,245,251,.85)); }
+html[data-theme="light"] .msg.bot { background: #fff; border-color: rgba(0,0,0,.09); }

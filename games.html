@@ -18,6 +18,8 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
 <link rel="stylesheet" href="home.css?v=3">
 <link rel="stylesheet" href="games.css?v=3">
+<script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
+<link rel="stylesheet" href="theme.css?v=4">
 </head>
 <body>
 <div class="orbs" aria-hidden="true">
@@ -30,7 +32,8 @@
     <a href="./">首页</a>
     <a href="tools.html">工具箱</a>
     <a href="games.html" class="active">小游戏</a>
-    <a href="index.html#about">关于</a>
+    <a href="about.html">关于</a>
+    <button class="theme-btn" type="button" aria-label="切换主题">☀️</button>
   </div>
 </nav>
 
@@ -62,5 +65,6 @@
 </footer>
 <script src="games.js"></script>
 <script src="pwa.js"></script>
+<script src="theme.js"></script>
 </body>
 </html>

@@ -97,7 +97,28 @@
     <button class="jump" data-k="83" type="button">跳</button></div>
 </div>
 <p class="tip" style="margin-top:-6px"><b>地图界面：</b>◀ ▶ 选关，点「开始」进关卡</p>
+<p class="tip" style="margin-bottom:8px"><button id="jumpLevel" type="button" class="quick">▶▶ 直接开始第 1 关</button></p>
 <p class="tip"><b>地图上：◀ ▶ 走到带数字的关卡 → 点「开始」进关卡</b><br>关内：◀ ▶ 移动 · 跑/火 加速·发射 · 跳 跳跃</p>
+<style>
+  .quick{display:block;width:100%;max-width:640px;margin:0 auto 10px;padding:14px;border-radius:14px;border:1px solid rgba(52,211,153,.6);background:rgba(52,211,153,.22);color:#d7ffe9;font:700 15px/1 system-ui;cursor:pointer}
+  .quick:active{background:rgba(52,211,153,.45)}
+</style>
+<script>
+document.getElementById("jumpLevel") && document.getElementById("jumpLevel").addEventListener("click", function () {
+  try {
+    var ms = window.Mario && Mario.GlobalMapState;
+    if (ms) {
+      ms.LevelDifficulty = 1;
+      ms.LevelType = Mario.LevelType.Overground;
+      Mario.MarioCharacter.LevelString = "1-1";
+      ms.EnterLevel = true;
+      if (typeof ms.Enter === "function") {}
+    } else {
+      alert("游戏还没加载完，等一两秒再点");
+    }
+  } catch (e) { alert("启动失败: " + e.message); }
+});
+</script>
 <script>
 (function () {
   var KEYMAP = { 37: "ArrowLeft", 39: "ArrowRight", 65: "a", 83: "s", 13: "Enter" };

@@ -1,9 +1,9 @@
 /* 口袋小站 · Service Worker（离线可用） */
-const CACHE = "pocket-v3";
+const CACHE = "pocket-v4";
 const ASSETS = [
-  "./", "./index.html", "./tools.html", "./games.html", "./about.html",
+  "./", "./index.html", "./tools.html", "./games.html", "./about.html", "./nes.html",
   "./home.css", "./style.css", "./games.css", "./theme.css",
-  "./theme.js", "./app.js", "./extra.js", "./landing.js", "./games.js", "./pwa.js",
+  "./theme.js", "./app.js", "./extra.js", "./landing.js", "./games.js", "./nes.js", "./pwa.js",
   "./manifest.json", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png",
 ];
 

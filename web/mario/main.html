@@ -93,13 +93,24 @@
   <div class="grp">
     <button class="run" data-k="65" type="button">跑/火</button>
     <button class="jump" data-k="83" type="button">跳</button>
+    <button class="start" data-k="13" type="button">开始</button>
   </div>
 </div>
+<p class="tip" style="margin-top:-6px"><b>地图界面：</b>◀ ▶ 选关，点「开始」进关卡</p>
 <p class="tip">← → 移动 · 跑/火 加速·发射 · 跳 跳跃（键盘：方向键 + A + S）</p>
 <script>
 (function () {
+  var KEYMAP = { 37: "ArrowLeft", 39: "ArrowRight", 65: "a", 83: "s", 13: "Enter" };
   function press(code, down) {
     try { Enjine.KeyboardInput.Pressed[code] = down; } catch (e) {}
+    try {
+      var ev = new KeyboardEvent(down ? "keydown" : "keyup", {
+        key: KEYMAP[code] || "", bubbles: true, cancelable: true
+      });
+      Object.defineProperty(ev, "keyCode", { get: function () { return code; } });
+      Object.defineProperty(ev, "which", { get: function () { return code; } });
+      document.dispatchEvent(ev);
+    } catch (e) {}
   }
   document.querySelectorAll("[data-k]").forEach(function (b) {
     var code = Number(b.dataset.k);

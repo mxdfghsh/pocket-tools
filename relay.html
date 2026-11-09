@@ -10,22 +10,23 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
-<link rel="stylesheet" href="home.css?v=16">
-<link rel="stylesheet" href="theme.css?v=16">
-<link rel="stylesheet" href="skins.css?v=16">
+<link rel="stylesheet" href="home.css?v=17">
+<link rel="stylesheet" href="theme.css?v=17">
+<link rel="stylesheet" href="skins.css?v=17">
 <script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
 <style>
 .wrap{max-width:680px;margin:0 auto;padding:0 20px}
 .box{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
 html[data-theme="light"] .box{background:#fff;border-color:rgba(0,0,0,.09)}
 label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}
-input,textarea{width:100%;font:13px var(--mono,monospace);color:var(--text);background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:11px;padding:12px;outline:0;resize:vertical}
-html[data-theme="light"] input,html[data-theme="light"] textarea{background:#f8fafc;border-color:rgba(0,0,0,.12)}
-input:focus,textarea:focus{border-color:rgba(110,231,255,.5)}
+input,textarea,select{width:100%;font:13px var(--mono,monospace);color:var(--text);background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:11px;padding:12px;outline:0}
+html[data-theme="light"] input,html[data-theme="light"] textarea,html[data-theme="light"] select{background:#f8fafc;border-color:rgba(0,0,0,.12)}
+textarea{resize:vertical}
 #go{width:100%;margin-top:14px;padding:15px;border-radius:13px;border:0;cursor:pointer;font:800 15px/1 inherit;color:#04121a;background:linear-gradient(135deg,var(--accent),var(--accent2))}
 #go:disabled{opacity:.5}
-.hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6}
-.row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-top:18px}
+.mini{display:flex;gap:8px;margin-top:8px}
+.mini button{flex:1;padding:10px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);font:600 12px/1 inherit;cursor:pointer}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-top:6px}
 .m{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:12px;border:1px solid var(--line);margin-bottom:8px;background:rgba(255,255,255,.03);font-size:13px}
 html[data-theme="light"] .m{background:#fbfcff}
 .m .ico{font-size:16px;line-height:1.2}
@@ -35,8 +36,7 @@ html[data-theme="light"] .m{background:#fbfcff}
 .m .txt{font-size:12px;color:var(--muted);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .m.ok{border-color:rgba(52,211,153,.35)}
 .m.bad{border-color:rgba(251,113,133,.35)}
-.m.wait{border-color:rgba(251,191,36,.3);opacity:.75}
-.sum{font-size:13px;color:var(--muted);margin-top:10px}
+.m.wait{opacity:.7}
 </style>
 </head>
 <body>
@@ -55,7 +55,7 @@ html[data-theme="light"] .m{background:#fbfcff}
 <header class="hero-home" style="padding-bottom:8px">
   <p class="eyebrow">MODEL CHECK</p>
   <h1>模型<em>能不能用</em></h1>
-  <p class="lead">一次测一批模型：哪些能用、多快、回什么。不保存任何数据。</p>
+  <p class="lead">选厂商 → 自动带出模型 → 一次批量测。不保存任何数据。</p>
 </header>
 
 <main class="wrap">
@@ -63,24 +63,19 @@ html[data-theme="light"] .m{background:#fbfcff}
     <label>口令</label>
     <input id="token" type="password" placeholder="粘贴中转站口令" autocomplete="off">
 
-    <label>要测的模型（一行一个）</label>
-    <textarea id="models" rows="7">glm-4-flash
-glm-4-plus
-glm-4-air
-glm-4-airx
-glm-4-long
-glm-4v
-glm-4v-plus
-glm-3-turbo</textarea>
+    <label>厂商</label>
+    <select id="prov"><option value="zhipu">智谱</option></select>
 
-    <label>测试用的提问（可改）</label>
+    <label>模型（一行一个）</label>
+    <textarea id="models" rows="6">glm-4-flash</textarea>
+    <div class="mini">
+      <button id="fetch" type="button">↻ 获取该厂商的模型列表</button>
+    </div>
+
+    <label>提问</label>
     <input id="prompt" value="用一句话介绍你自己">
 
     <button id="go" type="button">开始测试</button>
-    <p class="hint">模型名写错、没权限、余额不足，都会在这显示成红色失败。测完刷新即清空，不留数据。</p>
-  </div>
-
-  <div class="box" id="resultsBox" style="display:none">
     <div class="row"><span>结果</span><span id="sum"></span></div>
     <div id="list" style="margin-top:10px"></div>
   </div>
@@ -90,24 +85,75 @@ glm-3-turbo</textarea>
 
 <script>
 (function () {
-  var ORIGIN = "https://relay.3498341186.workers.dev";
-  var PROVIDER = "zhipu";
+  var B = "https://relay.3498341186.workers.dev";
   var $ = function (id) { return document.getElementById(id); };
+  var DEFAULTS = {
+    zhipu: ["glm-4-flash", "glm-4-plus", "glm-4-air", "glm-4-long"],
+    qwen: ["qwen-plus", "qwen-max", "qwen-turbo", "qwen-long"],
+    kimi: ["kimi-k2.6", "kimi-k3.1-pro", "kimi-k2.7-code"],
+    deepseek: ["deepseek-chat", "deepseek-reasoner"],
+    step: ["step-3.5-flash", "step-1o-turbo-vision"],
+    openai: ["gpt-4o-mini"],
+    gemini: ["gemini-2.5-flash"],
+    claude: ["claude-haiku-5-5"],
+    minimax: ["MiniMax-Text-01"],
+    ppio: [],
+    openrouter: [],
+    wandapi: [],
+  };
 
-  function row(name) {
-    var d = document.createElement("div");
-    d.className = "m wait";
-    d.innerHTML = '<span class="ico">⏳</span><div class="body"><div class="name"></div><div class="meta">排队中…</div><div class="txt"></div></div>';
-    d.querySelector(".name").textContent = name;
-    $("list").appendChild(d);
-    return d;
+  function fill(prov) {
+    var d = DEFAULTS[prov];
+    if (d && d.length) $("models").value = d.join("\n");
   }
 
-  async function testOne(name, prompt, token) {
-    var el = row(name);
+  async function health() {
+    try {
+      var r = await fetch(B + "/healthz", { signal: AbortSignal.timeout(12000) });
+      var j = await r.json();
+      var sel = $("prov");
+      sel.innerHTML = "";
+      var names = Object.keys(j.providers || {});
+      names.forEach(function (n) {
+        var o = document.createElement("option");
+        o.value = n; o.textContent = n + (j.providers[n].keySet ? "" : "（无 key）");
+        sel.appendChild(o);
+      });
+      if (j["default"] && names.indexOf(j["default"]) >= 0) sel.value = j["default"];
+      fill(sel.value);
+    } catch (e) {}
+  }
+
+  $("prov").addEventListener("change", function () { fill(this.value); });
+
+  $("fetch").addEventListener("click", async function () {
+    var prov = $("prov").value, tk = $("token").value.trim();
+    if (!tk) { alert("先粘贴口令"); return; }
+    var btn = this; btn.disabled = true; btn.textContent = "获取中…";
+    try {
+      var path = prov === "minimax" ? "/text/chatcompletion_v2" : "/models";
+      var r = await fetch(B + "/" + prov + "/models", { headers: { authorization: "Bearer " + tk }, signal: AbortSignal.timeout(20000) });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      var j = await r.json();
+      var ids = (j.data || j.models || []).map(function (m) { return m.id || m.name; }).filter(Boolean);
+      ids = ids.filter(function (x) { return !/embed|tts|asr|whisper|dall|image|moderation|realtime|audio/i.test(x); });
+      if (!ids.length) throw new Error("没拿到模型列表");
+      $("models").value = ids.slice(0, 12).join("\n");
+    } catch (e) {
+      alert("获取失败：" + e.message + "\n（有些厂商不支持列模型，用默认的就行）");
+    }
+    btn.disabled = false; btn.textContent = "↻ 获取该厂商的模型列表";
+  });
+
+  async function testOne(prov, name, prompt, token) {
+    var d = document.createElement("div");
+    d.className = "m wait";
+    d.innerHTML = '<span class="ico">⏳</span><div class="body"><div class="name"></div><div class="meta">测试中…</div><div class="txt"></div></div>';
+    d.querySelector(".name").textContent = name;
+    $("list").appendChild(d);
     var t0 = Date.now(), first = 0, chars = 0, text = "";
     try {
-      var r = await fetch(ORIGIN + "/" + PROVIDER + "/chat/completions", {
+      var r = await fetch(B + "/" + prov + "/chat/completions", {
         method: "POST",
         headers: { "content-type": "application/json", authorization: "Bearer " + token, accept: "text/event-stream" },
         body: JSON.stringify({ model: name, stream: true, messages: [{ role: "user", content: prompt }], max_tokens: 40 }),
@@ -116,16 +162,14 @@ glm-3-turbo</textarea>
       if (!r.ok) {
         var b = await r.text();
         var msg = "HTTP " + r.status;
-        try { var j = JSON.parse(b); if (j.error && j.error.message) msg += "：" + j.error.message; } catch (e) {}
-        el.className = "m bad";
-        el.querySelector(".ico").textContent = "✗";
-        el.querySelector(".meta").textContent = msg.slice(0, 90);
+        try { var j = JSON.parse(b); msg += "：" + ((j.error && j.error.message) || j.message || ""); } catch (e) {}
+        d.className = "m bad"; d.querySelector(".ico").textContent = "✗";
+        d.querySelector(".meta").textContent = msg.slice(0, 100);
         return false;
       }
       var reader = r.body.getReader(), dec = new TextDecoder(), buf = "";
       for (;;) {
-        var x = await reader.read();
-        if (x.done) break;
+        var x = await reader.read(); if (x.done) break;
         buf += dec.decode(x.value, { stream: true });
         var lines = buf.split("\n"); buf = lines.pop();
         for (var i = 0; i < lines.length; i++) {
@@ -135,49 +179,43 @@ glm-3-turbo</textarea>
           if (!data || data === "[DONE]") continue;
           try {
             var p = JSON.parse(data);
-            var d = p.choices && p.choices[0] && p.choices[0].delta && p.choices[0].delta.content;
-            if (d) { if (!first) first = Date.now() - t0; chars++; text += d; }
+            var c = p.choices && p.choices[0] && p.choices[0].delta && p.choices[0].delta.content;
+            if (c) { if (!first) first = Date.now() - t0; chars++; text += c; }
           } catch (e) {}
         }
       }
       var total = Date.now() - t0;
-      var tps = chars ? (chars / (total / 1000)).toFixed(1) : "0";
-      el.className = "m ok";
-      el.querySelector(".ico").textContent = "✓";
-      el.querySelector(".meta").textContent = "首字 " + (first || "?") + "ms · 共 " + total + "ms · " + tps + " 字/秒";
-      el.querySelector(".txt").textContent = text.slice(0, 60) || "（无内容）";
+      d.className = "m ok"; d.querySelector(".ico").textContent = "✓";
+      d.querySelector(".meta").textContent = "首字 " + (first || "?") + "ms · 共 " + total + "ms · " + (chars ? (chars / (total / 1000)).toFixed(1) : "0") + " 字/秒";
+      d.querySelector(".txt").textContent = text.slice(0, 60) || "（无内容）";
       return true;
     } catch (e) {
-      el.className = "m bad";
-      el.querySelector(".ico").textContent = "✗";
-      el.querySelector(".meta").textContent = "失败：" + e.message.slice(0, 70);
+      d.className = "m bad"; d.querySelector(".ico").textContent = "✗";
+      d.querySelector(".meta").textContent = "失败：" + e.message.slice(0, 80);
       return false;
     }
   }
 
   $("go").addEventListener("click", async function () {
-    var token = $("token").value.trim();
-    if (!token) { alert("先粘贴口令"); return; }
+    var tk = $("token").value.trim();
+    if (!tk) { alert("先粘贴口令"); return; }
+    var prov = $("prov").value;
     var models = $("models").value.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
     var prompt = $("prompt").value.trim() || "你好";
     if (!models.length) { alert("填几个模型名"); return; }
 
-    $("go").disabled = true;
-    $("go").textContent = "测试中…";
-    $("resultsBox").style.display = "block";
+    this.disabled = true; this.textContent = "测试中…";
     $("list").innerHTML = "";
-    $("sum").textContent = "0 / " + models.length;
-
     var ok = 0;
     for (var i = 0; i < models.length; i++) {
-      var good = await testOne(models[i], prompt, token);
-      if (good) ok++;
-      $("sum").textContent = (i + 1) + " / " + models.length + "（可用 " + ok + "）";
+      if (await testOne(prov, models[i], prompt, tk)) ok++;
+      $("sum").textContent = (i + 1) + "/" + models.length + " · 可用 " + ok;
     }
-    $("go").disabled = false;
-    $("go").textContent = "再测一次";
+    this.disabled = false; this.textContent = "再测一次";
     $("sum").textContent = "共 " + models.length + " 个 · 可用 " + ok + " 个";
   });
+
+  health();
 })();
 </script>
 <script src="theme.js"></script>

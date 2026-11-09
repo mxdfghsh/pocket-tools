@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f19">
+<meta name="description" content="口袋小站 · FC(NES) 模拟器：把自己的 .nes 文件拖进来就能在浏览器里玩，本地运行不上传。">
+<title>FC 模拟器 · 口袋小站</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕹️</text></svg>">
+<link rel="stylesheet" href="home.css?v=5">
+<link rel="stylesheet" href="theme.css?v=5">
+<script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
+<style>
+.emu{max-width:640px;margin:0 auto}
+.screen-box{
+  position:relative;background:#000;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  aspect-ratio:256/240;display:grid;place-items:center;
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.85);
+}
+.screen-box.over{outline:2px dashed var(--accent);outline-offset:-6px}
+#screen{width:100%;height:100%;display:block;image-rendering:pixelated;image-rendering:crisp-edges}
+.emu-empty{
+  position:absolute;inset:0;display:grid;place-items:center;text-align:center;gap:6px;
+  color:#7c879c;font-size:13px;pointer-events:none;padding:20px;
+}
+body.has-rom .emu-empty{display:none}
+.emu-empty b{display:block;color:#cfd8e8;font-size:15px;margin-bottom:4px}
+.emu-bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.emu-bar .grow{flex:1}
+.file-btn{
+  position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:7px;
+  padding:10px 16px;border-radius:11px;cursor:pointer;font-weight:700;font-size:13px;
+  color:#04121a;background:linear-gradient(135deg,var(--accent),var(--accent2));border:0;
+}
+.file-btn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.ebtn{
+  padding:10px 14px;border-radius:11px;cursor:pointer;font:600 13px/1 inherit;
+  color:var(--text);border:1px solid var(--line);background:rgba(255,255,255,.06);
+}
+.ebtn:hover{background:rgba(255,255,255,.13)}
+html[data-theme="light"] .ebtn{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.1)}
+html[data-theme="light"] .ebtn:hover{background:rgba(0,0,0,.1)}
+#status{font-size:12px;color:var(--muted);margin:10px 0 0;min-height:18px}
+.pad{margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.dpad{display:grid;grid-template-columns:repeat(3,52px);grid-template-rows:repeat(3,52px);gap:6px}
+.dpad button{
+  border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.07);
+  color:var(--text);font-size:17px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;
+}
+.dpad button:active{background:rgba(110,231,255,.25)}
+.dpad .u{grid-column:2;grid-row:1}.dpad .l{grid-column:1;grid-row:2}
+.dpad .r{grid-column:3;grid-row:2}.dpad .d{grid-column:2;grid-row:3}
+.ab{display:grid;grid-template-columns:repeat(2,58px);gap:10px}
+.ab button{
+  width:58px;height:58px;border-radius:50%;font:800 16px/1 var(--mono);cursor:pointer;
+  border:1px solid var(--line);color:var(--text);background:rgba(251,113,133,.18);
+  user-select:none;-webkit-user-select:none;touch-action:none;
+}
+.ab button:active{background:rgba(251,113,133,.45)}
+.ss{display:flex;gap:10px;margin-left:auto}
+.ss button{padding:8px 14px;border-radius:999px;font-size:12px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);cursor:pointer}
+html[data-theme="light"] .dpad button,html[data-theme="light"] .ss button{background:rgba(0,0,0,.05)}
+.note{max-width:640px;margin:22px auto 0;font-size:12.5px;color:var(--muted);line-height:1.7}
+.note b{color:#cfd8e8}
+@media(max-width:520px){.dpad{grid-template-columns:repeat(3,46px);grid-template-rows:repeat(3,46px)}.ab button{width:52px;height:52px}}
+</style>
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="./">🧰 <span>口袋小站</span></a>
+  <div class="nav-links">
+    <a href="./">首页</a>
+    <a href="tools.html">工具箱</a>
+    <a href="games.html">小游戏</a>
+    <a href="about.html">关于</a>
+    <button class="theme-btn" type="button" aria-label="切换主题">☀️</button>
+  </div>
+</nav>
+
+<header class="hero-home" style="padding-bottom:26px">
+  <p class="eyebrow">FC EMULATOR</p>
+  <h1>红白机<em>模拟器</em></h1>
+  <p class="lead">把 <code>.nes</code> 文件拖进下面的屏幕就能玩。全程在本机运行，文件不会上传。</p>
+</header>
+
+<main>
+  <div class="emu">
+    <div class="screen-box" id="screenBox">
+      <canvas id="screen"></canvas>
+      <div class="emu-empty">
+        <div><b>拖入 .nes 游戏文件</b>或点下面的「载入 ROM」</div>
+        <div style="font-size:11.5px">支持 .nes / .fds / .unf</div>
+      </div>
+    </div>
+
+    <div class="emu-bar">
+      <label class="file-btn">📂 载入 ROM<input id="rom" type="file" accept=".nes,.fds,.unf,.unif"></label>
+      <button class="ebtn" id="btnPause" type="button">暂停</button>
+      <button class="ebtn" id="btnReset" type="button">重置</button>
+      <button class="ebtn" id="btnMute" type="button">🔊 声音</button>
+      <button class="ebtn" id="btnFull" type="button">全屏</button>
+    </div>
+    <p id="status">还没有载入游戏</p>
+
+    <div class="pad">
+      <div class="dpad">
+        <button class="u" data-btn="4" type="button" aria-label="上">▲</button>
+        <button class="l" data-btn="6" type="button" aria-label="左">◀</button>
+        <button class="r" data-btn="7" type="button" aria-label="右">▶</button>
+        <button class="d" data-btn="5" type="button" aria-label="下">▼</button>
+      </div>
+      <div class="ab">
+        <button data-btn="1" type="button" aria-label="B">B</button>
+        <button data-btn="0" type="button" aria-label="A">A</button>
+      </div>
+      <div class="ss">
+        <button data-btn="2" type="button">SELECT</button>
+        <button data-btn="3" type="button">START</button>
+      </div>
+    </div>
+
+    <p class="note">
+      <b>键盘操作：</b>方向键移动 · <b>Z</b> = A · <b>X</b> = B · <b>Enter</b> = START · <b>Shift</b> = SELECT<br>
+      <b>关于 ROM：</b>模拟器本身不附带任何游戏文件。请使用你自己拥有的 ROM，或公有领域/免费授权的自制游戏。
+    </p>
+  </div>
+</main>
+
+<footer>
+  <p>口袋小站 · FC 模拟器（jsnes）</p>
+  <p class="muted">AV 音效 · 60fps · 本地运行</p>
+</footer>
+
+<script src="jsnes.min.js"></script>
+<script src="nes.js"></script>
+<script src="theme.js"></script>
+<script src="pwa.js"></script>
+</body>
+</html>

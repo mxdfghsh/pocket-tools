@@ -98,6 +98,12 @@ body.touch-on .touch{display:flex}
 <script>
 (function () {
   var status = document.getElementById("dosStatus");
+  window.addEventListener("error", function (e) {
+    if (status) status.textContent = "出错：" + (e.message || "未知错误") + "（可刷新重试）";
+  });
+  window.addEventListener("unhandledrejection", function (e) {
+    if (status) status.textContent = "出错：" + ((e.reason && e.reason.message) || e.reason) + "（可刷新重试）";
+  });
   if (!window.Dos) { status.textContent = "模拟器脚本加载失败"; return; }
   try {
     Dos(document.getElementById("dos"), {

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f19">
+<meta name="robots" content="noindex">
+<title>中转站检测 · 口袋小站</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛰️</text></svg>">
+<link rel="stylesheet" href="home.css?v=14">
+<link rel="stylesheet" href="theme.css?v=14">
+<link rel="stylesheet" href="skins.css?v=14">
+<script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
+<style>
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+.card{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+html[data-theme="light"] .card{background:#fff;border-color:rgba(0,0,0,.09)}
+label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px}
+input,select{width:100%;font:13px var(--mono,monospace);color:var(--text);background:rgba(0,0,0,.28);border:1px solid var(--line);border-radius:10px;padding:11px 13px;outline:0}
+html[data-theme="light"] input,html[data-theme="light"] select{background:#f8fafc;border-color:rgba(0,0,0,.12)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+button{flex:1;min-width:130px;padding:13px 16px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);font:700 13px/1 inherit;cursor:pointer}
+button.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#04121a;border:0}
+button:active{transform:scale(.98)}
+#out{margin-top:18px}
+.res{display:grid;grid-template-columns:110px 1fr;gap:6px 12px;font-size:13px;margin-top:10px}
+.res dt{color:var(--muted)}
+.res dd{margin:0;font-family:var(--mono,monospace);word-break:break-all}
+.badge{display:inline-block;padding:2px 9px;border-radius:99px;font:700 11px/1.6 var(--mono);margin-right:6px}
+.ok{background:rgba(52,211,153,.18);color:#34d399;border:1px solid rgba(52,211,153,.4)}
+.bad{background:rgba(251,113,133,.18);color:#fb7185;border:1px solid rgba(251,113,133,.4)}
+.warn{background:rgba(251,191,36,.18);color:#fbbf24;border:1px solid rgba(251,191,36,.4)}
+.log{font:12px/1.7 var(--mono,monospace);color:var(--muted);white-space:pre-wrap;max-height:220px;overflow:auto;margin-top:12px}
+p.note{font-size:12px;color:var(--muted);line-height:1.7}
+</style>
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="./">🧰 <span>口袋小站</span></a>
+  <div class="nav-links">
+    <a href="./">首页</a>
+    <a href="tools.html">工具箱</a>
+    <a href="hub.html">游戏</a>
+    <a href="about.html">关于</a>
+    <button class="theme-btn" type="button" aria-label="切换主题">☀️</button>
+  </div>
+</nav>
+
+<header class="hero-home" style="padding-bottom:10px">
+  <p class="eyebrow">RELAY CHECK</p>
+  <h1>中转站<em>检测</em></h1>
+  <p class="lead">测连通性、延迟、首字时间和生成速度。**不保存任何数据**——口令只在这个页面内存里，刷新就没了。</p>
+</header>
+
+<main class="wrap">
+  <div class="card">
+    <label>中转站地址</label>
+    <input id="origin" value="https://relay.3498341186.workers.dev" spellcheck="false" autocomplete="off">
+    <label>访问口令（不保存）</label>
+    <input id="token" type="password" placeholder="粘贴口令，仅本次使用" autocomplete="off">
+    <label>上游（从健康检查自动获取）</label>
+    <select id="provider"><option value="zhipu">zhipu</option></select>
+
+    <div class="row">
+      <button class="primary" id="btnAll" type="button">一键全部检测</button>
+      <button id="btnHealth" type="button">健康检查</button>
+      <button id="btnPing" type="button">测延迟</button>
+      <button id="btnSpeed" type="button">测速</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="res" id="out"><dt>状态</dt><dd>点上面按钮开始</dd></div>
+    <div class="log" id="log"></div>
+  </div>
+
+  <p class="note">
+    说明：本页所有请求都由你自己的浏览器直接发往中转站，不经过本站服务器；<b>没有任何数据被保存或上传</b>（口令不写 localStorage，刷新即清空）。
+  </p>
+</main>
+
+<footer><p>口袋小站 · 中转站检测</p><p class="muted">只读检测 · 不保存数据</p></footer>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var out = $("out"), log = $("log");
+  var t0 = 0;
+
+  function say(msg) {
+    var line = "[" + new Date().toLocaleTimeString() + "] " + msg;
+    log.textContent += (log.textContent ? "\n" : "") + line;
+    log.scrollTop = log.scrollHeight;
+  }
+  function set(k, v, cls) {
+    var dd = out.querySelector('[data-v="' + k + '"]');
+    if (!dd) {
+      var dt = document.createElement("dt");
+      dt.textContent = k;
+      dd = document.createElement("dd");
+      dd.setAttribute("data-v", k);
+      out.appendChild(dt);
+      out.appendChild(dd);
+    }
+    dd.textContent = "";
+    if (cls) {
+      var s = document.createElement("span");
+      s.className = "badge " + cls;
+      s.textContent = v;
+      dd.appendChild(s);
+    } else {
+      dd.textContent = v;
+    }
+  }
+  function reset() { out.innerHTML = ""; log.textContent = ""; set("状态", "检测中…"); }
+  function origin() { return $("origin").value.trim().replace(/\/+$/, ""); }
+  function token() { return $("token").value.trim(); }
+
+  // 1) 健康检查
+  async function health(quiet) {
+    var o = origin();
+    say("GET " + o + "/healthz");
+    var t = Date.now();
+    try {
+      var r = await fetch(o + "/healthz", { signal: AbortSignal.timeout(12000) });
+      var ms = Date.now() - t;
+      var j = await r.json();
+      set("健康检查", "HTTP " + r.status + " · " + ms + "ms", r.ok ? "ok" : "bad");
+      set("上游", j.upstream || "-");
+      set("口令保护", j.relayTokenSet ? "已开启" : "未开启", j.relayTokenSet ? "ok" : "warn");
+      var names = j.providers ? Object.keys(j.providers) : [];
+      set("已配置厂商", names.length ? names.join(" / ") : "无", names.length ? "ok" : "bad");
+      if (names.length) {
+        var sel = $("provider");
+        sel.innerHTML = "";
+        names.forEach(function (n) { var op = document.createElement("option"); op.value = n; op.textContent = n + (j.providers[n].keySet ? "（key 已配）" : "（无 key）"); sel.appendChild(op); });
+        if (j["default"] && names.indexOf(j["default"]) >= 0) sel.value = j["default"];
+      }
+      if (!quiet) say("健康检查通过：" + (j.upstream || "-"));
+      return j;
+    } catch (e) {
+      set("健康检查", "失败", "bad");
+      if (!quiet) say("失败：" + e.message + "（可能没开代理 / 地址写错）");
+      return null;
+    }
+  }
+
+  // 2) 延迟：3 次最小请求
+  async function ping(quiet) {
+    var o = origin(), tk = token(), p = $("provider").value;
+    var url = o + "/" + p + "/chat/completions";
+    var arr = [];
+    for (var i = 0; i < 3; i++) {
+      var t = Date.now();
+      try {
+        var r = await fetch(url, {
+          method: "POST",
+          headers: { "content-type": "application/json", authorization: "Bearer " + tk },
+          body: JSON.stringify({ model: $("model") ? $("model").value : "glm-4-flash", messages: [{ role: "user", content: "hi" }], max_tokens: 1 }),
+          signal: AbortSignal.timeout(30000),
+        });
+        var body = await r.text();
+        var ms = Date.now() - t;
+        if (!r.ok) { set("延迟", "HTTP " + r.status, "bad"); if (!quiet) say("请求失败 " + r.status + ": " + body.slice(0, 160)); return; }
+        arr.push(ms);
+        say("第 " + (i + 1) + " 次：" + ms + "ms");
+      } catch (e) {
+        set("延迟", "失败", "bad");
+        if (!quiet) say("请求失败：" + e.message);
+        return;
+      }
+    }
+    arr.sort(function (a, b) { return a - b; });
+    var avg = Math.round(arr.reduce(function (a, b) { return a + b; }, 0) / arr.length);
+    set("延迟", "最低 " + arr[0] + "ms · 平均 " + avg + "ms", arr[0] < 1500 ? "ok" : "warn");
+  }
+
+  // 3) 测速：流式，看首字 + 生成速度
+  async function speed(quiet) {
+    var o = origin(), tk = token(), p = $("provider").value;
+    var url = o + "/" + p + "/chat/completions";
+    var model = $("model") ? $("model").value : "glm-4-flash";
+    var t = Date.now();
+    var first = 0, chunks = 0, text = "";
+    try {
+      var r = await fetch(url, {
+        method: "POST",
+        headers: { "content-type": "application/json", authorization: "Bearer " + tk, accept: "text/event-stream" },
+        body: JSON.stringify({ model: model, stream: true, messages: [{ role: "user", content: "用一句话介绍你自己" }], max_tokens: 80 }),
+        signal: AbortSignal.timeout(60000),
+      });
+      if (!r.ok) { var b = await r.text(); set("测速", "HTTP " + r.status, "bad"); if (!quiet) say("失败：" + b.slice(0, 160)); return; }
+      var reader = r.body.getReader(), dec = new TextDecoder(), buf = "";
+      for (;;) {
+        var x = await reader.read();
+        if (x.done) break;
+        buf += dec.decode(x.value, { stream: true });
+        var lines = buf.split("\n"); buf = lines.pop();
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (line.indexOf("data:") !== 0) continue;
+          var data = line.slice(5).trim();
+          if (!data || data === "[DONE]") continue;
+          try {
+            var j = JSON.parse(data);
+            var d = j.choices && j.choices[0] && j.choices[0].delta && j.choices[0].delta.content;
+            if (d) { if (!first) first = Date.now() - t; chunks++; text += d; }
+          } catch (e) {}
+        }
+      }
+      var total = Date.now() - t;
+      var tps = chunks ? (chunks / (total / 1000)).toFixed(1) : "0";
+      set("首字延迟", first ? first + "ms" : "无", first && first < 2000 ? "ok" : "warn");
+      set("总耗时", total + "ms");
+      set("生成速度", tps + " 字/秒（约 " + chunks + " 字）", Number(tps) > 5 ? "ok" : "warn");
+      if (!quiet) say("返回：" + text.slice(0, 40));
+    } catch (e) {
+      set("测速", "失败", "bad");
+      if (!quiet) say("失败：" + e.message);
+    }
+  }
+
+  $("btnHealth").addEventListener("click", function () { health(false); });
+  $("btnPing").addEventListener("click", function () { ping(false); });
+  $("btnSpeed").addEventListener("click", function () { speed(false); });
+  $("btnAll").addEventListener("click", async function () {
+    reset();
+    var j = await health(true);
+    if (!j) return;
+    await ping(true);
+    await speed(true);
+    say("全部完成");
+  });
+})();
+</script>
+<script src="theme.js"></script>
+<script src="skin.js"></script>
+<meta name="referrer" content="no-referrer">
+</body>
+</html>

@@ -1,0 +1,2667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No Fishing No Life</title>
+<style>
+/* 复古像素样式子集，灵感来自 NES.css（https://github.com/nostalgic-css/NES.css，MIT） */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif; }
+
+body.theme-retro {
+  --bg: #1b2432; --panel: #27314a; --panel2: #202a40; --ink: #e9edf6;
+  --muted: #9aa7c0; --primary: #209cee; --success: #92cc41;
+  --warning: #f7d51d; --error: #e76e55; --line: #0f1522; --shadow: #0d1220;
+}
+body.theme-fresh {
+  --bg: #eef7f4; --panel: #ffffff; --panel2: #f2faf8; --ink: #1f3a33;
+  --muted: #5f7d75; --primary: #2f9e8f; --success: #43a047;
+  --warning: #f0a53a; --error: #e05c4f; --line: #cfe6e0; --shadow: #c2ddd5;
+}
+body.fs-small { font-size: 13px; }
+body.fs-medium { font-size: 15px; }
+body.fs-large { font-size: 18px; }
+
+.app { max-width: 480px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; background: var(--bg); color: var(--ink); position: relative; }
+.view { display: none; flex-direction: column; min-height: 100vh; }
+.view.active { display: flex; }
+
+.nes-btn {
+  display: inline-block; min-height: 44px; padding: 10px 18px; border: 3px solid var(--ink);
+  background: var(--panel2); color: var(--ink); font-size: inherit; cursor: pointer;
+  user-select: none; text-align: center; box-shadow: 0 5px 0 0 var(--shadow); line-height: 1.3;
+}
+.nes-btn.small { min-height: 34px; padding: 4px 10px; box-shadow: 0 3px 0 0 var(--shadow); }
+.nes-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 0 var(--shadow); }
+.nes-btn.small:active { transform: translateY(2px); box-shadow: 0 1px 0 0 var(--shadow); }
+.nes-btn:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: 0 5px 0 0 var(--shadow); }
+.nes-btn.is-primary { background: var(--primary); }
+.nes-btn.is-success { background: var(--success); color: #1f2d3d; }
+.nes-btn.is-warning { background: var(--warning); color: #1f2d3d; }
+.nes-btn.is-error { background: var(--error); }
+
+.panel { background: var(--panel); border: 3px solid var(--ink); box-shadow: 0 5px 0 0 var(--shadow); }
+
+/* ---------- 主菜单 ---------- */
+.menu-wrap { margin: auto; width: 100%; padding: 24px 20px; text-align: center; }
+.game-title { font-size: 2em; letter-spacing: 2px; margin-bottom: 6px; }
+.game-sub { color: var(--muted); margin-bottom: 24px; }
+.menu-btns { display: flex; flex-direction: column; gap: 12px; max-width: 300px; margin: 0 auto; }
+.menu-tip { margin-top: 18px; color: var(--muted); font-size: .9em; }
+
+/* ---------- 建号 ---------- */
+.join-wrap { margin: auto; width: 100%; padding: 20px; }
+.join-title { font-size: 1.1em; margin: 14px 0 8px; }
+.join-title:first-child { margin-top: 0; }
+#join-nick { width: 100%; padding: 10px; font-size: 1em; background: var(--panel2); color: var(--ink); border: 3px solid var(--ink); }
+.slider-row { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+.slider-row .s-name { width: 54px; font-weight: bold; }
+.slider-row input[type=range] { flex: 1; accent-color: var(--primary); min-height: 24px; }
+.slider-row .s-val { width: 40px; text-align: right; font-weight: bold; }
+.slider-row .s-cost { width: 58px; text-align: right; color: var(--muted); font-size: .85em; }
+.join-left { color: var(--success); font-weight: bold; }
+.join-left.over { color: var(--error); }
+.join-btns { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.join-back { margin-top: 12px; }
+
+/* ---------- 游戏主界面 ---------- */
+.game-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--panel); border-bottom: 3px solid var(--ink); }
+.game-main { flex: 1; display: flex; flex-direction: column; padding: 12px; gap: 10px; overflow-y: auto; }
+.log-box { flex: 0 0 auto; background: var(--panel); border: 3px solid var(--ink); box-shadow: 0 5px 0 0 var(--shadow); padding: 8px; }
+.log-list { list-style: none; height: 190px; overflow-y: auto; }
+.log-list li { padding: 3px 2px; border-bottom: 1px dashed var(--line); font-size: .92em; }
+
+.fish-area { display: flex; align-items: center; gap: 10px; }
+.fish-area .fish-main { flex: 1; text-align: center; }
+.fish-area .bait-btn { flex: 0 0 auto; min-width: 110px; }
+.progress-wrap { display: none; }
+.progress-wrap.show { display: block; }
+.progress { height: 16px; border: 3px solid var(--ink); background: var(--panel2); }
+.progress-fill { height: 100%; width: 0%; background: var(--success); }
+.progress-info { text-align: center; font-size: .85em; color: var(--muted); margin-top: 4px; min-height: 1.2em; }
+
+.tab-content { display: flex; flex-direction: column; gap: 10px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.section-title { font-weight: bold; margin: 6px 0 6px; padding-bottom: 4px; border-bottom: 2px solid var(--line); }
+.stub-item { display: flex; justify-content: space-between; gap: 8px; padding: 6px 2px; border-bottom: 1px dashed var(--line); font-size: .9em; }
+.stub-item .tag { color: var(--muted); white-space: nowrap; }
+.stub-item .opts { display: flex; gap: 6px; align-items: center; }
+.info-dot { position: relative; display: inline-block; width: 18px; height: 18px; line-height: 13px; border: 2px solid var(--muted); border-radius: 50%; text-align: center; font-size: 12px; color: var(--muted); cursor: pointer; flex: 0 0 auto; margin-left: 6px; }
+.tip-line { font-size: .85em; color: var(--muted); padding: 5px 2px; border-bottom: 1px dashed var(--line); line-height: 1.6; }
+.me-sub { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-weight: bold; margin-top: 10px; padding-top: 6px; border-top: 2px dashed var(--line); }
+.ach-line { font-size: .85em; color: var(--muted); margin-top: 4px; line-height: 1.7; }
+button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+input.code-input { width: 100%; padding: 10px; font-size: 1em; background: var(--panel2); color: var(--ink); border: 3px solid var(--ink); }
+.stub-item .desc { color: var(--muted); font-size: .85em; }
+
+.player-card { background: var(--panel); border: 3px solid var(--ink); box-shadow: 0 5px 0 0 var(--shadow); padding: 10px; }
+.player-card h3 { margin-bottom: 6px; }
+.info-row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dashed var(--line); font-size: .92em; }
+.info-row .k { color: var(--muted); }
+.me-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+
+.tabbar { display: flex; border-top: 3px solid var(--ink); background: var(--panel); }
+.tabbar button { flex: 1; min-height: 46px; border: none; border-right: 2px solid var(--ink); background: var(--panel2); color: var(--ink); font-size: inherit; cursor: pointer; }
+.tabbar button:last-child { border-right: none; }
+.tabbar button.active { background: var(--success); color: #1f2d3d; font-weight: bold; }
+
+/* ---------- 模态与提示 ---------- */
+.modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
+.modal-mask.open { display: flex; }
+.modal-box { width: 100%; max-width: 420px; background: var(--panel); border: 3px solid var(--ink); box-shadow: 0 8px 0 0 var(--shadow); padding: 16px; color: var(--ink); max-height: 82vh; overflow-y: auto; }
+.modal-title { font-weight: bold; margin-bottom: 10px; border-bottom: 2px solid var(--line); padding-bottom: 6px; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px; flex-wrap: wrap; }
+textarea.save-area { width: 100%; min-height: 130px; background: var(--panel2); color: var(--ink); border: 2px solid var(--ink); font-family: Consolas, monospace; font-size: 12px; padding: 8px; }
+.setting-line { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.setting-line .opts { display: flex; gap: 6px; flex-wrap: wrap; }
+.setting-line label { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+.setting-line input[type=radio], .setting-line input[type=checkbox] { accent-color: var(--primary); width: 18px; height: 18px; }
+
+#toast { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); background: var(--panel); color: var(--ink); border: 3px solid var(--ink); box-shadow: 0 5px 0 0 var(--shadow); padding: 8px 16px; z-index: 99; display: none; max-width: 90vw; }
+#toast.show { display: block; }
+.hidden { display: none !important; }
+.guide-view { position: relative; }
+.guide-skip { position: absolute; top: 10px; right: 10px; z-index: 5; }
+.guide-wrap { margin: auto; width: 100%; padding: 26px 18px; cursor: pointer; }
+.guide-title { font-size: 1.5em; text-align: center; margin-bottom: 6px; }
+.guide-step { color: var(--muted); font-size: .85em; text-align: center; margin-bottom: 12px; }
+.guide-desc { line-height: 1.9; margin-bottom: 12px; white-space: pre-line; }
+.mock-panel { border: 3px solid var(--ink); background: var(--panel); box-shadow: 0 5px 0 0 var(--shadow); padding: 8px; margin-bottom: 12px; }
+.mock-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 5px 2px; border-bottom: 1px dashed var(--line); font-size: .85em; }
+.mock-chip { display: inline-block; padding: 7px 10px; border: 3px solid var(--ink); background: var(--panel2); font-size: .85em; }
+.mock-chip.on { background: var(--success); color: #1f2d3d; }
+.mock-tab { display: flex; border-top: 2px solid var(--ink); margin-top: 8px; }
+.mock-tab span { flex: 1; padding: 8px 0; text-align: center; border-right: 2px solid var(--ink); background: var(--panel2); font-size: .85em; }
+.mock-tab span:last-child { border-right: none; }
+.mock-tab span.on { background: var(--success); color: #1f2d3d; font-weight: bold; }
+.guide-hint { text-align: center; color: var(--muted); margin-top: 12px; font-size: .85em; }
+.ach-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 5px 0; border-bottom: 1px dashed var(--line); font-size: .9em; }
+.ach-row .done { color: var(--success); }
+.ach-row .todo { color: var(--muted); }
+.weight-row { display: flex; justify-content: space-between; font-size: .85em; color: var(--muted); padding: 2px 0; }
+.work-entries { display: flex; gap: 8px; margin-bottom: 8px; }
+.tabbar button { font-size: .92em; }
+</style>
+</head>
+<body class="theme-retro fs-medium">
+<div class="app" id="app">
+
+  <!-- 主菜单 -->
+  <div class="view" id="view-menu">
+    <div class="menu-wrap">
+      <h1 class="game-title">No Fishing No Life</h1>
+      <div class="menu-btns">
+        <button class="nes-btn is-success" id="btn-new">新游戏</button>
+        <button class="nes-btn" id="btn-continue">继续游戏</button>
+        <button class="nes-btn" id="btn-load">读档</button>
+        <button class="nes-btn" id="btn-settings-menu">设置</button>
+        <button class="nes-btn" id="btn-export-menu">导出存档</button>
+        <button class="nes-btn" id="btn-import-menu">导入存档</button>
+        <button class="nes-btn is-error" id="btn-reset-menu">重置</button>
+      </div>
+      <div class="menu-tip" id="menu-tip"></div>
+    </div>
+  </div>
+
+  <!-- 新手引导（演示，点击任意处下一步） -->
+  <div class="view guide-view" id="view-guide">
+    <button class="nes-btn small is-warning guide-skip" id="btn-guide-skip">跳过引导</button>
+    <div class="guide-wrap" id="guide-body"></div>
+  </div>
+
+  <!-- 两步建号 -->
+  <div class="view" id="view-join">
+    <div class="join-wrap">
+      <h2 class="join-title">建号 · 第 1 步：昵称</h2>
+      <input type="text" id="join-nick" maxlength="12" placeholder="留空默认「钓客」">
+      <h2 class="join-title">建号 · 第 2 步：自由加点（剩余 <span class="join-left" id="join-left">220</span> 点）</h2>
+      <div id="join-sliders"></div>
+      <div class="join-btns">
+        <button class="nes-btn" id="btn-random">随机分配</button>
+        <button class="nes-btn" id="btn-clear">清零</button>
+        <button class="nes-btn is-primary" id="btn-confirm">确定建号</button>
+      </div>
+      <button class="nes-btn is-error join-back" id="btn-join-back">返回主菜单</button>
+    </div>
+  </div>
+
+  <!-- 游戏主界面 -->
+  <div class="view" id="view-game">
+    <div class="game-header">
+      <button class="nes-btn small" id="btn-me">我的</button>
+      <span>钱包：<b id="gold-display">0</b></span>
+    </div>
+    <div class="game-main">
+      <div class="log-box"><ul class="log-list" id="log-list"></ul></div>
+
+      <div class="fish-area">
+        <div class="fish-main"><button class="nes-btn is-primary" id="btn-fish">钓鱼</button></div>
+        <button class="nes-btn bait-btn" id="btn-bait">鱼饵：无</button>
+      </div>
+      <div class="progress-wrap" id="progress-wrap">
+        <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="progress-info" id="progress-info"></div>
+      </div>
+
+      <div class="tab-content">
+        <div class="tab-panel active" id="tab-fish">
+          <div class="section-title" data-plain="钓鱼信息">钓鱼信息</div>
+          <div id="fish-info"></div>
+        </div>
+        <div class="tab-panel" id="tab-work">
+          <div class="section-title" data-plain="工作系统">工作系统</div>
+          <div class="work-entries">
+            <button class="nes-btn small" id="btn-daily">每日委托</button>
+            <button class="nes-btn small" id="btn-restaurant">海钓餐馆</button>
+          </div>
+          <div id="daily-panel" class="hidden">
+            <div class="me-sub"><span data-plain="每日委托（每天 3 条，评分越高奖励越高，可刷新）">每日委托（每天 3 条，评分越高奖励越高，可刷新）</span></div>
+            <div id="daily-list"></div>
+          </div>
+          <div id="restaurant-panel" class="hidden">
+            <div class="me-sub"><span data-plain="海钓餐馆（交付后立即刷新新订单）">海钓餐馆（交付后立即刷新新订单）</span></div>
+            <div id="restaurant-list"></div>
+          </div>
+          <div id="work-list"></div>
+        </div>
+        <div class="tab-panel" id="tab-shop">
+          <div class="section-title" data-plain="钓鱼商店">钓鱼商店</div>
+          <div id="shop-fish"></div>
+          <div class="section-title">黑市商店</div>
+          <div id="shop-black"></div>
+        </div>
+        <div class="tab-panel" id="tab-warehouse">
+          <div class="section-title" data-plain="仓库">仓库</div>
+          <div class="ach-line">鱼获自动入库；批量出售 = 保底×数量 + 1d(上限×数量)。餐馆订单会按鱼种扣除。</div>
+          <div id="warehouse-list"></div>
+        </div>
+        <div class="tab-panel" id="tab-me">
+          <div class="player-card" id="player-card"></div>
+          <div class="me-actions">
+            <button class="nes-btn" id="btn-settings">设置</button>
+            <button class="nes-btn" id="btn-save">手动存档</button>
+            <button class="nes-btn" id="btn-export">导出存档</button>
+            <button class="nes-btn" id="btn-import">导入存档</button>
+            <button class="nes-btn is-error" id="btn-reset">重置存档</button>
+            <button class="nes-btn is-warning" id="btn-back-menu">返回主菜单</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tabbar">
+      <button id="tab-btn-fish" class="active" data-plain="钓鱼">钓鱼</button>
+      <button id="tab-btn-work">工作</button>
+      <button id="tab-btn-shop">商店</button>
+      <button id="tab-btn-warehouse">仓库</button>
+      <button id="tab-btn-me">我的</button>
+    </div>
+  </div>
+</div>
+
+<!-- 通用模态 -->
+<div class="modal-mask" id="modal">
+  <div class="modal-box">
+    <div class="modal-title" id="modal-title"></div>
+    <div id="modal-body"></div>
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ================= 常量与配置 =================
+  var SAVE_KEY = "fishing_save_v1";
+  var SETTINGS_KEY = "fishing_settings_v1";
+  var ATTRS = ["力", "体", "技", "意", "智", "魅"];
+  var ATTR_NAMES = { "力": "力量", "体": "体质", "技": "技巧", "意": "意志", "智": "智力", "魅": "魅力" };
+  var RATE = { "力": 1, "体": 1, "技": 1, "意": 1, "智": 1, "魅": 1 }; // 每 1 点属性消耗的自由点（六项均 1:1）
+  var STEP = { "力": 1, "体": 1, "技": 1, "意": 1, "智": 1, "魅": 1 }; // 滑块步进均为 1
+  var BASE = 15, CAP = 100, FREE = 220;
+
+  var ROD_NAMES = ["初始鱼竿", "结实的木质鱼竿", "精钢鱼竿", "钛金鱼竿", "黄金鱼竿", "钻石鱼竿", "奇珍星尘鱼竿", "屌炸天永恒鱼竿"];
+  var ROD_PRICES = [0, 100, 1000, 10000, 100000, 114514, 1919810, 100000000];
+  var ROD_DESC = [
+    "初始鱼竿：仅解锁普通与彩蛋鱼类",
+    "结实的木质鱼竿：普通权重 -3000、稀有权重 +3000（解锁稀有鱼）",
+    "精钢鱼竿：稀有权重 -1000、史诗权重 +1000（解锁史诗鱼）",
+    "钛金鱼竿：史诗权重 -500、传说权重 +500（解锁传说鱼）",
+    "黄金鱼竿：传说权重 -100、黑市商品 1 权重 +150（解锁黑市 1）",
+    "钻石鱼竿：黑市商品 1 权重 -70、黑市商品 2 权重 +80（解锁黑市 2）",
+    "奇珍星尘鱼竿：黑市商品 2 权重 -30、黑市商品 3 权重 +35（解锁黑市 3）",
+    "屌炸天永恒鱼竿：普通/稀有/史诗清空；传说权重 500、彩蛋 30、黑市 80/50/35"
+  ];
+
+  var JOBS = [
+    { id: 1, name: "搬砖", formula: "(力+体)x1d500/8", desc: "累计加成随次数成长，封顶 x1.5，无风险" },
+    { id: 2, name: "牛郎", formula: "(技x0.6+魅x1.0)x1d500/7", desc: "魅力检定 1d200 通过：收益 x1.5 并获黑市商品 1 件" },
+    { id: 3, name: "直播", formula: "(智+魅)x1d500/8", desc: "2 小时内连续直播 x1.5" },
+    { id: 4, name: "写文", formula: "(技+智)x1d500/9", desc: "意志检定通过 x1.5" },
+    { id: 5, name: "打架", formula: "(力+体)x1d500/6", desc: "力量检定 x1.5 / 失败 x0.5（高收益高风险）" },
+    { id: 6, name: "探险", formula: "(1d100-50)x(300+6x平均属性)", desc: "50% 归 0，30% 事件（金额随平均属性成长）" }
+  ];
+  var BAITS = [
+    { name: "小鱼", price: 200, desc: "普通鱼类权重清零" },
+    { name: "大米", price: 1400, desc: "彩蛋大傻权重 +32000" },
+    { name: "棒棒糖", price: 1000, desc: "彩蛋帕秋莉 +10，其余彩蛋 +500" }
+  ];
+  var NET_CATCHES = 10;          // 每张渔网立即结算的钓鱼次数
+  var NET_COMMON_W = 10000000;   // 渔网结算的这 10 次内，普通鱼权重加成（结算后即恢复）
+  var BLACK_ITEMS = [
+    { key: "box", name: "开盒（开启的潘多拉魔盒）", price: 10000, desc: "掷 1d8：1~6 属性+1d10；7~8 大成功/大失败（1d6 选属性）" },
+    { key: "magicBox", name: "魔盒（潘多拉魔盒）", price: 10000, desc: "抵消一次下次开盒的属性减小" },
+    { key: "container", name: "未知的集装箱", price: 10000, desc: "1~8 +1d20000；9 补回成本+1d10×10000；10 补回成本−1d10×10000（可欠钱）" },
+    { key: "net", name: "渔网（一次性）", price: 1000, desc: "使用后立即结算 " + NET_CATCHES + " 次钓鱼（这 " + NET_CATCHES + " 次内普通鱼权重 +" + NET_COMMON_W + "，结算后恢复；不消耗鱼饵、不占冷却）" }
+  ];
+  var FISH = {
+    "普通": ["草鱼", "鲤鱼", "鲫鱼", "鲢鱼", "鳙鱼", "鳊鱼", "白条", "罗非鱼", "泥鳅", "黄鳝", "麦穗鱼", "河虾", "田螺", "河蚌", "鲶鱼", "黄颡鱼"],
+    "稀有": ["鲈鱼", "鳜鱼", "黑鱼", "青鱼", "虹鳟", "翘嘴鲌", "赤眼鳟", "鲮鱼", "银鲴", "鲻鱼", "鳗鲡", "鮰鱼"],
+    "史诗": ["胭脂鱼", "长江刀鱼", "银鱼", "香鱼", "松江鲈鱼", "鲥鱼", "哲罗鲑", "大鲵（娃娃鱼）", "鳗王", "巨型乌鳢"],
+    "传说": ["中华鲟", "白鲟", "金龙鱼", "皇带鱼", "龙鱼", "美人鱼", "鲛人", "锦鲤之王"]
+  };
+  var EGGS = [
+    { name: "烤激光鱼", price: 1000 },
+    { name: "琪露诺", price: 1000 },
+    { name: "大傻", price: 2000 },
+    { name: "帕秋莉", price: 8000 }
+  ];
+  // 彩蛋鱼内部权重：烤激光鱼5 琪露诺5 大傻9 帕秋莉1
+  var EGG_BASE = { "烤激光鱼": 5, "琪露诺": 5, "大傻": 9, "帕秋莉": 1 };
+  // 上钩权重表：索引 0普通 1彩蛋 2稀有 3史诗 4传说 5黑市1 6黑市2 7黑市3
+  var WEIGHTS = [
+    [8000, 20, 0, 0, 0, 0, 0, 0],
+    [5000, 20, 3000, 0, 0, 0, 0, 0],
+    [5000, 20, 2000, 1000, 0, 0, 0, 0],
+    [5000, 20, 2000, 500, 500, 0, 0, 0],
+    [5000, 20, 2000, 500, 400, 150, 0, 0],
+    [5000, 20, 2000, 500, 400, 80, 80, 0],
+    [5000, 20, 2000, 500, 400, 80, 50, 35],
+    [0, 30, 0, 0, 500, 80, 50, 35]
+  ];
+  var BM_KEYS = ["box", "magicBox", "container"];
+  var BM_NAMES = ["开盒", "魔盒", "未知的集装箱"];
+  var BM_SHORT = { box: "开盒", magicBox: "魔盒", container: "集装箱", net: "渔网" };
+  function blackItemByKey(key) {
+    for (var i = 0; i < BLACK_ITEMS.length; i++) if (BLACK_ITEMS[i].key === key) return BLACK_ITEMS[i];
+    return null;
+  }
+  var FISH_ALL = FISH["普通"].concat(FISH["稀有"]).concat(FISH["史诗"]).concat(FISH["传说"]);
+  var EGG_ALL = EGGS.map(function (e) { return e.name; });
+  var ACH_NAMES = {
+    "A01": "初来乍到", "A05": "第一桶金", "A06": "小有积蓄",
+    "B01": "勤恳打工人", "B02": "钓鱼佬", "B03": "签到王", "B05": "腰缠万贯",
+    "B06": "赌徒", "B07": "开盒狂魔", "B08": "探险家",
+    "C03": "钓鱼大师", "C04": "图鉴收集者", "C05": "天选之子", "C06": "非洲酋长",
+    "D01": "氪金大佬", "D02": "永恒钓者", "D03": "富可敌国",
+    "E01": "委托达人", "E02": "餐馆常客"
+  };
+  var ACH_TOTAL = 19;
+  var ACH_ORDER = ["A01", "A05", "A06", "B01", "B02", "B03", "B05", "B06", "B07", "B08", "C03", "C04", "C05", "C06", "D01", "D02", "D03", "E01", "E02"];
+  var ACH_COND = {
+    "A01": "完成建号", "A05": "金币达到 1000", "A06": "金币达到 1 万",
+    "B01": "累计工作 100 次", "B02": "累计钓鱼 100 次", "B03": "累计签到 30 天",
+    "B05": "金币达到 100 万", "B06": "开盒/集装箱累计 50 次", "B07": "开盒 30 次",
+    "B08": "探险 50 次", "C03": "集齐普通~传说 46 种鱼", "C04": "集齐 46 种鱼 + 4 种彩蛋鱼",
+    "C05": "开盒/集装箱大成功", "C06": "开盒/集装箱大失败",
+    "D01": "钓鱼消费累计 100 万", "D02": "拥有屌炸天永恒鱼竿", "D03": "金币达到 1000 万",
+    "E01": "累计完成 100 条每日委托", "E02": "累计交付 50 单餐馆订单"
+  };
+
+  // ================= 状态 =================
+  var save = null;
+  var settings = loadSettings();
+  var joinVals = {};
+  var toastTimer = null;
+
+  // ================= 工具 =================
+  function $(id) { return document.getElementById(id); }
+  function d(n) { n = Math.max(1, Math.floor(n)); return Math.floor(Math.random() * n) + 1; }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function pad(n) { return String(n).padStart(2, "0"); }
+  function fmtTime(t) {
+    var x = new Date(t);
+    return pad(x.getHours()) + ":" + pad(x.getMinutes()) + ":" + pad(x.getSeconds());
+  }
+
+  function makeDot(tip) {
+    var dot = document.createElement("span");
+    dot.className = "info-dot";
+    dot.textContent = "?";
+    dot.title = tip;
+    dot.setAttribute("data-tip", tip);
+    dot.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      var host = dot.parentNode;
+      while (host && host.parentNode && host.className && String(host.className).indexOf("stub-item") === -1 && String(host.className).indexOf("ach-row") === -1) {
+        host = host.parentNode;
+      }
+      if (!host || !host.parentNode) host = dot.parentNode;
+      var next = host.nextSibling;
+      if (next && next.className && String(next.className).indexOf("tip-line") !== -1) {
+        host.parentNode.removeChild(next);
+        return;
+      }
+      var line = document.createElement("div");
+      line.className = "tip-line";
+      line.textContent = "说明：" + tip;
+      host.parentNode.insertBefore(line, host.nextSibling);
+    });
+    return dot;
+  }
+
+  // ================= 鱼竿品级（一品~五品） =================
+  var GRADE_MAX = 5;
+  var GRADE_FACTOR = [0.4, 0.8, 1.6, 3.2]; // 升到 2/3/4/5 品：鱼竿售价 × 系数
+  function currentGrade() { return save && save.fishing.grade ? save.fishing.grade : 1; }
+  function gradeText(rodIdx, grade) { return (grade > 1 ? grade + " 品 " : "") + ROD_NAMES[rodIdx]; }
+  function gradeCost(rodIdx, nextGrade) { return Math.round(ROD_PRICES[rodIdx] * GRADE_FACTOR[nextGrade - 2]); }
+  // 品级说明（商店、钓鱼信息、我的 共用同一份文案）
+  function gradePerkText() {
+    return "每升 1 品：传说权重 +25、彩蛋权重 +3、黑市商品 1/2/3 权重各 +10，上钩时间 -0.3 秒";
+  }
+  function gradeHelpText() {
+    return gradePerkText() + "。升至二/三/四/五品分别花费该鱼竿售价 ×0.4 / ×0.8 / ×1.6 / ×3.2（上限 " + GRADE_MAX + " 品）；购买新鱼竿后品级重置为一品，已投入的升品费用不返还";
+  }
+
+  // ================= 仓库与出售 =================
+  var RARITY_ORDER = ["普通", "稀有", "史诗", "传说", "彩蛋"];
+  var RARITY_RANGE = { "普通": [1, 100], "稀有": [101, 300], "史诗": [201, 700], "传说": [501, 1500] };
+  function warehouseTotal(name) { return (save.warehouse && save.warehouse[name]) || 0; }
+  function addWarehouse(name, n) { save.warehouse[name] = warehouseTotal(name) + n; }
+  function rarityTotal(rarity) {
+    var list = rarity === "彩蛋" ? EGG_ALL : FISH[rarity];
+    var t = 0;
+    for (var i = 0; i < list.length; i++) t += warehouseTotal(list[i]);
+    return t;
+  }
+  function eggPriceOf(name) {
+    for (var i = 0; i < EGGS.length; i++) if (EGGS[i].name === name) return EGGS[i].price;
+    return 0;
+  }
+  function rarityValueRange(rarity, n) {
+    if (n <= 0) return [0, 0];
+    if (rarity === "彩蛋") {
+      var lo = 0, hi = 0, left = n;
+      var prices = [];
+      for (var i = 0; i < EGG_ALL.length; i++) {
+        for (var k = 0; k < warehouseTotal(EGG_ALL[i]); k++) prices.push(eggPriceOf(EGG_ALL[i]));
+      }
+      prices.sort(function (a, b) { return a - b; });
+      for (var i = 0; i < Math.min(n, prices.length); i++) lo += prices[i];
+      for (var i = prices.length - Math.min(n, prices.length); i < prices.length; i++) hi += prices[i];
+      return [lo, hi];
+    }
+    var r = RARITY_RANGE[rarity];
+    return [r[0] * n, r[1] * n];
+  }
+  function sellBatchValue(rarity, n) {
+    if (n <= 0) return 0;
+    if (rarity === "普通") return d(100 * n);
+    if (rarity === "稀有") return 100 * n + d(200 * n);
+    if (rarity === "史诗") return 200 * n + d(500 * n);
+    if (rarity === "传说") return 500 * n + d(1000 * n);
+    return 0;
+  }
+  function takeFromRarity(rarity, n) {
+    var list = (rarity === "彩蛋" ? EGG_ALL : FISH[rarity]).slice();
+    for (var i = list.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = list[i]; list[i] = list[j]; list[j] = t;
+    }
+    var left = n, value = 0;
+    for (var i = 0; i < list.length && left > 0; i++) {
+      var take = Math.min(left, warehouseTotal(list[i]));
+      if (take <= 0) continue;
+      save.warehouse[list[i]] = warehouseTotal(list[i]) - take;
+      left -= take;
+      if (rarity === "彩蛋") value += take * eggPriceOf(list[i]);
+    }
+    return { count: n - left, eggValue: value };
+  }
+  function fishRarity(name) {
+    for (var r in FISH) { if (FISH[r].indexOf(name) !== -1) return r; }
+    for (var i = 0; i < EGGS.length; i++) { if (EGGS[i].name === name) return "彩蛋"; }
+    return null;
+  }
+  function sellSpecies(name, want) {
+    if (!save) return;
+    var have = warehouseTotal(name);
+    if (have <= 0) { showToast("仓库里没有这种鱼"); return; }
+    var r = fishRarity(name);
+    var n = want <= 0 ? have : Math.min(want, have);
+    var value = r === "彩蛋" ? n * eggPriceOf(name) : sellBatchValue(r, n);
+    save.warehouse[name] = have - n;
+    save.gold = Math.round(save.gold + value);
+    addLog("出售 " + name + " ×" + n + "，收入 " + value + " 金币。");
+    if (r) {
+      bumpDaily("sell", r, n);
+      if (r !== "彩蛋") bumpDaily("sell", "任意", n);
+    }
+    earnDaily("fish", value);
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderWarehouse();
+    renderDaily();
+    renderRestaurant();
+    renderShopStub();
+    renderMe();
+  }
+  function sellCategory(rarity, want) {
+    if (!save) return;
+    var have = rarityTotal(rarity);
+    if (have <= 0) { showToast("仓库里没有" + rarity + "类鱼"); return; }
+    var n = want <= 0 ? have : Math.min(want, have);
+    var res = takeFromRarity(rarity, n);
+    n = res.count;
+    if (n <= 0) return;
+    var value = rarity === "彩蛋" ? res.eggValue : sellBatchValue(rarity, n);
+    save.gold = Math.round(save.gold + value);
+    addLog("出售 " + rarity + "类鱼 " + n + " 条，收入 " + value + " 金币。");
+    bumpDaily("sell", rarity, n);
+    if (rarity !== "彩蛋") bumpDaily("sell", "任意", n);
+    earnDaily("fish", value);
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderWarehouse();
+    renderDaily();
+    renderRestaurant();
+    renderShopStub();
+    renderMe();
+  }
+
+  // ================= 每日委托（动作 × 对象 × 数量，评分制） =================
+  var DAILY_TIERS = [
+    { label: "少量", mult: 1, score: 1 },
+    { label: "中等", mult: 2, score: 2 },
+    { label: "大量", mult: 3, score: 4 },
+    { label: "极限", mult: 5, score: 6 }
+  ];
+  var DAILY_UNIT = { catch: "条", bait: "个", work: "次", open: "次", sell: "条", earn: "金币", sign: "" };
+  var DAILY_ACTIONS = [
+    { key: "sign", label: "签到", score: 1, objects: [{ key: "sign", label: "当日签到", score: 1, base: 1, cap: 1 }] },
+    { key: "bait", label: "使用", score: 2, objects: [
+      { key: "小鱼", label: "小鱼", score: 1, base: 3, cap: 15 },
+      { key: "大米", label: "大米", score: 2, base: 3, cap: 10 },
+      { key: "棒棒糖", label: "棒棒糖", score: 3, base: 3, cap: 10 }] },
+    { key: "work", label: "完成", score: 3, objects: [
+      { key: "any", label: "任意工作", score: 1, base: 2, cap: 5 },
+      { key: "1", label: "搬砖", score: 2, base: 2, cap: 5 },
+      { key: "4", label: "写文", score: 2, base: 2, cap: 5 },
+      { key: "3", label: "直播", score: 2, base: 2, cap: 5 },
+      { key: "2", label: "牛郎", score: 3, base: 2, cap: 5 },
+      { key: "5", label: "打架", score: 3, base: 2, cap: 5 },
+      { key: "6", label: "探险", score: 4, base: 2, cap: 5 }] },
+    { key: "open", label: "开启", score: 4, objects: [
+      { key: "box", label: "开盒", score: 1, base: 1, cap: 3 },
+      { key: "container", label: "未知的集装箱", score: 3, base: 1, cap: 3 }] },
+    { key: "earn", label: "赚取", score: 4, objects: [
+      { key: "fish", label: "钓鱼收入", score: 1, base: 5000, cap: 200000, gold: true },
+      { key: "work", label: "工作收入", score: 2, base: 10000, cap: 250000, gold: true },
+      { key: "all", label: "总收入", score: 4, base: 15000, cap: 400000, gold: true }] },
+    { key: "sell", label: "出售", score: 5, objects: [
+      { key: "普通", label: "普通类鱼", score: 1, base: 5, cap: 40 },
+      { key: "任意", label: "任意类鱼", score: 1, base: 5, cap: 40 },
+      { key: "稀有", label: "稀有类鱼", score: 2, base: 3, cap: 20 },
+      { key: "史诗", label: "史诗类鱼", score: 4, base: 2, cap: 10 },
+      { key: "彩蛋", label: "彩蛋类鱼", score: 5, base: 1, cap: 5 },
+      { key: "传说", label: "传说类鱼", score: 6, base: 1, cap: 3 }] },
+    { key: "catch", label: "钓到", score: 6, objects: [
+      { key: "普通", label: "普通鱼", score: 1, base: 8, cap: 60 },
+      { key: "稀有", label: "稀有鱼", score: 2, base: 4, cap: 30 },
+      { key: "史诗", label: "史诗鱼", score: 4, base: 2, cap: 10 },
+      { key: "彩蛋", label: "彩蛋鱼（任意）", score: 5, base: 1, cap: 10 },
+      { key: "传说", label: "传说鱼", score: 6, base: 1, cap: 5 },
+      { key: "烤激光鱼", label: "烤激光鱼", score: 4, base: 1, cap: 3 },
+      { key: "琪露诺", label: "琪露诺", score: 4, base: 1, cap: 3 },
+      { key: "大傻", label: "大傻", score: 5, base: 1, cap: 3 },
+      { key: "帕秋莉", label: "帕秋莉", score: 8, base: 1, cap: 1 }] }
+  ];
+  function rarityCatchable(r) {
+    var w = WEIGHTS[save.fishing.rod] || WEIGHTS[0];
+    var idx = { "普通": 0, "彩蛋": 1, "稀有": 2, "史诗": 3, "传说": 4 }[r];
+    return idx === undefined ? true : w[idx] > 0;
+  }
+  function speciesCatchable(name) {
+    var r = fishRarity(name);
+    return r ? rarityCatchable(r) : true;
+  }
+  function dailyFeasible(a, o) {
+    if (a === "open") {
+      if ((save.bag[o] || 0) <= 0 && save.gold < 10000) return false;
+    }
+    if (a === "catch") {
+      var isRarity = ["普通", "稀有", "史诗", "传说", "彩蛋"].indexOf(o) !== -1;
+      if (isRarity ? !rarityCatchable(o) : !speciesCatchable(o)) return false;
+    }
+    if (a === "sell" && o !== "任意") {
+      if (!rarityCatchable(o) && rarityTotal(o) <= 0) return false;
+    }
+    return true;
+  }
+  function taskFeasibleNow(t) {
+    if (t.a === "catch") {
+      var isRarity = ["普通", "稀有", "史诗", "传说", "彩蛋"].indexOf(t.o) !== -1;
+      return isRarity ? rarityCatchable(t.o) : speciesCatchable(t.o);
+    }
+    if (t.a === "sell" && t.o !== "任意") return rarityCatchable(t.o) || rarityTotal(t.o) > 0;
+    return true;
+  }
+  function fixBlockedDaily() {
+    if (!save) return;
+    var dd = ensureDaily(), changed = false;
+    for (var i = 0; i < dd.tasks.length; i++) {
+      var t = dd.tasks[i];
+      if (t.claimed || t.done) continue;
+      if (!taskFeasibleNow(t)) {
+        var fresh = genDailyTasks();
+        if (fresh.length) { dd.tasks[i] = fresh[Math.floor(Math.random() * fresh.length)]; changed = true; }
+      }
+    }
+    if (changed) { persist(); renderDaily(); addLog("鱼竿更换后，已自动替换当前鱼竿无法完成的委托。"); }
+  }
+  function dailyTaskText(t) {
+    if (t.a === "sign") return "完成当日签到";
+    if (t.a === "earn") return "赚取 " + t.oLabel + " " + t.qty + " 金币";
+    return t.aLabel + " " + t.oLabel + " " + t.qty + " " + (DAILY_UNIT[t.a] || "");
+  }
+  function genDailyTasks() {
+    var pool = [];
+    for (var i = 0; i < DAILY_ACTIONS.length; i++) {
+      var a = DAILY_ACTIONS[i];
+      for (var j = 0; j < a.objects.length; j++) {
+        var o = a.objects[j];
+        if (!dailyFeasible(a.key, o.key)) continue;
+        pool.push({ a: a.key, aLabel: a.label, aScore: a.score, o: o.key, oLabel: o.label, oScore: o.score, base: o.base, cap: o.cap || 0, gold: !!o.gold });
+      }
+    }
+    var picks = [], guard = 0;
+    while (picks.length < 3 && guard++ < 300 && pool.length) {
+      var cand = pool[Math.floor(Math.random() * pool.length)];
+      var dup = false;
+      for (var k = 0; k < picks.length; k++) if (picks[k].a === cand.a && picks[k].o === cand.o) dup = true;
+      if (dup) continue;
+      var tier = DAILY_TIERS[Math.floor(Math.random() * DAILY_TIERS.length)];
+      var rod = save.fishing.rod || 0;
+      var scale = cand.gold ? (1 + rod) : (1 + Math.floor(rod / 2));
+      var qty = Math.max(1, Math.round(cand.base * tier.mult * scale));
+      if (cand.cap > 0 && qty > cand.cap) qty = cand.cap; // 数量上限：避免出现「每天工作 24 次」这类不可能任务
+      var score = cand.aScore + cand.oScore + tier.score;
+      var reward = 10000 + (score - 3) * 10000 + (score >= 20 ? 20000 : 0);
+      picks.push({ a: cand.a, aLabel: cand.aLabel, o: cand.o, oLabel: cand.oLabel, tier: tier.label, qty: qty, score: score, reward: reward, prog: 0, done: false, claimed: false });
+    }
+    return picks;
+  }
+  function ensureDaily() {
+    var today = todayStr();
+    if (!save.daily || save.daily.date !== today || !save.daily.tasks || !save.daily.tasks.length) {
+      save.daily = { date: today, tasks: genDailyTasks(), chest: false };
+    }
+    return save.daily;
+  }
+  // 刷新单条委托：换一条（与另外两条不重复）的可行委托，不限次数
+  function rerollDaily(idx) {
+    if (!save) return;
+    var dd = ensureDaily();
+    var t = dd.tasks[idx];
+    if (!t || t.claimed) return;
+    if (t.done) { showToast("已完成的委托请直接领取"); return; }
+    var fresh = null, guard = 0;
+    while (!fresh && guard++ < 60) {
+      var picks = genDailyTasks();
+      for (var i = 0; i < picks.length; i++) {
+        var dup = false;
+        for (var k = 0; k < dd.tasks.length; k++) {
+          if (k !== idx && dd.tasks[k].a === picks[i].a && dd.tasks[k].o === picks[i].o) dup = true;
+        }
+        if (!dup) { fresh = picks[i]; break; }
+      }
+    }
+    if (!fresh) { showToast("暂时没有可替换的委托"); return; }
+    dd.tasks[idx] = fresh;
+    addLog("刷新委托：" + dailyTaskText(fresh));
+    persist();
+    renderDaily();
+  }
+  function bumpDaily(action, key, amount) {
+    if (!save) return;
+    var dd = ensureDaily(), changed = false;
+    for (var i = 0; i < dd.tasks.length; i++) {
+      var t = dd.tasks[i];
+      if (t.a !== action || t.claimed) continue;
+      var match = (t.o === key) || (t.o === "any");
+      if (action === "catch" && t.o === "彩蛋" && (key === "烤激光鱼" || key === "琪露诺" || key === "大傻" || key === "帕秋莉")) match = true;
+      if (!match) continue;
+      t.prog += amount;
+      if (t.prog >= t.qty) t.done = true;
+      changed = true;
+    }
+    if (changed) { persist(); renderDaily(); }
+  }
+  function earnDaily(kind, amount) {
+    if (!save) return;
+    var dd = ensureDaily();
+    for (var i = 0; i < dd.tasks.length; i++) {
+      var t = dd.tasks[i];
+      if (t.a !== "earn" || t.claimed) continue;
+      if (t.o === kind || t.o === "all") { t.prog += amount; if (t.prog >= t.qty) t.done = true; }
+    }
+    persist();
+    renderDaily();
+  }
+  function claimDaily(idx) {
+    if (!save) return;
+    var dd = ensureDaily();
+    var t = dd.tasks[idx];
+    if (!t || !t.done || t.claimed) return;
+    t.claimed = true;
+    save.gold = Math.round(save.gold + t.reward);
+    save.stats.dailyDone = (save.stats.dailyDone || 0) + 1;
+    var extra = "";
+    if (t.score >= 15) { save.bag.box = (save.bag.box || 0) + 1; extra = "，附加开盒 1 个"; }
+    addLog("委托完成：" + dailyTaskText(t) + "，奖励 " + t.reward + " 金币" + extra + "。");
+    var all = true;
+    for (var i = 0; i < dd.tasks.length; i++) if (!dd.tasks[i].claimed) all = false;
+    if (all && !dd.chest) {
+      dd.chest = true;
+      save.gold = Math.round(save.gold + 50000);
+      save.bag.magicBox = (save.bag.magicBox || 0) + 1;
+      addLog("今日委托全部完成！宝箱：50000 金币 + 魔盒 1 个。");
+    }
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderDaily();
+    renderShopStub();
+    renderMe();
+  }
+  function renderDaily() {
+    var box = $("daily-list");
+    if (!box || !save) return;
+    var dd = ensureDaily();
+    box.innerHTML = "";
+    var head = document.createElement("div");
+    head.className = "ach-line";
+    head.textContent = "遇到做不完的委托，点「刷新」即可换一条，不限次数（每日 3 条的数量档按鱼竿进度放大，但有上限，不会出现做不完的任务）。";
+    box.appendChild(head);
+    for (var i = 0; i < dd.tasks.length; i++) {
+      var t = dd.tasks[i];
+      var row = document.createElement("div");
+      row.className = "stub-item";
+      var left = document.createElement("span");
+      left.textContent = dailyTaskText(t) + "（" + Math.min(t.prog, t.qty) + "/" + t.qty + "，评分 " + t.score + "）";
+      var dot = makeDot("评分 = 动作分 + 对象分 + 数量分；奖励 = 1 万 +（评分 − 3）× 1 万，满分 20 额外 +2 万。刷新不限次数，直到换到你能做的委托为止");
+      left.appendChild(dot);
+      var ops = document.createElement("span");
+      ops.className = "opts";
+      var rbtn = document.createElement("button");
+      rbtn.className = "nes-btn small";
+      rbtn.textContent = "刷新";
+      rbtn.disabled = t.claimed || t.done;
+      (function (k) { rbtn.addEventListener("click", function () { rerollDaily(k); }); })(i);
+      var btn = document.createElement("button");
+      btn.className = "nes-btn small";
+      if (t.claimed) { btn.textContent = "已领取"; btn.disabled = true; }
+      else if (t.done) {
+        btn.textContent = "领取 " + t.reward;
+        btn.className = "nes-btn small is-primary";
+        (function (k) { btn.addEventListener("click", function () { claimDaily(k); }); })(i);
+      } else { btn.textContent = "进行中"; btn.disabled = true; }
+      ops.appendChild(rbtn);
+      ops.appendChild(btn);
+      row.appendChild(left);
+      row.appendChild(ops);
+      box.appendChild(row);
+    }
+  }
+
+  // ================= 海钓餐馆（交付即刷新） =================
+  var RARITY_SCORE = { "普通": 1, "稀有": 3, "史诗": 6, "传说": 12, "彩蛋": 15 };
+  var RARITY_PICK = [
+    { r: "普通", w: 60, qty: [2, 5] },
+    { r: "稀有", w: 25, qty: [1, 3] },
+    { r: "史诗", w: 10, qty: [1, 2] },
+    { r: "传说", w: 3, qty: [1, 1] },
+    { r: "彩蛋", w: 2, qty: [1, 1] }
+  ];
+  function genRestaurantOrder() {
+    var kinds = 1 + Math.floor(Math.random() * 3);
+    var items = [], guard = 0;
+    while (items.length < kinds && guard++ < 60) {
+      var pool = [];
+      for (var pi = 0; pi < RARITY_PICK.length; pi++) {
+        if (rarityCatchable(RARITY_PICK[pi].r) || rarityTotal(RARITY_PICK[pi].r) > 0) pool.push(RARITY_PICK[pi]);
+      }
+      if (!pool.length) pool = RARITY_PICK.slice();
+      var total = 0;
+      for (var i = 0; i < pool.length; i++) total += pool[i].w;
+      var roll = Math.floor(Math.random() * total), acc = 0, pick = pool[0];
+      for (var i = 0; i < pool.length; i++) { acc += pool[i].w; if (roll < acc) { pick = pool[i]; break; } }
+      var list = pick.r === "彩蛋" ? EGG_ALL : FISH[pick.r];
+      var fish = list[Math.floor(Math.random() * list.length)];
+      var dup = false;
+      for (var k = 0; k < items.length; k++) if (items[k].fish === fish) dup = true;
+      if (dup) continue;
+      var q = pick.qty[0] + Math.floor(Math.random() * (pick.qty[1] - pick.qty[0] + 1));
+      items.push({ fish: fish, rarity: pick.r, qty: q });
+    }
+    var D = 0;
+    for (var i = 0; i < items.length; i++) D += RARITY_SCORE[items[i].rarity] * items[i].qty;
+    var mult = D <= 5 ? 1.3 : (D <= 12 ? 1.5 : (D <= 25 ? 1.8 : 2.0));
+    return { items: items, D: D, mult: mult, fixed: D * 2000 };
+  }
+  function refillRestaurant() {
+    if (!save.restaurant) save.restaurant = [];
+    var guard = 0;
+    while (save.restaurant.length < 3 && guard++ < 60) save.restaurant.push(genRestaurantOrder());
+  }
+  function canDeliver(order) {
+    for (var i = 0; i < order.items.length; i++) {
+      if (warehouseTotal(order.items[i].fish) < order.items[i].qty) return false;
+    }
+    return true;
+  }
+  function orderBaseValue(order) {
+    var byR = {}, egg = 0;
+    for (var i = 0; i < order.items.length; i++) {
+      var it = order.items[i];
+      if (it.rarity === "彩蛋") egg += eggPriceOf(it.fish) * it.qty;
+      else byR[it.rarity] = (byR[it.rarity] || 0) + it.qty;
+    }
+    var v = egg;
+    for (var r in byR) v += sellBatchValue(r, byR[r]);
+    return v;
+  }
+  function deliverOrder(idx) {
+    if (!save) return;
+    var order = save.restaurant[idx];
+    if (!order) return;
+    if (!canDeliver(order)) { showToast("仓库里的鱼不够"); return; }
+    for (var i = 0; i < order.items.length; i++) {
+      var it = order.items[i];
+      save.warehouse[it.fish] = warehouseTotal(it.fish) - it.qty;
+    }
+    var base = orderBaseValue(order);
+    var reward = Math.round(base * order.mult) + order.fixed;
+    save.gold = Math.round(save.gold + reward);
+    save.stats.restaurantDone = (save.stats.restaurantDone || 0) + 1;
+    addLog("餐馆交付（难度 " + order.D + "）：收入 " + reward + " 金币（x" + order.mult + " 加成 + 固定 " + order.fixed + "）。");
+    save.restaurant.splice(idx, 1);
+    refillRestaurant();
+    earnDaily("fish", reward);
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderRestaurant();
+    renderWarehouse();
+    renderShopStub();
+    renderMe();
+  }
+  function rerollOrder(idx) {
+    if (!save || !save.restaurant[idx]) return;
+    save.restaurant[idx] = genRestaurantOrder();
+    persist();
+    renderRestaurant();
+  }
+  function renderRestaurant() {
+    var box = $("restaurant-list");
+    if (!box || !save) return;
+    refillRestaurant();
+    box.innerHTML = "";
+    for (var i = 0; i < save.restaurant.length; i++) {
+      var o = save.restaurant[i];
+      var row = document.createElement("div");
+      row.className = "stub-item";
+      var left = document.createElement("span");
+      var parts = [];
+      for (var k = 0; k < o.items.length; k++) parts.push(o.items[k].fish + "×" + o.items[k].qty);
+      left.textContent = parts.join(" + ") + "　难度 " + o.D + "　加成 x" + o.mult;
+      var dot = makeDot("交付后按批量售价 ×" + o.mult + " 结算，另加固定 " + o.fixed + " 金币；难度 = 各稀有度分（普1/稀3/史6/传12/彩15）× 数量");
+      left.appendChild(dot);
+      var ops = document.createElement("span");
+      ops.className = "opts";
+      var b1 = document.createElement("button");
+      b1.className = "nes-btn small is-primary";
+      b1.textContent = "交付";
+      b1.disabled = !canDeliver(o);
+      (function (k) { b1.addEventListener("click", function () { deliverOrder(k); }); })(i);
+      var b2 = document.createElement("button");
+      b2.className = "nes-btn small";
+      b2.textContent = "刷新";
+      (function (k) { b2.addEventListener("click", function () { rerollOrder(k); }); })(i);
+      ops.appendChild(b1);
+      ops.appendChild(b2);
+      row.appendChild(left);
+      row.appendChild(ops);
+      box.appendChild(row);
+      var det = document.createElement("div");
+      det.className = "stub-item desc";
+      var s = [];
+      for (var k = 0; k < o.items.length; k++) s.push(o.items[k].fish + " 需 " + o.items[k].qty + " / 有 " + warehouseTotal(o.items[k].fish));
+      det.textContent = s.join("　");
+      box.appendChild(det);
+    }
+  }
+  function renderWarehouse() {
+    var box = $("warehouse-list");
+    if (!box || !save) return;
+    box.innerHTML = "";
+    var total = 0;
+    for (var i = 0; i < RARITY_ORDER.length; i++) total += rarityTotal(RARITY_ORDER[i]);
+    if (total <= 0) {
+      var empty = document.createElement("div");
+      empty.className = "ach-line";
+      empty.textContent = "仓库空空如也，去钓几条鱼吧（鱼获会自动入库）。";
+      box.appendChild(empty);
+      return;
+    }
+    for (var i = 0; i < RARITY_ORDER.length; i++) {
+      var r = RARITY_ORDER[i];
+      var n = rarityTotal(r);
+      if (n <= 0) continue;
+      var range = rarityValueRange(r, n);
+      var row = document.createElement("div");
+      row.className = "stub-item";
+      var left = document.createElement("span");
+      left.textContent = r + "类 " + n + " 条　估值 " + range[0] + " ~ " + range[1];
+      var ops = document.createElement("span");
+      ops.className = "opts";
+      var b1 = document.createElement("button");
+      b1.className = "nes-btn small";
+      b1.textContent = "卖 1";
+      (function (rr) { b1.addEventListener("click", function () { sellCategory(rr, 1); }); })(r);
+      var b10 = document.createElement("button");
+      b10.className = "nes-btn small";
+      b10.textContent = "卖 10";
+      b10.disabled = n < 10;
+      (function (rr) { b10.addEventListener("click", function () { sellCategory(rr, 10); }); })(r);
+      var ball = document.createElement("button");
+      ball.className = "nes-btn small is-primary";
+      ball.textContent = "全卖";
+      (function (rr) { ball.addEventListener("click", function () { sellCategory(rr, 0); }); })(r);
+      ops.appendChild(b1);
+      ops.appendChild(b10);
+      ops.appendChild(ball);
+      row.appendChild(left);
+      row.appendChild(ops);
+      box.appendChild(row);
+      var list = r === "彩蛋" ? EGG_ALL : FISH[r];
+      for (var k = 0; k < list.length; k++) {
+        var fname = list[k];
+        var c = warehouseTotal(fname);
+        if (c <= 0) continue;
+        var srow = document.createElement("div");
+        srow.className = "stub-item";
+        var sl = document.createElement("span");
+        sl.textContent = "　" + fname + "×" + c + "（" + (r === "彩蛋" ? eggPriceOf(fname) + " 金币/条" : "单价 " + RARITY_RANGE[r][0] + "~" + RARITY_RANGE[r][1]) + "）";
+        var sops = document.createElement("span");
+        sops.className = "opts";
+        var s1 = document.createElement("button");
+        s1.className = "nes-btn small";
+        s1.textContent = "卖 1";
+        (function (ff) { s1.addEventListener("click", function () { sellSpecies(ff, 1); }); })(fname);
+        var s10 = document.createElement("button");
+        s10.className = "nes-btn small";
+        s10.textContent = "卖 10";
+        s10.disabled = c < 10;
+        (function (ff) { s10.addEventListener("click", function () { sellSpecies(ff, 10); }); })(fname);
+        var sall = document.createElement("button");
+        sall.className = "nes-btn small is-primary";
+        sall.textContent = "全卖";
+        (function (ff) { sall.addEventListener("click", function () { sellSpecies(ff, 0); }); })(fname);
+        sops.appendChild(s1);
+        sops.appendChild(s10);
+        sops.appendChild(sall);
+        srow.appendChild(sl);
+        srow.appendChild(sops);
+        box.appendChild(srow);
+      }
+    }
+  }
+
+  // ================= 设置 =================
+  function defaultSettings() {
+    return { fontSize: "fs-medium", theme: "theme-retro", autoSave: true, sound: true, tangle: false };
+  }
+  function loadSettings() {
+    try {
+      var s = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "null");
+      return Object.assign(defaultSettings(), s || {});
+    } catch (e) { return defaultSettings(); }
+  }
+  function saveSettings() {
+    try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch (e) {}
+  }
+  function tangle(s) {
+    if (!settings.tangle) return s;
+    s = s.split("饵钓").join("\u0001");
+    s = s.split("钓").join("摸");
+    s = s.split("\u0001").join("饵钓");
+    return s;
+  }
+  function applyTangleStatic() {
+    var els = document.querySelectorAll("[data-plain]");
+    for (var i = 0; i < els.length; i++) {
+      els[i].textContent = tangle(els[i].getAttribute("data-plain"));
+    }
+  }
+  function applySettings() {
+    document.body.className = settings.theme + " " + settings.fontSize;
+    applyTangleStatic();
+  }
+
+  // ================= 存档 =================
+  function freshSave(nick, attrs) {
+    return {
+      version: 1,
+      player: { nickname: nick || "钓客", createdAt: Date.now(), attrs: attrs },
+      gold: 100,
+      stats: { workCount: 0, fishCount: 0, signDays: 0, boxOpen: 0, container: 0, explore: 0, fishSpend: 0, workPerJob: {}, dailyDone: 0, restaurantDone: 0 },
+      bag: { box: 0, magicBox: 0, container: 0, net: 0 },
+      fishing: { rod: 0, grade: 1, baits: { "小鱼": 0, "大米": 0, "棒棒糖": 0 }, activeBait: null, blessings: { "饵钓": 0, "海之眷顾": 0 }, codex: [], countByRarity: {} },
+      warehouse: {},
+      daily: null,
+      restaurant: [],
+      timers: { lastWork: 0, lastLive: 0, liveBroken: false, signDate: "", fishCooldownUntil: 0, hook: null },
+      achievements: []
+    };
+  }
+  function persist() {
+    if (!save) return;
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {}
+  }
+  function autosave() { if (settings.autoSave) persist(); }
+  function loadSave() {
+    try {
+      var raw = localStorage.getItem(SAVE_KEY);
+      if (!raw) return null;
+      var s = JSON.parse(raw);
+      return normalizeSave(s);
+    } catch (e) { return null; }
+  }
+  function clearSave() {
+    try { localStorage.removeItem(SAVE_KEY); } catch (e) {}
+    save = null;
+  }
+  function normalizeSave(s) {
+    if (!s || !s.player || !s.player.attrs) return null;
+    var t = s.timers || {};
+    s.player.nickname = s.player.nickname || "钓客";
+    s.player.createdAt = s.player.createdAt || Date.now();
+    s.gold = Math.round(typeof s.gold === "number" ? s.gold : 100);
+    s.stats = Object.assign({ workCount: 0, fishCount: 0, signDays: 0, boxOpen: 0, container: 0, explore: 0, fishSpend: 0, workPerJob: {}, dailyDone: 0, restaurantDone: 0 }, s.stats || {});
+    s.warehouse = s.warehouse || {};
+    s.restaurant = Array.isArray(s.restaurant) ? s.restaurant : [];
+    if (!s.daily || typeof s.daily !== "object") s.daily = null;
+    s.bag = Object.assign({ box: 0, magicBox: 0, container: 0, net: 0 }, s.bag || {});
+    s.fishing = Object.assign({ rod: 0, grade: 1, baits: { "小鱼": 0, "大米": 0, "棒棒糖": 0 }, activeBait: null, blessings: { "饵钓": 0, "海之眷顾": 0 }, codex: [], countByRarity: {} }, s.fishing || {});
+    if (!s.fishing.grade || s.fishing.grade < 1 || s.fishing.grade > 5) s.fishing.grade = 1;
+    if (!(s.fishing.activeBait in s.fishing.baits) || s.fishing.baits[s.fishing.activeBait] <= 0) s.fishing.activeBait = null;
+    delete s.fishing.netLeft; // v1.2.1 调整：渔网改为立即结算，不再需要剩余次数
+    s.timers = {
+      lastWork: typeof t.lastWork === "number" ? t.lastWork : 0,
+      lastLive: t.lastLive || 0,
+      liveBroken: !!t.liveBroken,
+      signDate: t.signDate || "",
+      fishCooldownUntil: t.fishCooldownUntil || 0,
+      hook: t.hook || null
+    };
+    s.achievements = s.achievements || [];
+    return s;
+  }
+
+  // ================= 视图切换 =================
+  function showView(id) {
+    var views = document.querySelectorAll(".view");
+    for (var i = 0; i < views.length; i++) {
+      views[i].classList.toggle("active", views[i].id === id);
+    }
+  }
+  function goMenu() {
+    refreshMenu();
+    showView("view-menu");
+  }
+  function goJoin() {
+    resetJoin();
+    renderJoin();
+    showView("view-join");
+  }
+  function goGame() {
+    showView("view-game");
+    $("log-list").innerHTML = "";
+    switchTab("fish");
+    updateTopBar();
+    renderFishInfo();
+    renderWorkPanel();
+    renderShopStub();
+    renderWarehouse();
+    renderDaily();
+    renderRestaurant();
+    renderMe();
+    fixBlockedDaily();
+    refreshBaitButton();
+    refreshFishButton();
+  }
+
+  // ================= 日志台 =================
+  function addLog(text) {
+    var li = document.createElement("li");
+    li.textContent = fmtTime(Date.now()) + " " + tangle(text);
+    var ul = $("log-list");
+    ul.appendChild(li);
+    while (ul.children.length > 10) ul.removeChild(ul.firstChild);
+    ul.scrollTop = ul.scrollHeight;
+  }
+
+  // ================= 提示与模态 =================
+  function showToast(msg) {
+    var t = $("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove("show"); }, 1600);
+  }
+  function openModal(title, body, actions) {
+    $("modal-title").textContent = title;
+    var b = $("modal-body");
+    b.innerHTML = "";
+    b.appendChild(body);
+    var a = $("modal-actions");
+    a.innerHTML = "";
+    for (var i = 0; i < actions.length; i++) {
+      var btn = document.createElement("button");
+      btn.className = "nes-btn " + (actions[i].cls || "");
+      btn.textContent = actions[i].label;
+      btn.addEventListener("click", actions[i].fn);
+      a.appendChild(btn);
+    }
+    $("modal").classList.add("open");
+  }
+  function closeModal() { $("modal").classList.remove("open"); }
+  function openConfirm(text, onOk) {
+    var p = document.createElement("p");
+    p.textContent = text;
+    openModal("确认", p, [
+      { label: "确定", cls: "is-error", fn: function () { closeModal(); onOk(); } },
+      { label: "取消", fn: function () { closeModal(); } }
+    ]);
+  }
+
+  // ================= 主菜单 =================
+  function refreshMenu() {
+    var has = !!loadSave();
+    $("btn-continue").disabled = !has;
+    $("btn-load").disabled = !has;
+    $("menu-tip").textContent = has ? "检测到存档，可继续游戏或读档。" : "暂无存档，请点「新游戏」开始。";
+  }
+
+  // ================= 两步建号（滑块加点） =================
+  function resetJoin() {
+    joinVals = {};
+    for (var i = 0; i < ATTRS.length; i++) joinVals[ATTRS[i]] = BASE;
+  }
+  function costOf(a) { return (joinVals[a] - BASE) * RATE[a]; }
+  function totalCost() {
+    var t = 0;
+    for (var i = 0; i < ATTRS.length; i++) t += costOf(ATTRS[i]);
+    return t;
+  }
+  function clampAttr(a) {
+    var others = FREE - totalCost() + costOf(a);
+    var maxInc = Math.floor(others / RATE[a]);
+    maxInc -= maxInc % STEP[a];
+    var maxV = BASE + maxInc;
+    if (maxV > CAP) maxV = CAP - ((CAP - BASE) % STEP[a] || 0);
+    if (joinVals[a] > maxV) joinVals[a] = maxV;
+    if (joinVals[a] < BASE) joinVals[a] = BASE;
+  }
+  function renderJoin() {
+    var left = FREE - totalCost();
+    var el = $("join-left");
+    el.textContent = left;
+    el.classList.toggle("over", left < 0);
+    for (var i = 0; i < ATTRS.length; i++) {
+      var a = ATTRS[i];
+      var row = $("slider-" + a);
+      if (!row) continue;
+      row.querySelector(".s-val").textContent = joinVals[a];
+      row.querySelector(".s-cost").textContent = "+" + costOf(a) + " 点";
+      row.querySelector("input").value = joinVals[a];
+    }
+  }
+  function buildSliders() {
+    var box = $("join-sliders");
+    box.innerHTML = "";
+    for (var i = 0; i < ATTRS.length; i++) {
+      var a = ATTRS[i];
+      var row = document.createElement("div");
+      row.className = "slider-row";
+      row.id = "slider-" + a;
+      var name = document.createElement("span");
+      name.className = "s-name";
+      name.textContent = ATTR_NAMES[a];
+      var input = document.createElement("input");
+      input.type = "range";
+      input.min = BASE;
+      input.max = CAP;
+      input.step = STEP[a];
+      input.value = BASE;
+      input.addEventListener("input", function (ev) {
+        joinVals[ev.target.dataset.a] = parseInt(ev.target.value, 10);
+        clampAttr(ev.target.dataset.a);
+        renderJoin();
+      });
+      input.dataset.a = a;
+      var val = document.createElement("span");
+      val.className = "s-val";
+      val.textContent = BASE;
+      var cost = document.createElement("span");
+      cost.className = "s-cost";
+      cost.textContent = "+0 点";
+      row.appendChild(name);
+      row.appendChild(input);
+      row.appendChild(val);
+      row.appendChild(cost);
+      box.appendChild(row);
+    }
+  }
+  function randomJoin() {
+    resetJoin();
+    var guard = 0;
+    while (guard++ < 2000) {
+      var left = FREE - totalCost();
+      if (left <= 0) break;
+      var cands = [];
+      for (var i = 0; i < ATTRS.length; i++) {
+        var a = ATTRS[i];
+        if (joinVals[a] + STEP[a] <= CAP && RATE[a] <= left) cands.push(a);
+      }
+      if (!cands.length) break;
+      var pick = cands[Math.floor(Math.random() * cands.length)];
+      joinVals[pick] += STEP[pick];
+    }
+    renderJoin();
+  }
+  function confirmJoin() {
+    if (totalCost() > FREE) { showToast("自由点超出上限 220"); return; }
+    var attrs = {};
+    for (var i = 0; i < ATTRS.length; i++) attrs[ATTRS[i]] = joinVals[ATTRS[i]];
+    var nick = $("join-nick").value.trim();
+    save = freshSave(nick, attrs);
+    save.achievements.push("A01");
+    persist();
+    goGame();
+    addLog("欢迎，" + save.player.nickname + "！建号成功，初始金币 100。");
+    addLog("成就解锁：A01 初来乍到。");
+  }
+
+  // ================= 游戏界面更新 =================
+  function updateTopBar() {
+    $("gold-display").textContent = save ? Math.round(save.gold) : 0;
+  }
+  function renderFishInfo() {
+    var box = $("fish-info");
+    box.innerHTML = "";
+    if (!save) return;
+    var rows = [
+      ["当前鱼竿", gradeText(save.fishing.rod, currentGrade())],
+      ["鱼竿品级", currentGrade() + " / " + GRADE_MAX + " 品"],
+      ["品级效果", gradePerkText()],
+      ["累计钓鱼", save.stats.fishCount + " 次"],
+      ["图鉴", save.fishing.codex.length + " / 50 种"],
+      ["当前鱼饵", save.fishing.activeBait ? save.fishing.activeBait + "×" + (save.fishing.baits[save.fishing.activeBait] || 0) : "无"],
+      ["饵钓祝福", save.fishing.blessings["饵钓"] + " 级"],
+      ["海之眷顾", save.fishing.blessings["海之眷顾"] + " 级"]
+    ];
+    for (var i = 0; i < rows.length; i++) {
+      var r = document.createElement("div");
+      r.className = "info-row";
+      var k = document.createElement("span");
+      k.className = "k";
+      k.textContent = rows[i][0];
+      var v = document.createElement("span");
+      v.textContent = rows[i][1];
+      r.appendChild(k);
+      r.appendChild(v);
+      box.appendChild(r);
+    }
+    var sr = document.createElement("div");
+    sr.className = "info-row";
+    var sk = document.createElement("span");
+    sk.className = "k";
+    sk.textContent = "状态";
+    var sv = document.createElement("span");
+    sv.id = "fish-state";
+    sv.textContent = "空闲";
+    sr.appendChild(sk);
+    sr.appendChild(sv);
+    box.appendChild(sr);
+    renderCatchOdds(box);
+  }
+  function renderCatchOdds(box) {
+    if (!save) return;
+    var w = effectiveWeights();
+    var total = w[0] + w[1] + w[2] + w[3] + w[4] + w[5] + w[6] + w[7];
+    if (total <= 0) return;
+    var names = ["普通鱼类", "彩蛋鱼类", "稀有鱼类", "史诗鱼类", "传说鱼类", "黑市商品 1", "黑市商品 2", "黑市商品 3"];
+    var sub = document.createElement("div");
+    sub.className = "me-sub";
+    sub.textContent = tangle("当前出货概率（本竿）");
+    box.appendChild(sub);
+    for (var i = 0; i < 8; i++) {
+      if (w[i] <= 0) continue;
+      var row = document.createElement("div");
+      row.className = "weight-row";
+      var l = document.createElement("span");
+      l.textContent = names[i];
+      var rv = document.createElement("span");
+      rv.textContent = (w[i] / total * 100).toFixed(2) + "%";
+      row.appendChild(l);
+      row.appendChild(rv);
+      box.appendChild(row);
+      if (i === 1) {
+        var egg = document.createElement("div");
+        egg.className = "weight-row";
+        egg.style.color = "var(--ink)";
+        egg.textContent = "彩蛋细分：" + eggOddsText();
+        box.appendChild(egg);
+      }
+    }
+  }
+  function eggOddsText() {
+    if (!save) return "";
+    var parts = [];
+    var ws = [];
+    var tw = 0;
+    for (var i = 0; i < EGGS.length; i++) {
+      var b = EGG_BASE[EGGS[i].name] || 1;
+      var nm = EGGS[i].name;
+      if (save.fishing.activeBait === "大米" && nm === "大傻") b += 32000;
+      if (save.fishing.activeBait === "棒棒糖") {
+        if (nm === "帕秋莉") b += 10;
+        else b += 500;
+      }
+      ws.push([EGGS[i].name, b]);
+      tw += b;
+    }
+    for (var i = 0; i < ws.length; i++) {
+      parts.push(ws[i][0] + " " + (ws[i][1] / tw * 100).toFixed(2) + "%");
+    }
+    return parts.join("　");
+  }
+  function workMaxIncome(jobId) {
+    if (!save) return 0;
+    var A = save.player.attrs;
+    if (jobId === 1) return Math.round((A["力"] + A["体"]) * 500 / 8);
+    if (jobId === 2) return Math.round((A["技"] * 0.5 + A["魅"] * 0.9) * 500 / 6);
+    if (jobId === 3) return Math.round((A["智"] + A["魅"]) * 500 / 8);
+    if (jobId === 4) return Math.round((A["技"] + A["智"]) * 500 / 9);
+    if (jobId === 5) return Math.round((A["力"] + A["体"]) * 500 / 6);
+    return 15000;
+  }
+  function r2(x) { return Math.round(x * 100) / 100; }
+  function todayStr() {
+    var t = new Date();
+    return t.getFullYear() + "-" + pad(t.getMonth() + 1) + "-" + pad(t.getDate());
+  }
+  function unlock(id) {
+    if (save.achievements.indexOf(id) === -1) {
+      save.achievements.push(id);
+      addLog("成就解锁：" + id + " " + ACH_NAMES[id]);
+    }
+  }
+  function gainBlackItem(idx) {
+    save.bag[BM_KEYS[idx]] = (save.bag[BM_KEYS[idx]] || 0) + 1;
+  }
+  function workCooldownLeft() {
+    var t = typeof save.timers.lastWork === "number" ? save.timers.lastWork : 0;
+    return Math.max(0, t + 3600000 - Date.now());
+  }
+  function doSign() {
+    if (!save) return;
+    if (save.timers.signDate === todayStr()) { showToast("今天已签到"); return; }
+    var g = d(100);
+    save.gold = r2(save.gold + g);
+    save.timers.signDate = todayStr();
+    save.stats.signDays = (save.stats.signDays || 0) + 1;
+    bumpDaily("sign", "sign", 1);
+    addLog("签到成功：金币 +" + g + "（累计 " + save.stats.signDays + " 天）。");
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderWorkPanel();
+    renderShopStub();
+    renderMe();
+  }
+  function openResult(lines) {
+    var box = document.createElement("div");
+    for (var i = 0; i < lines.length; i++) {
+      var p = document.createElement("p");
+      p.textContent = tangle(lines[i]);
+      p.style.padding = "3px 0";
+      box.appendChild(p);
+    }
+    openModal("结果", box, [{ label: "确定", cls: "is-primary", fn: closeModal }]);
+  }
+  function doWork(jobId) {
+    if (!save) return;
+    var now = Date.now();
+    var lastWorkAt = typeof save.timers.lastWork === "number" ? save.timers.lastWork : 0;
+    if (now < lastWorkAt + 3600000) { showToast("工作冷却中（所有工作共用）"); return; }
+    var A = save.player.attrs;
+    var lines = [];
+    var income = 0;
+    if (jobId === 1) {
+      income = (A["力"] + A["体"]) * d(500) / 8;
+      var n = (save.stats.workPerJob[1] || 0) + 1;
+      var bonus = 1 + 0.5 * (1 - Math.exp(-n / 15));
+      if (bonus > 1.5) bonus = 1.5;
+      income *= bonus;
+      lines.push("搬砖第 " + n + " 次，累计加成 x" + bonus.toFixed(2));
+    } else if (jobId === 2) {
+      income = (A["技"] * 0.6 + A["魅"] * 1.0) * d(500) / 7;
+      if (d(200) < A["魅"]) {
+        income *= 1.5;
+        var wi = d(3) - 1;
+        gainBlackItem(wi);
+        lines.push("魅力检定通过：收益 x1.5，顾客打赏 " + BM_NAMES[wi] + "（已存入黑市商店）");
+      } else {
+        lines.push("魅力检定未通过，无额外奖励");
+      }
+    } else if (jobId === 3) {
+      income = (A["智"] + A["魅"]) * d(500) / 8;
+      var chain = save.timers.lastLive > 0 && (now - save.timers.lastLive) <= 7200000 && !save.timers.liveBroken;
+      if (chain) { income *= 1.5; lines.push("连播加成 x1.5"); }
+      else { lines.push("未连播（x1）"); }
+      save.timers.lastLive = now;
+      save.timers.liveBroken = false;
+    } else if (jobId === 4) {
+      income = (A["技"] + A["智"]) * d(500) / 9;
+      if (d(100) < A["意"]) { income *= 1.5; lines.push("意志检定通过 x1.5（文思泉涌）"); }
+      else { lines.push("意志检定未通过"); }
+    } else if (jobId === 5) {
+      income = (A["力"] + A["体"]) * d(500) / 6;
+      if (d(100) < A["力"]) { income *= 1.5; lines.push("力量检定通过 x1.5"); }
+      else { income *= 0.5; lines.push("力量检定失败 x0.5"); }
+    } else if (jobId === 6) {
+      var dd = d(100);
+      var avg = 0;
+      for (var ai2 = 0; ai2 < ATTRS.length; ai2++) avg += (A[ATTRS[ai2]] || 0);
+      avg = avg / ATTRS.length;
+      income = Math.max(0, (dd - 50)) * (300 + 6 * avg);
+      save.stats.explore = (save.stats.explore || 0) + 1;
+      lines.push("探险骰 " + dd + "，平均属性 " + Math.round(avg) + "，基础收益 " + Math.round(income));
+      if (d(10) <= 3) {
+        var br = d(10);
+        if (br <= 3) {
+          var ai = d(6) - 1;
+          var an = ATTRS[ai];
+          var gain = r2(d(100) / 20);
+          A[an] = r2((A[an] || 0) + gain);
+          lines.push("奇遇：属性 " + ATTR_NAMES[an] + " +" + gain + "（属性无上限）");
+        } else if (br <= 6) {
+          var wi2 = d(3) - 1;
+          gainBlackItem(wi2);
+          lines.push("事件：获得黑市商品 " + BM_NAMES[wi2] + "（已存入黑市商店）");
+        } else if (br <= 9) {
+          var bonus2 = d(1000) * (1 + Math.floor(avg / 50));
+          income += bonus2;
+          lines.push("事件：金钱彩蛋 +" + bonus2);
+        } else {
+          var jackpot = d(5000) * (1 + Math.floor(avg / 50));
+          income += jackpot;
+          var wi3 = d(3) - 1;
+          gainBlackItem(wi3);
+          lines.push("稀有奇遇：金钱 +" + jackpot + " 且获得 " + BM_NAMES[wi3] + "（已存入黑市商店）");
+        }
+      }
+    }
+    income = Math.round(income);
+    save.gold = Math.round(save.gold) + income;
+    save.stats.workCount = (save.stats.workCount || 0) + 1;
+    save.stats.workPerJob[jobId] = (save.stats.workPerJob[jobId] || 0) + 1;
+    save.timers.lastWork = Date.now();
+    if (jobId !== 3) save.timers.liveBroken = true;
+    lines.unshift("「" + JOBS[jobId - 1].name + "」完成，收入 " + income + " 金币");
+    bumpDaily("work", String(jobId), 1);
+    earnDaily("work", income);
+    addLog(lines[0]);
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderWorkPanel();
+    renderShopStub();
+    renderMe();
+    renderDaily();
+    openResult(lines);
+  }
+  function renderWorkPanel() {
+    var box = $("work-list");
+    box.innerHTML = "";
+    if (!save) return;
+    var signed = save.timers.signDate === todayStr();
+    var srow = document.createElement("div");
+    srow.className = "stub-item";
+    var sl = document.createElement("span");
+    sl.textContent = "签到（每天 +1d100 金币）　累计 " + (save.stats.signDays || 0) + " 天";
+    var sdot = makeDot("每天一次，+1d100 金币（按本地日期，跨天刷新）");
+    sl.appendChild(sdot);
+    var sb = document.createElement("button");
+    sb.className = "nes-btn small";
+    sb.textContent = signed ? "今日已签到" : "签到";
+    sb.disabled = signed;
+    sb.addEventListener("click", doSign);
+    srow.appendChild(sl);
+    srow.appendChild(sb);
+    box.appendChild(srow);
+    for (var i = 0; i < JOBS.length; i++) {
+      var j = JOBS[i];
+      var row = document.createElement("div");
+      row.className = "stub-item";
+      var left = document.createElement("span");
+      left.textContent = j.name + "　" + j.formula;
+      var dot = makeDot(j.desc + "；当前属性下理论最高基础收入约 " + workMaxIncome(j.id) + " 金币（1d500 掷满，不含检定倍率）");
+      left.appendChild(dot);
+      var btn = document.createElement("button");
+      btn.className = "nes-btn small";
+      btn.dataset.job = j.id;
+      (function (id, b) {
+        b.addEventListener("click", function () { doWork(id); });
+      })(j.id, btn);
+      row.appendChild(left);
+      row.appendChild(btn);
+      box.appendChild(row);
+    }
+    refreshWorkCooldowns();
+  }
+  function refreshWorkCooldowns() {
+    if (!save) return;
+    var btns = document.querySelectorAll("#work-list [data-job]");
+    for (var i = 0; i < btns.length; i++) {
+      var left = workCooldownLeft();
+      if (left > 0) {
+        btns[i].disabled = true;
+        btns[i].textContent = "冷却 " + Math.ceil(left / 1000) + " 秒";
+      } else {
+        btns[i].disabled = false;
+        btns[i].textContent = "工作";
+      }
+    }
+  }
+  function renderShopStub() {
+    var fs = $("shop-fish");
+    fs.innerHTML = "";
+    // 鱼竿升级（0 -> 7 逐级解锁）
+    for (var i = 1; i < ROD_NAMES.length; i++) {
+      var row = document.createElement("div");
+      row.className = "stub-item";
+      var left = document.createElement("span");
+      var curRod = i === save.fishing.rod;
+      left.textContent = (curRod ? gradeText(i, currentGrade()) : ROD_NAMES[i]) + "　" + ROD_PRICES[i] + " 金币";
+      var dot = makeDot(curRod ? ROD_DESC[i] + "。当前品级 " + currentGrade() + " / " + GRADE_MAX + "，" + gradePerkText() : ROD_DESC[i]);
+      left.appendChild(dot);
+      var btn = document.createElement("button");
+      btn.className = "nes-btn small";
+      if (i === save.fishing.rod) {
+        if (currentGrade() >= GRADE_MAX) {
+          btn.textContent = "已满品";
+          btn.title = gradeHelpText();
+          btn.disabled = true;
+        } else {
+          var gcost = gradeCost(i, currentGrade() + 1);
+          btn.textContent = "升 " + (currentGrade() + 1) + " 品 " + gcost;
+          btn.title = gradeHelpText();
+          btn.disabled = save.gold < gcost;
+          btn.addEventListener("click", buyGrade);
+        }
+      } else if (i === save.fishing.rod + 1) {
+        btn.textContent = "购买";
+        btn.title = ROD_DESC[i] + "。购买后品级重置为一品";
+        btn.disabled = save.gold < ROD_PRICES[i];
+        (function (idx) {
+          btn.addEventListener("click", function () { buyRod(idx); });
+        })(i);
+      } else {
+        btn.textContent = i < save.fishing.rod ? "已拥有" : "需先升级";
+        btn.disabled = true;
+      }
+      row.appendChild(left);
+      row.appendChild(btn);
+      fs.appendChild(row);
+    }
+    // 鱼竿品级说明行：按钮旁把「升品能带来什么、怎么算钱」写清楚
+    var gradeRow = document.createElement("div");
+    gradeRow.className = "stub-item";
+    var gradeLeft = document.createElement("span");
+    gradeLeft.textContent = "鱼竿品级　当前 " + currentGrade() + " / " + GRADE_MAX + " 品";
+    gradeLeft.appendChild(makeDot(gradeHelpText()));
+    var gradeOps = document.createElement("span");
+    gradeOps.className = "opts";
+    var gradeTag = document.createElement("span");
+    gradeTag.className = "tag";
+    if (currentGrade() >= GRADE_MAX) gradeTag.textContent = "已满品（" + GRADE_MAX + " 品）";
+    else gradeTag.textContent = "下一品：" + (currentGrade() + 1) + " 品，需 " + gradeCost(save.fishing.rod, currentGrade() + 1) + " 金币";
+    gradeOps.appendChild(gradeTag);
+    gradeRow.appendChild(gradeLeft);
+    gradeRow.appendChild(gradeOps);
+    fs.appendChild(gradeRow);
+    // 鱼饵
+    for (var i = 0; i < BAITS.length; i++) {
+      var it = BAITS[i];
+      var row = document.createElement("div");
+      row.className = "stub-item";
+      var left = document.createElement("span");
+      left.textContent = it.name + "（鱼饵）　" + it.price + " 金币　持有 " + (save.fishing.baits[it.name] || 0);
+      var dot = makeDot(it.desc);
+      left.appendChild(dot);
+      var btn = document.createElement("button");
+      btn.className = "nes-btn small";
+      btn.textContent = "购买";
+      btn.disabled = save.gold < it.price;
+      (function (nm, b) {
+        b.addEventListener("click", function () { buyBait(nm); });
+      })(it.name, btn);
+      row.appendChild(left);
+      row.appendChild(btn);
+      fs.appendChild(row);
+    }
+    // 祝福
+    var bless = [["饵钓", "饵钓（祝福）", "10000/级", "每级上钩时间 -5 秒（最高 3 级）"], ["海之眷顾", "海之眷顾（祝福）", "15000/25000/40000", "每级普通权重 -1000、彩蛋权重 +30（最高 3 级）"]];
+    for (var i = 0; i < bless.length; i++) {
+      var kind = bless[i][0];
+      var row = document.createElement("div");
+      row.className = "stub-item";
+      var left = document.createElement("span");
+      var cur = save.fishing.blessings[kind] || 0;
+      left.textContent = bless[i][1] + "　" + bless[i][2] + "　当前 " + cur + "/3 级";
+      var dot = makeDot(bless[i][3]);
+      left.appendChild(dot);
+      var btn = document.createElement("button");
+      btn.className = "nes-btn small";
+      if (cur >= 3) {
+        btn.textContent = "满级";
+        btn.disabled = true;
+      } else {
+        var cost = kind === "饵钓" ? 10000 : [15000, 25000, 40000][cur];
+        btn.textContent = "升级 " + cost;
+        btn.disabled = save.gold < cost;
+        (function (k, b) {
+          b.addEventListener("click", function () { buyBlessing(k); });
+        })(kind, btn);
+      }
+      row.appendChild(left);
+      row.appendChild(btn);
+      fs.appendChild(row);
+    }
+    var bs = $("shop-black");
+    bs.innerHTML = "";
+    for (var i = 0; i < BLACK_ITEMS.length; i++) {
+      var it = BLACK_ITEMS[i];
+      var row2 = document.createElement("div");
+      row2.className = "stub-item";
+      var n = document.createElement("span");
+      n.textContent = it.name + "　" + it.price + " 金币　持有 " + (save.bag[it.key] || 0);
+      var dot = makeDot(it.desc);
+      n.appendChild(dot);
+      var ops = document.createElement("span");
+      ops.className = "opts";
+      var buyBtn = document.createElement("button");
+      buyBtn.className = "nes-btn small";
+      buyBtn.textContent = "购买";
+      buyBtn.disabled = save.gold < it.price;
+      (function (key, b) {
+        b.addEventListener("click", function () { buyBlackItem(key); });
+      })(it.key, buyBtn);
+      ops.appendChild(buyBtn);
+      if (it.key !== "magicBox") {
+        var useBtn = document.createElement("button");
+        useBtn.className = "nes-btn small is-primary";
+        useBtn.textContent = "使用";
+        useBtn.disabled = (save.bag[it.key] || 0) <= 0;
+        (function (key, b) {
+          b.addEventListener("click", function () { useBlackItem(key); });
+        })(it.key, useBtn);
+        ops.appendChild(useBtn);
+      } else {
+        var tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = "被动生效";
+        ops.appendChild(tag);
+      }
+      row2.appendChild(n);
+      row2.appendChild(ops);
+      bs.appendChild(row2);
+    }
+  }
+  function buyBlackItem(key) {
+    if (!save) return;
+    var item = blackItemByKey(key);
+    if (!item) return;
+    if (save.gold < item.price) { showToast("金币不足"); return; }
+    save.gold = Math.round(save.gold - item.price);
+    save.bag[key] = (save.bag[key] || 0) + 1;
+    addLog("购买黑市商品：" + BM_SHORT[key] + "，花费 " + item.price + " 金币。");
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderShopStub();
+    renderMe();
+  }
+  function useBlackItem(key) {
+    if (!save) return;
+    if ((save.bag[key] || 0) <= 0) { showToast("背包里没有该商品"); return; }
+    save.bag[key]--;
+    if (key === "box") openBox();
+    else if (key === "container") containerGamble();
+    else if (key === "net") useNet();
+  }
+  // 渔网：立即结算 10 次钓鱼（按当前出货概率一次性入账，不消耗鱼饵、不占冷却）
+  function useNet() {
+    if (!save) return;
+    var count = {}, order = [];
+    for (var i = 0; i < NET_CATCHES; i++) {
+      var plan = planCatch(true); // 这 10 次内普通鱼权重 +NET_COMMON_W，之后自动恢复
+      var label = planLabel(plan);
+      if (!count[label]) { count[label] = 0; order.push(label); }
+      count[label]++;
+      settlePlan(plan);
+    }
+    var parts = [];
+    for (var k = 0; k < order.length; k++) parts.push(order[k] + "×" + count[order[k]]);
+    var summary = parts.join("　");
+    var lines = [
+      "撒下渔网，立即结算 " + NET_CATCHES + " 次钓鱼：",
+      summary,
+      "这 " + NET_CATCHES + " 次内普通鱼权重额外 +" + NET_COMMON_W + "（结算结束即恢复，不影响后续抛竿概率）。"
+    ];
+    addLog("使用渔网，立即结算 " + NET_CATCHES + " 次钓鱼：" + summary + "。");
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderFishInfo();
+    renderShopStub();
+    renderWarehouse();
+    renderRestaurant();
+    renderDaily();
+    renderMe();
+    refreshFishButton();
+    refreshBaitButton();
+    openResult(lines);
+  }
+  function openBox() {
+    if (!save) return;
+    save.stats.boxOpen = (save.stats.boxOpen || 0) + 1;
+    var lines = [];
+    var r = d(8);
+    if (r <= 6) {
+      var an = ATTRS[r - 1];
+      var gain = d(10);
+      save.player.attrs[an] = r2((save.player.attrs[an] || 0) + gain);
+      lines.push("开盒（" + r + "）：" + ATTR_NAMES[an] + " +" + gain);
+    } else {
+      // 7~8 大成功/大失败：1d2 定符号、1d6 选 1~6 档（六属性）、1d100 幅度
+      var sign = d(2) === 1 ? 1 : -1;
+      var pick = d(6);
+      var mag = d(100);
+      var an2 = ATTRS[pick - 1];
+      if (sign === 1) {
+        save.player.attrs[an2] = r2((save.player.attrs[an2] || 0) + mag);
+        lines.push("大成功：属性 " + ATTR_NAMES[an2] + " +" + mag);
+      } else {
+        if ((save.bag.magicBox || 0) > 0) {
+          save.bag.magicBox--;
+          lines.push("大失败：属性 " + ATTR_NAMES[an2] + " 减小被魔盒抵消（魔盒 -1）");
+        } else {
+          var loss = Math.min(mag, save.player.attrs[an2] || 0);
+          save.player.attrs[an2] = r2((save.player.attrs[an2] || 0) - loss);
+          lines.push("大失败：属性 " + ATTR_NAMES[an2] + " -" + loss);
+        }
+      }
+      if (sign === 1) unlock("C05");
+      else unlock("C06");
+    }
+    bumpDaily("open", "box", 1);
+    addLog(lines[0]);
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderShopStub();
+    renderMe();
+    openResult(lines);
+  }
+  function containerGamble() {
+    if (!save) return;
+    save.stats.container = (save.stats.container || 0) + 1;
+    var lines = [];
+    var r = d(10);
+    if (r <= 8) {
+      var g = d(20000);
+      save.gold = r2(save.gold + g);
+      lines.push("集装箱（" + r + "）：金钱 +" + g);
+    } else if (r === 9) {
+      var gain9 = d(10) * 10000;
+      save.gold = Math.round(save.gold + 10000 + gain9);
+      lines.push("大成功：补回成本 10000，额外 +" + gain9 + "（净 +" + gain9 + "）");
+      unlock("C05");
+    } else {
+      var loss = d(10) * 10000;
+      save.gold = Math.round(save.gold + 10000 - loss);
+      lines.push("大失败：补回成本 10000，扣 " + loss + "（净 -" + loss + "，可欠钱，余额 " + save.gold + "）");
+      unlock("C06");
+    }
+    bumpDaily("open", "container", 1);
+    addLog(lines[0]);
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderShopStub();
+    renderMe();
+    renderDaily();
+    openResult(lines);
+  }
+  function buyRod(idx) {
+    if (!save) return;
+    var price = ROD_PRICES[idx];
+    if (save.gold < price) { showToast("金币不足"); return; }
+    save.gold -= price;
+    save.fishing.rod = idx;
+    save.fishing.grade = 1;
+    fixBlockedDaily();
+    save.stats.fishSpend = (save.stats.fishSpend || 0) + price;
+    addLog("购买鱼竿：" + ROD_NAMES[idx] + "（一品），花费 " + price + " 金币。");
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderFishInfo();
+    renderShopStub();
+    renderMe();
+  }
+  function buyGrade() {
+    if (!save) return;
+    var rod = save.fishing.rod;
+    var g = currentGrade();
+    if (g >= GRADE_MAX) { showToast("已是五品"); return; }
+    var cost = gradeCost(rod, g + 1);
+    if (save.gold < cost) { showToast("金币不足（需 " + cost + "）"); return; }
+    save.gold -= cost;
+    save.fishing.grade = g + 1;
+    save.stats.fishSpend = (save.stats.fishSpend || 0) + cost;
+    addLog("炼化成功：" + gradeText(rod, save.fishing.grade) + "（花费 " + cost + " 金币）。");
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderFishInfo();
+    renderShopStub();
+    renderMe();
+  }
+  function buyBait(name) {
+    if (!save) return;
+    var item = null;
+    for (var i = 0; i < BAITS.length; i++) if (BAITS[i].name === name) item = BAITS[i];
+    if (!item || save.gold < item.price) { showToast("金币不足"); return; }
+    save.gold -= item.price;
+    save.fishing.baits[name] = (save.fishing.baits[name] || 0) + 1;
+    save.stats.fishSpend = (save.stats.fishSpend || 0) + item.price;
+    addLog("购买鱼饵：" + name + "（花费 " + item.price + "，持有 " + save.fishing.baits[name] + "）");
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderShopStub();
+    renderMe();
+    refreshBaitButton();
+  }
+  function buyBlessing(kind) {
+    if (!save) return;
+    var cur = save.fishing.blessings[kind] || 0;
+    if (cur >= 3) { showToast("已满级"); return; }
+    var cost = kind === "饵钓" ? 10000 : [15000, 25000, 40000][cur];
+    if (save.gold < cost) { showToast("金币不足"); return; }
+    save.gold -= cost;
+    save.fishing.blessings[kind] = cur + 1;
+    save.stats.fishSpend = (save.stats.fishSpend || 0) + cost;
+    addLog("购买祝福：" + kind + " 升至 " + save.fishing.blessings[kind] + " 级（花费 " + cost + "）");
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderFishInfo();
+    renderShopStub();
+    renderMe();
+  }
+  function checkAchievements() {
+    if (!save) return;
+    var list = save.achievements;
+    function add(id) {
+      if (list.indexOf(id) === -1) {
+        list.push(id);
+        addLog("成就解锁：" + id + " " + ACH_NAMES[id]);
+      }
+    }
+    if (save.gold >= 1000) add("A05");
+    if (save.gold >= 10000) add("A06");
+    if (save.gold >= 1000000) add("B05");
+    if (save.gold >= 10000000) add("D03");
+    if (save.stats.fishCount >= 100) add("B02");
+    if ((save.stats.fishSpend || 0) >= 1000000) add("D01");
+    if (save.fishing.rod >= 7) add("D02");
+    if (save.stats.workCount >= 100) add("B01");
+    if (save.stats.signDays >= 30) add("B03");
+    if ((save.stats.boxOpen || 0) + (save.stats.container || 0) >= 50) add("B06");
+    if (save.stats.boxOpen >= 30) add("B07");
+    if (save.stats.explore >= 50) add("B08");
+    if ((save.stats.dailyDone || 0) >= 100) add("E01");
+    if ((save.stats.restaurantDone || 0) >= 50) add("E02");
+    var all46 = true, all50 = true;
+    for (var i = 0; i < FISH_ALL.length; i++) {
+      if (save.fishing.codex.indexOf(FISH_ALL[i]) === -1) { all46 = false; break; }
+    }
+    for (var j = 0; j < EGG_ALL.length; j++) {
+      if (save.fishing.codex.indexOf(EGG_ALL[j]) === -1) { all50 = false; break; }
+    }
+    if (all46) add("C03");
+    if (all46 && all50) add("C04");
+  }
+  function openAchievements() {
+    if (!save) return;
+    var box = document.createElement("div");
+    for (var i = 0; i < ACH_ORDER.length; i++) {
+      var id = ACH_ORDER[i];
+      var done = save.achievements.indexOf(id) !== -1;
+      var row = document.createElement("div");
+      row.className = "ach-row";
+      var left = document.createElement("span");
+      left.className = done ? "done" : "todo";
+      left.textContent = id + " " + ACH_NAMES[id] + (done ? "（已达成）" : "");
+      var dot = makeDot(ACH_COND[id]);
+      left.appendChild(dot);
+      var state = document.createElement("span");
+      state.className = done ? "done" : "todo";
+      state.textContent = done ? "已达成" : "未达成";
+      row.appendChild(left);
+      row.appendChild(state);
+      box.appendChild(row);
+    }
+    openModal("成就（" + save.achievements.length + "/" + ACH_TOTAL + "）", box, [{ label: "关闭", cls: "is-primary", fn: closeModal }]);
+  }
+  function openCheatCode() {
+    if (!save) { showToast("请先建号"); return; }
+    var input = document.createElement("input");
+    input.type = "password";
+    input.className = "code-input";
+    input.placeholder = "输入作弊码";
+    openModal("作弊码验证", input, [
+      {
+        label: "确定", cls: "is-primary", fn: function () {
+          if (input.value.trim() === "kfcfkxqsvw50") {
+            closeModal();
+            openCheatMenu();
+          } else {
+            showToast("作弊码错误");
+          }
+        }
+      },
+      { label: "取消", fn: closeModal }
+    ]);
+  }
+  function openCheatMenu() {
+    if (!save) { showToast("请先建号"); return; }
+    var box = document.createElement("div");
+    var tip = document.createElement("p");
+    tip.textContent = "作弊菜单（测试用，属性无上限）：";
+    box.appendChild(tip);
+    openModal("作弊（测试用）", box, [
+      { label: "金币 +100000000", cls: "is-error", fn: function () { closeModal(); cheatGold(); } },
+      { label: "全属性 +100", cls: "is-error", fn: function () { closeModal(); cheatAttrs(); } },
+      { label: "我不作弊了", cls: "is-warning", fn: function () { closeModal(); } }
+    ]);
+  }
+  function cheatGold() {
+    if (!save) return;
+    save.gold += 100000000;
+    addLog("作弊：获得 100000000 金币。");
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderFishInfo();
+    renderShopStub();
+    renderMe();
+  }
+  function cheatAttrs() {
+    if (!save) return;
+    for (var i = 0; i < ATTRS.length; i++) {
+      save.player.attrs[ATTRS[i]] = (save.player.attrs[ATTRS[i]] || BASE) + 100;
+    }
+    addLog("作弊：全属性 +100（无上限）。");
+    checkAchievements();
+    persist();
+    renderMe();
+    renderFishInfo();
+  }
+  function renderMe() {
+    var box = $("player-card");
+    box.innerHTML = "";
+    if (!save) return;
+    var h = document.createElement("h3");
+    h.textContent = tangle(save.player.nickname) + "　（金币 " + Math.round(save.gold) + "）";
+    box.appendChild(h);
+    var rows = [];
+    for (var i = 0; i < ATTRS.length; i++) {
+      rows.push([ATTR_NAMES[ATTRS[i]], save.player.attrs[ATTRS[i]]]);
+    }
+    rows.push(["图鉴", save.fishing.codex.length + " / 50 种"]);
+    rows.push(["成就", save.achievements.length + " / " + ACH_TOTAL]);
+    rows.push(["当前鱼竿", ROD_NAMES[save.fishing.rod] || "初始鱼竿"]);
+    rows.push(["鱼竿品级", currentGrade() + " / " + GRADE_MAX + " 品" + (currentGrade() < GRADE_MAX ? "（升下一品需 " + gradeCost(save.fishing.rod, currentGrade() + 1) + " 金币，在商店页升品）" : "（已满品）")]);
+    rows.push(["鱼饵数量", "小鱼 " + save.fishing.baits["小鱼"] + " / 大米 " + save.fishing.baits["大米"] + " / 棒棒糖 " + save.fishing.baits["棒棒糖"]]);
+    rows.push(["祝福", "饵钓 " + save.fishing.blessings["饵钓"] + " 级 / 海之眷顾 " + save.fishing.blessings["海之眷顾"] + " 级"]);
+    rows.push(["黑市商店", "开盒 " + save.bag.box + " / 魔盒 " + save.bag.magicBox + " / 集装箱 " + save.bag.container + " / 渔网 " + (save.bag.net || 0)]);
+    var whTotal = 0;
+    for (var ri = 0; ri < RARITY_ORDER.length; ri++) whTotal += rarityTotal(RARITY_ORDER[ri]);
+    rows.push(["仓库", "存鱼 " + whTotal + " 条"]);
+    rows.push(["每日委托", (save.stats.dailyDone || 0) + " 条已完成"]);
+    rows.push(["海钓餐馆", (save.stats.restaurantDone || 0) + " 单已交付"]);
+    for (var i = 0; i < rows.length; i++) {
+      var r = document.createElement("div");
+      r.className = "info-row";
+      var k = document.createElement("span");
+      k.className = "k";
+      k.textContent = rows[i][0];
+      var v = document.createElement("span");
+      v.textContent = rows[i][1];
+      r.appendChild(k);
+      r.appendChild(v);
+      box.appendChild(r);
+    }
+    var detail = document.createElement("div");
+    var t1 = document.createElement("div");
+    t1.className = "me-sub";
+    var t1text = document.createElement("span");
+    t1text.textContent = "成就（" + save.achievements.length + "/" + ACH_TOTAL + "）";
+    t1.appendChild(t1text);
+    var achBtn = document.createElement("button");
+    achBtn.className = "nes-btn small";
+    achBtn.textContent = tangle("查看全部成就");
+    achBtn.addEventListener("click", openAchievements);
+    t1.appendChild(achBtn);
+    detail.appendChild(t1);
+    var t2 = document.createElement("div");
+    t2.className = "me-sub";
+    t2.textContent = "图鉴进度";
+    detail.appendChild(t2);
+    var codexLine = document.createElement("div");
+    codexLine.className = "ach-line";
+    codexLine.textContent = "普通 " + codexCount("普通") + "/16　稀有 " + codexCount("稀有") + "/12　史诗 " + codexCount("史诗") + "/10　传说 " + codexCount("传说") + "/8　彩蛋 " + eggCount() + "/4";
+    detail.appendChild(codexLine);
+    box.appendChild(detail);
+  }
+
+  // ================= Tab 切换 =================
+  function switchTab(name) {
+    var tabs = ["fish", "work", "shop", "warehouse", "me"];
+    for (var i = 0; i < tabs.length; i++) {
+      var active = tabs[i] === name;
+      $("tab-btn-" + tabs[i]).classList.toggle("active", active);
+      $("tab-" + tabs[i]).classList.toggle("active", active);
+    }
+  }
+
+  // ================= 导出 / 导入 / 重置 =================
+  function openExport() {
+    var ta = document.createElement("textarea");
+    ta.className = "save-area";
+    ta.value = save ? JSON.stringify(save, null, 2) : "（无存档）";
+    ta.readOnly = true;
+    openModal("导出存档", ta, [
+      {
+        label: "复制", cls: "is-primary", fn: function () {
+          ta.focus();
+          ta.select();
+          var ok = false;
+          try { ok = document.execCommand("copy"); } catch (e) {}
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(ta.value).then(function () {
+              showToast("已复制到剪贴板");
+            }, function () {});
+          } else {
+            showToast(ok ? "已复制到剪贴板" : "请手动复制");
+          }
+        }
+      },
+      { label: "关闭", fn: closeModal }
+    ]);
+  }
+  function openImport() {
+    var ta = document.createElement("textarea");
+    ta.className = "save-area";
+    ta.placeholder = "粘贴导出的 JSON 存档";
+    openModal("导入存档", ta, [
+      {
+        label: "确认导入", cls: "is-primary", fn: function () {
+          var raw = ta.value.trim();
+          var s = null;
+          try { s = JSON.parse(raw); } catch (e) {}
+          save = normalizeSave(s);
+          if (!save) {
+            showToast("存档格式不正确");
+            return;
+          }
+          persist();
+          closeModal();
+          goMenu();
+          showToast("导入成功");
+        }
+      },
+      { label: "取消", fn: closeModal }
+    ]);
+  }
+  function openReset() {
+    openConfirm("确定重置存档？此操作不可恢复。", function () {
+      clearSave();
+      goMenu();
+      showToast("存档已重置");
+    });
+  }
+
+  // ================= 设置面板 =================
+  function openSettings() {
+    var box = document.createElement("div");
+
+    function line(title) {
+      var d = document.createElement("div");
+      d.className = "setting-line";
+      var k = document.createElement("span");
+      k.textContent = title;
+      var opts = document.createElement("span");
+      opts.className = "opts";
+      d.appendChild(k);
+      d.appendChild(opts);
+      box.appendChild(d);
+      return opts;
+    }
+
+    var optsFont = line("字体大小");
+    var fonts = [["小", "fs-small"], ["中", "fs-medium"], ["大", "fs-large"]];
+    for (var i = 0; i < fonts.length; i++) {
+      var lab = document.createElement("label");
+      lab.textContent = fonts[i][0];
+      var inp = document.createElement("input");
+      inp.type = "radio";
+      inp.name = "set-font";
+      inp.checked = settings.fontSize === fonts[i][1];
+      inp.addEventListener("change", function (f) {
+        return function () { settings.fontSize = f; saveSettings(); applySettings(); };
+      }(fonts[i][1]));
+      lab.insertBefore(inp, lab.firstChild);
+      optsFont.appendChild(lab);
+    }
+
+    var optsTheme = line("主题");
+    var themes = [["复古像素", "theme-retro"], ["水边清新", "theme-fresh"]];
+    for (var i = 0; i < themes.length; i++) {
+      var lab3 = document.createElement("label");
+      lab3.textContent = themes[i][0];
+      var inp3 = document.createElement("input");
+      inp3.type = "radio";
+      inp3.name = "set-theme";
+      inp3.checked = settings.theme === themes[i][1];
+      inp3.addEventListener("change", function (t) {
+        return function () { settings.theme = t; saveSettings(); applySettings(); };
+      }(themes[i][1]));
+      lab3.insertBefore(inp3, lab3.firstChild);
+      optsTheme.appendChild(lab3);
+    }
+
+    var optsTangle = line("摸鱼模式");
+    var chkTangle = document.createElement("input");
+    chkTangle.type = "checkbox";
+    chkTangle.checked = !!settings.tangle;
+    chkTangle.addEventListener("change", function () {
+      settings.tangle = chkTangle.checked;
+      saveSettings();
+      applySettings();
+      if (save) {
+        renderFishInfo();
+        renderWorkPanel();
+        renderShopStub();
+        renderMe();
+        refreshBaitButton();
+        refreshFishButton();
+      }
+    });
+    optsTangle.appendChild(chkTangle);
+    var tangleHint = document.createElement("span");
+    tangleHint.className = "tag";
+    tangleHint.textContent = "钓→摸（饵钓除外）";
+    optsTangle.appendChild(tangleHint);
+
+    var optsAuto = line("自动存档");
+    var chkAuto = document.createElement("input");
+    chkAuto.type = "checkbox";
+    chkAuto.checked = !!settings.autoSave;
+    chkAuto.addEventListener("change", function () { settings.autoSave = chkAuto.checked; saveSettings(); });
+    optsAuto.appendChild(chkAuto);
+
+    var optsSound = line("提示音（M5 生效）");
+    var chkSound = document.createElement("input");
+    chkSound.type = "checkbox";
+    chkSound.checked = !!settings.sound;
+    chkSound.addEventListener("change", function () { settings.sound = chkSound.checked; saveSettings(); });
+    optsSound.appendChild(chkSound);
+
+    var cheatBox = document.createElement("div");
+    cheatBox.className = "setting-line";
+    var ck = document.createElement("span");
+    ck.textContent = "作弊（测试用）";
+    var copts = document.createElement("span");
+    copts.className = "opts";
+    cheatBox.appendChild(ck);
+    cheatBox.appendChild(copts);
+    var cheatBtn = document.createElement("button");
+    cheatBtn.className = "nes-btn small is-error";
+    cheatBtn.textContent = "作弊（测试用）";
+    cheatBtn.addEventListener("click", function () {
+      closeModal();
+      openCheatCode();
+    });
+    copts.appendChild(cheatBtn);
+    box.appendChild(cheatBox);
+
+    openModal("设置", box, [{ label: "关闭", cls: "is-primary", fn: closeModal }]);
+  }
+
+  // ================= 钓鱼（M2 正式流程） =================
+  function fishPrice(rarity, egg) {
+    if (rarity === "彩蛋") return egg.price;
+    if (rarity === "普通") return d(100);
+    if (rarity === "稀有") return d(200) + 100;
+    if (rarity === "史诗") return d(500) + 200;
+    if (rarity === "传说") return d(1000) + 500;
+    return 0;
+  }
+  // netBonus = true 时表示本次是渔网结算（这 10 次内普通鱼 +NET_COMMON_W）
+  function effectiveWeights(netBonus) {
+    var w = (WEIGHTS[save.fishing.rod] || WEIGHTS[0]).slice();
+    var hz = save.fishing.blessings["海之眷顾"] || 0;
+    if (hz > 0) {
+      w[0] = Math.max(0, w[0] - 1000 * hz); // 普通 -1000/级
+      w[1] = w[1] + 30 * hz;               // 彩蛋 +30/级
+    }
+    if (save.fishing.activeBait === "小鱼") w[0] = 0;         // 小鱼：移除普通鱼
+    if (save.fishing.activeBait === "大米") w[1] += 32000;     // 大米：大傻 +32000
+    if (save.fishing.activeBait === "棒棒糖") w[1] += 1510;    // 棒棒糖：帕秋莉+10、其余彩蛋+500
+    var g = currentGrade() - 1;                                 // 品级加成：每品 传说+25、彩蛋+3、黑市各+10
+    if (g > 0) { w[1] += 3 * g; w[4] += 25 * g; w[5] += 10 * g; w[6] += 10 * g; w[7] += 10 * g; }
+    if (netBonus) w[0] += NET_COMMON_W;                         // 渔网：仅这 10 次结算内普通鱼权重 +32000
+    return w;
+  }
+  function pickEgg() {
+    var w = [], names = [];
+    for (var i = 0; i < EGGS.length; i++) {
+      var base = EGG_BASE[EGGS[i].name] || 1;
+      var nm = EGGS[i].name;
+      if (save.fishing.activeBait === "大米" && nm === "大傻") base += 32000;
+      if (save.fishing.activeBait === "棒棒糖") {
+        if (nm === "帕秋莉") base += 10;
+        else base += 500;
+      }
+      names.push(nm);
+      w.push(base);
+    }
+    var total = w[0] + w[1] + w[2] + w[3];
+    var r = Math.floor(Math.random() * total);
+    var acc = 0;
+    for (var i = 0; i < 4; i++) { acc += w[i]; if (r < acc) return i; }
+    return 0;
+  }
+  function pickCatchKind(netBonus) {
+    var w = effectiveWeights(netBonus);
+    var total = w[0] + w[1] + w[2] + w[3] + w[4] + w[5] + w[6] + w[7];
+    var r = Math.floor(Math.random() * total);
+    var acc = 0;
+    for (var i = 0; i < w.length; i++) {
+      acc += w[i];
+      if (r < acc) return i;
+    }
+    return 0;
+  }
+  function addCodex(name) {
+    if (save.fishing.codex.indexOf(name) === -1) save.fishing.codex.push(name);
+  }
+  function codexCount(rarity) {
+    var c = 0;
+    for (var i = 0; i < save.fishing.codex.length; i++) {
+      if (FISH[rarity].indexOf(save.fishing.codex[i]) !== -1) c++;
+    }
+    return c;
+  }
+  function eggCount() {
+    var c = 0;
+    for (var i = 0; i < save.fishing.codex.length; i++) {
+      if (EGG_ALL.indexOf(save.fishing.codex[i]) !== -1) c++;
+    }
+    return c;
+  }
+  function planCatch(netBonus) {
+    var kind = pickCatchKind(netBonus);
+    var plan = { kind: kind };
+    if (kind >= 5 && kind <= 7) {
+      plan.bmIdx = kind - 5;
+    } else if (kind === 1) {
+      plan.egg = EGGS[pickEgg()];
+    } else {
+      plan.rarity = kind === 0 ? "普通" : (kind === 2 ? "稀有" : (kind === 3 ? "史诗" : "传说"));
+      plan.fish = FISH[plan.rarity][Math.floor(Math.random() * FISH[plan.rarity].length)];
+    }
+    return plan;
+  }
+  // 上钩时间按稀有度递增：普通16s 稀有17s 史诗18s 传说19s 彩蛋20s 黑市21s
+  // 结算一次渔获：入库 + 图鉴 + 委托进度，返回日志文案
+  function settlePlan(plan) {
+    var msg = "";
+    if (plan.kind >= 5 && plan.kind <= 7) {
+      save.bag[BM_KEYS[plan.bmIdx]] = (save.bag[BM_KEYS[plan.bmIdx]] || 0) + 1;
+      msg = "你钓到了一个黑市商品：" + BM_NAMES[plan.bmIdx] + "（已存入黑市商店，商店页可查看/使用）";
+    } else if (plan.kind === 1) {
+      addCodex(plan.egg.name);
+      addWarehouse(plan.egg.name, 1);
+      bumpDaily("catch", plan.egg.name, 1);
+      bumpDaily("catch", "彩蛋", 1);
+      msg = "你钓到了一条彩蛋鱼 " + plan.egg.name + "，已存入仓库（单价 " + plan.egg.price + " 金币）";
+    } else {
+      addCodex(plan.fish);
+      addWarehouse(plan.fish, 1);
+      bumpDaily("catch", plan.rarity, 1);
+      bumpDaily("catch", plan.fish, 1);
+      msg = "你钓到了一条" + plan.rarity + "鱼 " + plan.fish + "，已存入仓库";
+    }
+    save.stats.fishCount = (save.stats.fishCount || 0) + 1;
+    return msg;
+  }
+  function planLabel(plan) {
+    if (plan.kind >= 5 && plan.kind <= 7) return "黑市商品·" + BM_NAMES[plan.bmIdx];
+    if (plan.kind === 1) return plan.egg.name;
+    return plan.fish;
+  }
+  function hookMsFor(plan) {
+    if (plan.kind >= 5 && plan.kind <= 7) return 21000;
+    if (plan.kind === 1) return 20000;
+    if (plan.rarity === "普通") return 16000;
+    if (plan.rarity === "稀有") return 17000;
+    if (plan.rarity === "史诗") return 18000;
+    return 19000; // 传说
+  }
+  function doFish() {
+    if (!save) { showToast("请先建号"); return; }
+    var now = Date.now();
+    if (save.timers.hook) return;
+    if (now < (save.timers.fishCooldownUntil || 0)) return;
+    var plan = planCatch();
+    var baitName = save.fishing.activeBait;
+    if (baitName && (save.fishing.baits[baitName] || 0) > 0) {
+      save.fishing.baits[baitName]--;
+      if (save.fishing.baits[baitName] <= 0) save.fishing.activeBait = null;
+    }
+    var reduce = (save.fishing.blessings["饵钓"] || 0) * 5000 + (currentGrade() - 1) * 300;
+    var wait = Math.max(1000, hookMsFor(plan) - reduce);
+    if (baitName) bumpDaily("bait", baitName, 1);
+    save.timers.hook = { startedAt: now, finishAt: now + wait, plan: plan };
+    addLog(baitName ? "正在钓鱼……（消耗鱼饵：" + baitName + "）" : "正在钓鱼……");
+    persist();
+    renderFishInfo();
+    renderShopStub();
+    renderMe();
+    refreshFishButton();
+    refreshBaitButton();
+  }
+  function resolveHook() {
+    if (!save || !save.timers.hook) return;
+    var hk = save.timers.hook;
+    var caughtAt = hk.finishAt || Date.now();
+    save.timers.hook = null;
+    var plan = hk.plan || planCatch();
+    addLog(settlePlan(plan));
+    save.timers.fishCooldownUntil = caughtAt + 10000;
+    checkAchievements();
+    persist();
+    updateTopBar();
+    renderFishInfo();
+    renderShopStub();
+    renderWarehouse();
+    renderRestaurant();
+    renderMe();
+    refreshFishButton();
+    refreshBaitButton();
+  }
+  function openBaitMenu() {
+    if (!save) { showToast("请先建号"); return; }
+    var box = document.createElement("div");
+    var items = [{ name: "无" }];
+    for (var i = 0; i < BAITS.length; i++) {
+      var b = BAITS[i];
+      if ((save.fishing.baits[b.name] || 0) > 0) items.push({ name: b.name, count: save.fishing.baits[b.name] });
+    }
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      var row = document.createElement("div");
+      row.className = "stub-item";
+      row.style.cursor = "pointer";
+      var label = document.createElement("span");
+      label.textContent = it.name === "无" ? "无（不使用鱼饵）" : it.name + "（剩余 " + it.count + "）";
+      var mark = document.createElement("span");
+      mark.className = "tag";
+      mark.textContent = save.fishing.activeBait === it.name ? "当前" : "选择";
+      if (save.fishing.activeBait === it.name) mark.style.color = "var(--success)";
+      row.appendChild(label);
+      row.appendChild(mark);
+      (function (nm) {
+        row.addEventListener("click", function () { setBait(nm); });
+      })(it.name);
+      box.appendChild(row);
+    }
+    openModal("选择鱼饵", box, [{ label: "取消", fn: closeModal }]);
+  }
+  function setBait(name) {
+    if (!save) return;
+    save.fishing.activeBait = name === "无" ? null : name;
+    addLog(name === "无" ? "当前鱼饵：无" : "当前鱼饵：" + name + "（剩余 " + save.fishing.baits[name] + "）");
+    persist();
+    closeModal();
+    refreshBaitButton();
+    renderFishInfo();
+    renderShopStub();
+    renderMe();
+  }
+  function refreshBaitButton() {
+    var btn = $("btn-bait");
+    if (!save) { btn.textContent = "鱼饵：无"; return; }
+    if (save.fishing.activeBait) {
+      btn.textContent = "鱼饵：" + save.fishing.activeBait + "×" + (save.fishing.baits[save.fishing.activeBait] || 0);
+    } else {
+      btn.textContent = "鱼饵：无";
+    }
+  }
+  function refreshFishButton() {
+    var btn = $("btn-fish");
+    var wrap = $("progress-wrap");
+    var fill = $("progress-fill");
+    var st = $("fish-state");
+    if (!save) {
+      btn.disabled = true;
+      btn.textContent = "钓鱼";
+      wrap.classList.remove("show");
+      if (st) st.textContent = "空闲";
+      return;
+    }
+    var now = Date.now();
+    var info = $("progress-info");
+    if (save.timers.hook) {
+      var total = Math.max(1, save.timers.hook.finishAt - save.timers.hook.startedAt);
+      var left = Math.max(0, save.timers.hook.finishAt - now);
+      var pct = Math.max(0, Math.min(100, (1 - left / total) * 100));
+      fill.style.width = pct.toFixed(1) + "%";
+      wrap.classList.add("show");
+      info.textContent = pct.toFixed(0) + "%　剩余 " + (left / 1000).toFixed(1) + " 秒";
+      btn.disabled = true;
+      btn.textContent = tangle("钓鱼中…");
+      if (st) st.textContent = tangle("钓鱼中");
+    } else if (now < (save.timers.fishCooldownUntil || 0)) {
+      var sec = Math.ceil((save.timers.fishCooldownUntil - now) / 1000);
+      btn.disabled = true;
+      btn.textContent = "冷却 " + sec + " 秒";
+      wrap.classList.remove("show");
+      info.textContent = "";
+      if (st) st.textContent = "冷却中";
+    } else {
+      btn.disabled = false;
+      btn.textContent = tangle("钓鱼");
+      wrap.classList.remove("show");
+      fill.style.width = "0%";
+      info.textContent = "";
+      if (st) st.textContent = "空闲";
+    }
+  }
+  function tick() {
+    if (!save) return;
+    if (save.timers.hook && save.timers.hook.finishAt <= Date.now()) {
+      resolveHook();
+      return;
+    }
+    refreshFishButton();
+    refreshWorkCooldowns();
+  }
+  setInterval(tick, 250);
+
+  // ================= 新手引导 =================
+  var GUIDE_STEPS = [
+    { title: "钓鱼界面演示", mock: "fish", desc: "这是游戏主界面：点击「钓鱼」抛竿，等待上钩（稀有度越高等越久，约 16~21 秒），进度条会显示百分比与倒计时，钓到的鱼当即售出换成金币。鱼饵按钮、日志台都在这里。点击屏幕任意位置（包括钓鱼按钮）只会进入下一步，不会触发操作。" },
+    { title: "工作界面演示", mock: "work", desc: "「工作」页：每天可签到一次 +1d100 金币；六种工作共用 1 小时冷却，收益由你的基础属性决定。接下来会逐一介绍六种工作的工资公式、属性要求与效果，方便你选择开局流派。" },
+    { title: "工作详解：六种工作", mock: "jobs", desc: "六种工作共用 1 小时冷却，收益基于基础属性、掷 1d500：\n搬砖：(力+体)x1d500/8，主属性 力量/体质，无风险，累计加成最高 x1.25；\n牛郎：(技x0.5+魅x0.9)x1d500/6，主属性 技巧/魅力，魅力检定 1d200 通过再获黑市商品 1 件；\n直播：(智+魅)x1d500/8，主属性 智力/魅力，2 小时内连续直播 x1.3；\n写文：(技+智)x1d500/9，主属性 技巧/智力，意志检定通过 x1.3；\n打架：(力+体)x1d500/6，主属性 力量/体质，力量检定通过 x1.5、失败 x0.5；\n探险：(1d100-50)x300，属性通用，50% 归 0、30% 触发事件（属性提升/黑市商品/金钱/奇遇）。\n游戏内悬停每个工作旁的问号，可查看完整说明与当前属性下的理论最高收入。" },
+    { title: "仓库与出售", mock: "warehouse", desc: "鱼获不再即时卖钱，而是自动存入「仓库」，按普通/稀有/史诗/传说/彩蛋五类存放。出售沿用原价公式，批量出售 = 保底×数量 + 1d(上限×数量)（例：10 条稀有 = 1000 + 1d2000，即 1001~3000）。仓库支持「卖 1 / 卖 10 / 全卖」，餐馆订单会按鱼种扣鱼。" },
+    { title: "商店与鱼竿品级", mock: "shop", desc: "钓鱼商店买鱼竿、鱼饵与祝福（饵钓缩短上钩时间、海之眷顾提高彩蛋率）；鱼竿可像修仙一样炼化品级：一品到五品，" + gradePerkText() + "，升至二/三/四/五品分别花费该鱼竿售价 ×0.4 / ×0.8 / ×1.6 / ×3.2，购买新鱼竿后品级重置为一品（商店页对应位置有「鱼竿品级」说明行与问号可随时查看）。黑市商店买开盒（提升属性）、魔盒（抵消属性减小）、集装箱（赌钱：1~8 稳赚、9/10 补回成本后 ±1d10×10000）、渔网（1000 金币：立即结算 " + NET_CATCHES + " 次钓鱼，这 " + NET_CATCHES + " 次内普通鱼权重 +" + NET_COMMON_W + "，结算后恢复；不消耗鱼饵、不占冷却）。" },
+    { title: "每日委托与海钓餐馆", mock: "daily", desc: "「工作」页有两个入口：每日委托（每天 3 条，动作×对象×数量组合，评分 = 动作分 + 对象分 + 数量分，奖励 1 万 +（评分−3）×1 万，满分 20 额外 +2 万，三条全清有宝箱；任务数量设有上限，做不完的可以随时点「刷新」换掉，不限次数）；海钓餐馆（不设每日上限，交付鱼种组合后立即刷新新订单，收益 = 该批鱼售价 ×1.3~2.0 + 固定金币）。" },
+    { title: "推荐发育路线", mock: "road", desc: "建议开局按工作流派特化加点；钓鱼攒钱并靠仓库/餐馆放大收益，逐步升级鱼竿并炼化品级；用工作与开盒把属性堆高（属性越高工资越高）；最后冲刺 1 亿金币买下「屌炸天永恒鱼竿」毕业。" }
+  ];
+  var guideIndex = 0;
+  function showGuide() {
+    guideIndex = 0;
+    renderGuideStep();
+    showView("view-guide");
+  }
+  function renderGuideStep() {
+    var st = GUIDE_STEPS[guideIndex];
+    var body = $("guide-body");
+    body.innerHTML = "";
+    var t = document.createElement("div");
+    t.className = "guide-title";
+    t.textContent = tangle(st.title);
+    var step = document.createElement("div");
+    step.className = "guide-step";
+    step.textContent = "第 " + (guideIndex + 1) + " / " + GUIDE_STEPS.length + " 步";
+    body.appendChild(t);
+    body.appendChild(step);
+    body.appendChild(buildGuideMock(st.mock));
+    var d = document.createElement("div");
+    d.className = "guide-desc";
+    d.textContent = tangle(st.desc);
+    body.appendChild(d);
+    var hint = document.createElement("div");
+    hint.className = "guide-hint";
+    hint.textContent = guideIndex < GUIDE_STEPS.length - 1 ? "点击屏幕任意位置继续（仅演示，不触发操作）" : "点击屏幕任意位置开始建号";
+    body.appendChild(hint);
+  }
+  function buildGuideMock(kind) {
+    var html = "";
+    if (kind === "fish") {
+      html = "<div class='mock-row'><span>我的</span><span>钱包：100</span></div>" +
+        "<div class='mock-row' style='height:56px;align-items:flex-start;color:var(--muted)'>日志台（10 行）</div>" +
+        "<div class='mock-row'><span class='mock-chip on'>钓鱼</span><span class='mock-chip off'>鱼饵：无</span></div>" +
+        "<div class='mock-tab'><span class='on'>钓鱼</span><span>工作</span><span>商店</span><span>我的</span></div>";
+    } else if (kind === "work") {
+      html = "<div class='mock-row'><span>我的</span><span>钱包：100</span></div>" +
+        "<div class='mock-row'><span>签到（+1d100）</span><span class='mock-chip'>签到</span></div>" +
+        "<div class='mock-row'><span>搬砖 / 牛郎 / 直播</span><span class='mock-chip off'>工作</span></div>" +
+        "<div class='mock-row'><span>写文 / 打架 / 探险</span><span class='mock-chip off'>工作</span></div>" +
+        "<div class='mock-tab'><span>钓鱼</span><span class='on'>工作</span><span>商店</span><span>我的</span></div>";
+    } else if (kind === "shop") {
+      html = "<div class='mock-row'><span>我的</span><span>钱包：100</span></div>" +
+        "<div class='mock-row'><span>钓鱼商店（鱼竿/鱼饵/祝福）</span><span class='mock-chip'>购买</span></div>" +
+        "<div class='mock-row'><span>黑市商店（开盒/魔盒/集装箱/渔网）</span><span class='mock-chip'>购买</span></div>" +
+        "<div class='mock-tab'><span>钓鱼</span><span>工作</span><span class='on'>商店</span><span>我的</span></div>";
+    } else if (kind === "warehouse") {
+      html = "<div class='mock-row'><span>普通类 128 条</span><span class='mock-chip'>卖 10</span></div>" +
+        "<div class='mock-row'><span>稀有类 36 条</span><span class='mock-chip on'>全卖</span></div>" +
+        "<div class='mock-row'><span>史诗类 9 条 / 传说类 2 条 / 彩蛋类 1 条</span><span class='mock-chip'>卖 1</span></div>" +
+        "<div class='mock-tab'><span>钓鱼</span><span>工作</span><span>商店</span><span class='on'>仓库</span><span>我的</span></div>";
+    } else if (kind === "daily") {
+      html = "<div class='mock-row'><span>钓到 稀有鱼 12 条（评分 13）</span><span class='mock-chip on'>领取 110000</span></div>" +
+        "<div class='mock-row'><span>完成 探险 4 次（评分 11）</span><span class='mock-chip'>刷新</span></div>" +
+        "<div class='mock-row'><span>餐馆订单：草鱼×3 + 鲤鱼×2（难度 5）</span><span class='mock-chip'>交付</span></div>";
+    } else if (kind === "jobs") {
+      html = "<div class='mock-row'><span>搬砖　(力+体)x1d500/8</span><span class='mock-chip'>力/体</span></div>" +
+        "<div class='mock-row'><span>牛郎　(技x0.5+魅x0.9)x1d500/6</span><span class='mock-chip'>技/魅</span></div>" +
+        "<div class='mock-row'><span>直播　(智+魅)x1d500/8</span><span class='mock-chip'>智/魅</span></div>" +
+        "<div class='mock-row'><span>写文　(技+智)x1d500/9</span><span class='mock-chip'>技/智</span></div>" +
+        "<div class='mock-row'><span>打架　(力+体)x1d500/6</span><span class='mock-chip'>力/体</span></div>" +
+        "<div class='mock-row'><span>探险　(1d100-50)x300</span><span class='mock-chip'>通用</span></div>";
+    } else {
+      html = "<div class='mock-row'><span>路线总览</span><span class='mock-chip'>加点流派</span></div>" +
+        "<div class='mock-row'><span>钓鱼攒钱 → 钻石鱼竿</span><span class='mock-chip'>开盒提属性</span></div>" +
+        "<div class='mock-row'><span>高属性 → 高工资</span><span class='mock-chip'>永恒鱼竿毕业</span></div>";
+    }
+    var p = document.createElement("div");
+    p.className = "mock-panel";
+    p.innerHTML = tangle(html);
+    return p;
+  }
+  function guideNext() {
+    guideIndex++;
+    if (guideIndex >= GUIDE_STEPS.length) {
+      goJoin();
+    } else {
+      renderGuideStep();
+    }
+  }
+
+  // ================= 事件绑定 =================
+  $("btn-new").addEventListener("click", showGuide);
+  $("btn-continue").addEventListener("click", function () {
+    save = loadSave();
+    if (!save) { showToast("无存档"); return; }
+    goGame();
+    addLog("继续游戏：欢迎回来，" + save.player.nickname + "。");
+  });
+  $("btn-load").addEventListener("click", function () {
+    save = loadSave();
+    if (!save) { showToast("无存档"); return; }
+    goGame();
+    addLog("读档成功：" + save.player.nickname + "，金币 " + save.gold + "。");
+  });
+  $("btn-settings-menu").addEventListener("click", openSettings);
+  $("btn-export-menu").addEventListener("click", openExport);
+  $("btn-import-menu").addEventListener("click", openImport);
+  $("btn-reset-menu").addEventListener("click", openReset);
+  $("btn-join-back").addEventListener("click", goMenu);
+  $("btn-random").addEventListener("click", randomJoin);
+  $("btn-clear").addEventListener("click", function () {
+    resetJoin();
+    renderJoin();
+  });
+  $("btn-confirm").addEventListener("click", confirmJoin);
+  $("btn-me").addEventListener("click", function () { switchTab("me"); });
+  $("btn-settings").addEventListener("click", openSettings);
+  $("btn-save").addEventListener("click", function () {
+    if (!save) return;
+    persist();
+    showToast("已存档");
+  });
+  $("btn-export").addEventListener("click", openExport);
+  $("btn-import").addEventListener("click", openImport);
+  $("btn-reset").addEventListener("click", openReset);
+  $("btn-back-menu").addEventListener("click", function () {
+    openConfirm("返回主菜单？当前进度会自动保存。", function () {
+      persist();
+      goMenu();
+    });
+  });
+  $("btn-fish").addEventListener("click", doFish);
+  $("btn-bait").addEventListener("click", openBaitMenu);
+  $("tab-btn-fish").addEventListener("click", function () { switchTab("fish"); });
+  $("tab-btn-work").addEventListener("click", function () { switchTab("work"); });
+  $("tab-btn-shop").addEventListener("click", function () { switchTab("shop"); });
+  $("tab-btn-warehouse").addEventListener("click", function () { switchTab("warehouse"); });
+  $("btn-daily").addEventListener("click", function () {
+    $("daily-panel").classList.toggle("hidden");
+  });
+  $("btn-restaurant").addEventListener("click", function () {
+    $("restaurant-panel").classList.toggle("hidden");
+  });
+  $("tab-btn-me").addEventListener("click", function () { switchTab("me"); });
+  $("modal").addEventListener("click", function (ev) {
+    if (ev.target === $("modal")) closeModal();
+  });
+  $("btn-guide-skip").addEventListener("click", function (ev) {
+    ev.stopPropagation();
+    goJoin();
+  });
+  $("view-guide").addEventListener("click", function (ev) {
+    if (ev.target && ev.target.id === "btn-guide-skip") return;
+    guideNext();
+  });
+
+  // ================= 启动 =================
+  applySettings();
+  buildSliders();
+  goMenu();
+})();
+</script>
+</body>
+</html>

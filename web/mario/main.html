@@ -14,6 +14,7 @@
       user-select:none;-webkit-user-select:none;touch-action:none;
     }
     .pad button.jump{background:rgba(251,113,133,.28)}
+    .pad button.start{width:auto;padding:0 22px;border-radius:14px;background:rgba(52,211,153,.4);border-color:rgba(52,211,153,.7);font-weight:800}
     .pad button.run{background:rgba(110,231,255,.22)}
     .pad button:active{background:rgba(255,255,255,.35)}
     .tip{text-align:center;font-size:12px;color:#8a95ab;padding:0 16px 18px}
@@ -87,17 +88,16 @@
 	
 <div class="pad">
   <div class="grp">
+    <button class="start" data-k="13" type="button">开始</button>
     <button data-k="37" type="button">◀</button>
     <button data-k="39" type="button">▶</button>
   </div>
   <div class="grp">
     <button class="run" data-k="65" type="button">跑/火</button>
-    <button class="jump" data-k="83" type="button">跳</button>
-    <button class="start" data-k="13" type="button">开始</button>
-  </div>
+    <button class="jump" data-k="83" type="button">跳</button></div>
 </div>
 <p class="tip" style="margin-top:-6px"><b>地图界面：</b>◀ ▶ 选关，点「开始」进关卡</p>
-<p class="tip">← → 移动 · 跑/火 加速·发射 · 跳 跳跃（键盘：方向键 + A + S）</p>
+<p class="tip"><b>先点「开始」进关卡</b> → 然后 ← → 移动，跑/火 加速，跳 跳跃</p>
 <script>
 (function () {
   var KEYMAP = { 37: "ArrowLeft", 39: "ArrowRight", 65: "a", 83: "s", 13: "Enter" };

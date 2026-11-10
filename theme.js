@@ -21,8 +21,18 @@
     b.addEventListener("click", () => {
       const cur = document.documentElement.dataset.theme;
       const next = cur === "light" ? "dark" : "light";
-      save(next);
-      apply(next);
+      const flip = () => { save(next); apply(next); };
+      // 支持 View Transition 的浏览器：从按钮位置圆形扩散过去
+      if (document.startViewTransition) {
+        const r = b.getBoundingClientRect();
+        document.documentElement.style.setProperty("--vt-x", r.left + r.width / 2 + "px");
+        document.documentElement.style.setProperty("--vt-y", r.top + r.height / 2 + "px");
+        document.documentElement.classList.add("vt-theme");
+        const t = document.startViewTransition(flip);
+        t.finished.finally(() => document.documentElement.classList.remove("vt-theme"));
+      } else {
+        flip();
+      }
     });
   });
 

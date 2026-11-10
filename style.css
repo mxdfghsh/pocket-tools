@@ -516,3 +516,13 @@ body.entered .back-home { display: grid; }
 @media (prefers-reduced-motion: reduce) {
   .card { animation: none; }
 }
+
+/* 结果列表（个税 / 健康等工具用） */
+.kv-list { display: block; margin-top: 10px; }
+.kv-row {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 13px;
+}
+.kv-row:last-child { border-bottom: 0; }
+.kv-row span { color: var(--muted); }
+.kv-row b { font-family: var(--mono); font-weight: 700; text-align: right; }

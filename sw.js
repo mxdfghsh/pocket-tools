@@ -1,5 +1,5 @@
 /* 口袋小站 · Service Worker（离线可用） */
-const CACHE = "pocket-v14";
+const CACHE = "pocket-v15";
 const ASSETS = [
   "./", "./index.html", "./tools.html", "./hub.html", "./web.html", "./play.html",
   "./games.html", "./about.html", "./nes.html", "./chess.html", "./dos.html",

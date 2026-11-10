@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101c1c">
+<meta name="description" content="荒原哨站：自动战斗、随机强化、元素流派。守住荒原上的最后一道防线。">
+<title>荒原哨站 · 塔防肉鸽挂机</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<script src="art.js"></script>
+</head>
+<body>
+<a href="../../hub.html" style="position:fixed;left:10px;top:10px;z-index:99999;font:600 12px/1.5 -apple-system,PingFang SC,sans-serif;color:#fff;background:rgba(0,0,0,.55);padding:7px 11px;border-radius:999px;text-decoration:none;backdrop-filter:blur(6px)">← 口袋小站</a>
+<div class="app">
+  <header class="masthead">
+    <a class="brand" href="./" aria-label="荒原哨站首页"><span data-icon="outpost"></span><span>荒原哨站<small>WASTELAND OUTPOST</small></span></a>
+    <div class="connection"><i></i> 本地指挥链路 <span>已连接</span></div>
+    <button class="icon-button" id="help-button" aria-label="打开操作指南" title="操作指南"><span data-icon="help"></span></button>
+  </header>
+  <main class="stage">
+    <aside class="briefing">
+      <div class="eyebrow">SECTOR 07 / FRONTIER</div>
+      <h2>荒原之上，<br>仍有微光。</h2>
+      <p>一座哨塔。一片无人区。<br>在无尽来袭中，建立你的防线。</p>
+      <div class="sector-map" aria-hidden="true"><svg viewBox="0 0 220 150"><path class="map-terrain" d="M0 92 24 67 44 78 62 47 87 62 110 32 134 51 157 24 189 50 220 38M0 119 28 93 52 107 77 78 103 93 132 65 160 88 184 68 220 79M0 143 25 131 49 143 83 112 115 132 148 109 180 122 220 108"/><circle cx="116" cy="83" r="32"/><circle cx="116" cy="83" r="18"/><path d="M116 34V65M116 101V130M68 83H98M134 83H165"/><path class="map-core" d="m116 74 9 5v10l-9 5-9-5V79Z"/><text x="12" y="18">07—24' N</text><text x="168" y="142">ZONE / 07</text></svg></div>
+      <div class="briefing-rule"></div>
+      <div class="eyebrow">MISSION PROTOCOL</div>
+      <ol class="protocol"><li><span>01</span><div>坚守防线<small>哨塔自动锁定并攻击敌人</small></div></li><li><span>02</span><div>选择强化<small>每次升级，三选一卡牌</small></div></li><li><span>03</span><div>构筑流派<small>组合弹幕、元素与生存能力</small></div></li></ol>
+      <div class="briefing-footer"><span class="tiny-cross">+</span> 守到最后一刻。</div>
+    </aside>
+    <section class="game-shell" aria-label="荒原哨站游戏">
+      <div class="frame-caption"><span><i></i> FRONTIER DEFENSE</span><span>OUTPOST — 07</span></div>
+      <div class="arena" id="arena">
+        <canvas id="gameCanvas" aria-label="荒原防御战场，可用 WASD 或方向键微调炮塔位置" tabindex="0"></canvas>
+        <div class="hud" id="hud" hidden>
+          <div class="hud-top"><div class="wave-heading"><span class="eyebrow">当前波次</span><strong><span id="wave-value">01</span><small> / 无尽防御</small></strong></div><div class="combat-state"><i></i><span id="combat-status">自动战斗</span></div><button class="icon-button" id="pause-button" aria-label="暂停战斗"><span data-icon="pause"></span></button></div>
+          <div class="health-row"><span data-icon="shield"></span><span>装甲完整度</span><strong id="hp-value">150 / 150</strong></div>
+          <div class="health-track"><div id="hp-fill"></div></div>
+          <div class="experience-row"><span id="level-value">LV. 01</span><div class="experience-track"><div id="xp-fill"></div></div><span id="xp-value">0 / 10</span></div>
+          <div class="mini-stats"><span id="battle-attack">火力 15</span><span id="battle-speed">攻速 1.30/s</span><span id="battle-crit">暴击 5%</span></div>
+        </div>
+        <div class="battle-message" id="battle-message" hidden></div>
+        <div class="combat-dock" id="combat-dock" hidden><span id="element-badge"><i></i> 标准弹药</span><span><span data-icon="crosshair"></span><b id="kills-value">0</b> 击杀</span><span id="time-value">00:00</span></div>
+        <section class="overlay title-screen" id="title-screen" aria-labelledby="game-title">
+          <div class="title-copy"><div class="eyebrow"><span class="tiny-cross">+</span> ROGUELIKE · AUTO DEFENSE</div><h1 id="game-title">最后一道<br><em>防线。</em></h1><p>让哨塔开火，让每一次选择改变战局。</p></div>
+          <div class="title-tower-label"><span></span> MK.01 / 哨卫炮塔 <span></span></div>
+          <div class="title-actions"><div class="feature-tags"><span>自动战斗</span><i></i><span>随机强化</span><i></i><span>无限构筑</span></div><button class="primary-button" id="start-button"><span data-icon="play"></span> 部署哨塔 <span class="button-arrow">↗</span></button><p class="key-hint">点击部署或按 <kbd>Enter</kbd> 开始</p></div>
+          <div class="title-bottom"><span>荒原哨站 / 塔防肉鸽挂机</span><span>EST. 2086</span></div>
+        </section>
+        <section class="overlay modal-screen" id="upgrade-screen" role="dialog" aria-modal="true" aria-labelledby="upgrade-title" hidden>
+          <div class="modal-heading"><div class="eyebrow">SYSTEM UPGRADE / <span id="upgrade-level">02</span></div><h2 id="upgrade-title">选择你的强化</h2><p>三选一。每一种选择，都是新的可能。</p></div>
+          <div class="card-grid" id="card-grid"></div>
+          <div class="modal-footnote"><span data-icon="pause"></span> 战斗已暂停 <span>·</span> 点击卡牌或按 <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> 选择</div>
+        </section>
+        <section class="overlay modal-screen pause-screen" id="pause-screen" role="dialog" aria-modal="true" aria-labelledby="pause-title" hidden><div class="pause-content"><div class="modal-symbol" data-icon="pause"></div><div class="eyebrow">TACTICAL PAUSE</div><h2 id="pause-title">防线暂歇</h2><p>调整呼吸，再次迎接荒原。</p><button class="primary-button" id="resume-button"><span data-icon="play"></span> 继续战斗</button><p class="key-hint">按 <kbd>Space</kbd> 继续</p></div></section>
+        <section class="overlay modal-screen end-screen" id="end-screen" role="dialog" aria-modal="true" aria-labelledby="end-title" hidden><div class="end-content"><div class="modal-symbol" data-icon="outpost"></div><div class="eyebrow">SIGNAL LOST / MISSION REPORT</div><h2 id="end-title">防线虽失，<br>意志未熄。</h2><p>每一次坚守，都让下一次更远。</p><div class="end-stats"><div><strong id="end-wave">01</strong><span>抵达波次</span></div><div><strong id="end-kills">0</strong><span>消灭敌人</span></div><div><strong id="end-time">00:00</strong><span>坚守时间</span></div></div><div class="end-level" id="end-level">炮塔等级 LV. 01</div><button class="primary-button" id="restart-button"><span data-icon="restart"></span> 再次部署 <span class="button-arrow">↗</span></button></div></section>
+        <section class="overlay modal-screen help-screen" id="help-screen" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden><div class="help-content"><button class="icon-button close-help" id="close-help-button" aria-label="关闭操作指南"><span data-icon="close"></span></button><div class="eyebrow">FIELD MANUAL / 07</div><h2 id="help-title">哨站操作手册</h2><p>炮塔会自动瞄准射程内最近的敌人。击杀获取经验，升级后选择一张强化卡牌。</p><dl><dt><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / 方向键</dt><dd>微调炮塔位置</dd><dt><kbd>Space</kbd> / 暂停按钮</dt><dd>暂停或继续战斗</dd><dt><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> / 点击卡牌</dt><dd>选择升级强化</dd><dt>手机 / 平板</dt><dd>触摸按钮即可部署、暂停与选牌</dd></dl><div class="help-elements"><span data-icon="fire"></span> 灼烧 <span data-icon="ice"></span> 减速 <span data-icon="lightning"></span> 连锁 <span data-icon="poison"></span> 毒爆</div><button class="primary-button" id="help-done-button">明白，守住防线 <span class="button-arrow">↗</span></button></div></section>
+        <div class="reward-toast" id="reward-toast" role="status" hidden></div>
+      </div>
+      <div class="frame-footer"><span><span data-icon="crosshair"></span> 自动索敌 · 自由构筑</span><span>WASD 微调 <i> / </i> SPACE 暂停</span></div>
+    </section>
+    <aside class="telemetry">
+      <div class="eyebrow">TOWER TELEMETRY</div><h2>哨卫 / MK.01</h2><div class="telemetry-status"><i></i><span id="telemetry-status">等待部署</span></div>
+      <div class="stat-list"><div><span data-icon="bullet"></span><span>火力输出</span><strong id="attack-value">15</strong></div><div><span data-icon="speed"></span><span>射击频率</span><strong><span id="speed-value">1.30</span><small> /s</small></strong></div><div><span data-icon="crosshair"></span><span>暴击概率</span><strong id="crit-value">5%</strong></div><div><span data-icon="range"></span><span>索敌范围</span><strong id="range-value">240</strong></div></div>
+      <div class="loadout-heading"><span class="eyebrow">ACTIVE MODULES</span><span id="module-count">00</span></div><div class="loadout" id="loadout"><span class="empty-loadout">暂无强化模块<br><small>升级后装配第一张卡牌</small></span></div>
+      <div class="enemy-legend"><div class="eyebrow">THREAT SIGNATURES</div><div><i class="enemy-dot normal"></i> 游荡者 <span>标准</span></div><div><i class="enemy-dot fast"></i> 疾行兽 <span>高速</span></div><div><i class="enemy-dot tank"></i> 重甲虫 <span>装甲</span></div><div><i class="enemy-dot boss"></i> 荒原领主 <span>首领</span></div></div>
+      <p class="telemetry-note">不要等待完美的构筑。<br>让荒原记住你的选择。</p>
+    </aside>
+  </main>
+  <footer class="page-footer"><span>独立防线，无尽可能。</span><span>原生 CANVAS <i> / </i> 无需下载</span></footer>
+</div>
+<script>
+// 常量 & 配置
+const W = 480, H = 720;
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const pixelRatio = Math.min(2, Math.max(1, window.devicePixelRatio || 1));
+canvas.width = W * pixelRatio; canvas.height = H * pixelRatio;
+ctx.scale(pixelRatio, pixelRatio);
+
+const TOWER_Y = H - 70;
+const SPAWN_MARGIN = 40;
+const CONTACT_RADIUS = 25;
+const HIT_RADIUS = 18;
+const MAX_PARTICLES = 400;
+const MAX_DAMAGE_TEXTS = 60;
+const MAX_PROJECTILES = 150; // 稍微增加以应对多重射击
+
+const STATES = { TITLE: 0, PLAYING: 1, CARD_SELECT: 2, GAME_OVER: 3 };
+
+// 工具函数
+function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+function lerp(a, b, t) { return a + (b - a) * t; }
+function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+function rand(a, b) { return a + Math.random() * (b - a); }
+function randInt(a, b) { return Math.floor(rand(a, b + 1)); }
+function randPick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function normalize(x, y) {
+  const l = Math.hypot(x, y) || 1;
+  return { x: x / l, y: y / l };
+}
+
+// 粒子系统
+class Particle {
+  constructor(x, y, vx, vy, life, size, color, type = 'circle', gravity = true) {
+    this.x = x; this.y = y; this.vx = vx; this.vy = vy;
+    this.life = this.maxLife = life;
+    this.size = size; this.color = color; this.type = type;
+    this.gravity = gravity;
+    this.active = true;
+  }
+  update(dt) {
+    this.life -= dt;
+    if (this.life <= 0) { this.active = false; return; }
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
+    if (this.gravity) this.vy += 60 * dt;
+  }
+  render(ctx) {
+    Art.drawParticle(ctx, this);
+  }
+}
+
+// 飘字系统（增强版，带重力和缩放）
+class DamageText {
+  constructor(x, y, text, color, big = false, isCrit = false) {
+    this.x = x; this.y = y; this.text = text; this.color = color;
+    this.life = this.maxLife = big ? 1.2 : 0.9;
+    this.vy = big ? -120 : -80;
+    this.vx = rand(-40, 40);
+    this.gravity = 200;
+    this.size = big ? 19 : 12;
+    this.big = big;
+    this.isCrit = isCrit;
+    this.scale = isCrit ? 1.8 : 1;
+    this.active = true;
+    this.rotation = rand(-0.2, 0.2);
+  }
+  update(dt) {
+    this.life -= dt;
+    if (this.life <= 0) { this.active = false; return; }
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
+    this.vy += this.gravity * dt;
+    this.vx *= 0.98;
+    
+    if (this.isCrit) {
+      const t = 1 - this.life / this.maxLife;
+      this.scale = 1 + Math.sin(t * Math.PI) * 0.8;
+      this.rotation = Math.sin(t * Math.PI * 2) * 0.1;
+    }
+  }
+  render(ctx) {
+    const alpha = clamp(this.life / this.maxLife, 0, 1);
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rotation);
+    ctx.scale(this.scale, this.scale);
+    ctx.fillStyle = this.color;
+    ctx.font = `bold ${this.size}px "Consolas", "Microsoft YaHei"`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    ctx.strokeStyle = '#182b22';
+    ctx.lineWidth = this.isCrit ? 3 : 2.5;
+    ctx.lineJoin = 'round';
+    ctx.strokeText(this.text, 0, 0);
+    ctx.fillText(this.text, 0, 0);
+    ctx.restore();
+    ctx.globalAlpha = 1;
+  }
+}
+
+// 闪电特效类
+class LightningEffect {
+  constructor(points, color) {
+    this.points = points;
+    this.life = 0.25;
+    this.maxLife = 0.25;
+    this.color = color;
+    this.active = true;
+  }
+  update(dt) {
+    this.life -= dt;
+    if (this.life <= 0) this.active = false;
+  }
+  render(ctx) {
+    const alpha = this.life / this.maxLife;
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = 3;
+    ctx.shadowColor = this.color;
+    ctx.shadowBlur = 10;
+    ctx.beginPath();
+    ctx.moveTo(this.points[0].x, this.points[0].y);
+    for (let i = 1; i < this.points.length; i++) {
+      ctx.lineTo(this.points[i].x, this.points[i].y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(this.points[0].x, this.points[0].y);
+    for (let i = 1; i < this.points.length; i++) {
+      ctx.lineTo(this.points[i].x, this.points[i].y);
+    }
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+}
+
+// 子弹（修复版）
+class Projectile {
+  constructor(x, y, target, damage, isCrit, tower, options = {}) {
+    this.x = x; this.y = y;
+    this.target = target;
+    this.damage = damage;
+    this.isCrit = isCrit;
+    this.tower = tower;
+    this.speed = 550;
+    this.active = true;
+    this.trail = [];
+    
+    this.element = tower.elementType;
+    this.isSplit = options.isSplit || false;
+    this.splitGeneration = options.splitGeneration || 0;
+    this.pierceLeft = options.pierce !== undefined ? options.pierce : tower.pierceCount;
+    this.hitEnemies = new Set();
+    
+    this.size = 3 * tower.bulletSize * (this.isSplit ? 0.7 : 1);
+    this.color = this.getElementColor();
+    this.trailLength = tower.trailLength;
+    
+    this.angle = options.angle !== undefined ? options.angle : Math.atan2(target.y - y, target.x - x);
+    this.vx = Math.cos(this.angle) * this.speed;
+    this.vy = Math.sin(this.angle) * this.speed;
+    
+    this.homing = this.pierceLeft <= 0 && !options.noHoming;
+  }
+  
+  getElementColor() {
+    if (this.isSplit) return '#b8c4ac';
+    return Art.palette[this.element] || (this.isCrit ? '#f4cf82' : '#dedcb3');
+  }
+  
+  update(dt) {
+    this.trail.push({ x: this.x, y: this.y });
+    if (this.trail.length > this.trailLength) this.trail.shift();
+    
+    if (this.homing && this.target && this.target.active) {
+      const d = normalize(this.target.x - this.x, this.target.y - this.y);
+      this.vx = lerp(this.vx, d.x * this.speed, dt * 5);
+      this.vy = lerp(this.vy, d.y * this.speed, dt * 5);
+    }
+    
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
+    
+    if (this.x < -100 || this.x > W + 100 || this.y < -100 || this.y > H + 100) {
+      this.active = false;
+      return;
+    }
+    
+    // 改进的碰撞检测：寻找最近的有效敌人
+    let hitTarget = null;
+    let minHitDist = Infinity;
+    
+    // 优先检查原始目标（如果还在且有效）
+    if (this.target && this.target.active && this.target.hp > 0 && 
+        dist(this, this.target) < HIT_RADIUS + this.target.size) {
+      hitTarget = this.target;
+    } else {
+      // 寻找范围内最近的有效敌人
+      for (const e of game.enemies) {
+        if (e.active && e.hp > 0) {
+          const d = dist(this, e);
+          const hitDist = HIT_RADIUS + e.size;
+          if (d < hitDist && d < minHitDist) {
+            // 穿透子弹检查是否已击中过
+            if (this.pierceLeft <= 0 || !this.hitEnemies.has(e)) {
+              minHitDist = d;
+              hitTarget = e;
+            }
+          }
+        }
+      }
+    }
+    
+    if (hitTarget) {
+      this.hit(hitTarget);
+    }
+  }
+  
+  hit(enemy) {
+    if (this.pierceLeft > 0) {
+      if (this.hitEnemies.has(enemy)) return; // 防止重复命中同一敌人
+      this.pierceLeft--;
+      this.hitEnemies.add(enemy);
+      this.applyDamage(enemy, true);
+      game.spawnPierceEffect(this.x, this.y, this.color);
+      if (this.pierceLeft <= 0) this.active = false;
+    } else {
+      this.active = false;
+      this.applyDamage(enemy, false);
+    }
+  }
+  
+  applyDamage(enemy, isPierce) {
+    // 防御：如果敌人已死亡，跳过
+    if (!enemy.active || enemy.hp <= 0) return;
+    
+    // 死神之手判定
+    if (this.tower.hasInstantKill && enemy.type !== 'BOSS' && Math.random() < 0.05) {
+      game.spawnDeathParticles(enemy.x, enemy.y, '#ff00ff', 25);
+      game.addDmgText(enemy.x, enemy.y - 20, '即死!', '#ff00ff', true, true);
+      enemy.hp = 0;
+      enemy.active = false;
+      this.tower.gainXP(enemy.xpReward);
+      game.kills++;
+      return;
+    }
+    
+    let dmg = this.damage;
+    if (this.isSplit) dmg *= this.tower.splitDamage;
+    
+    enemy.hp -= dmg;
+    
+    // 元素效果
+    if (this.element) {
+      enemy.applyDebuff(this.element, this.damage, this.tower);
+      this.spawnElementalHitEffect(enemy);
+    }
+    
+    // 伤害显示
+    if (this.isCrit && !this.isSplit) {
+      game.spawnHitParticles(this.x, this.y, '#efcf7b', 15);
+      game.addDmgText(enemy.x, enemy.y - 20, Math.round(dmg) + '!', '#efcf7b', true, true);
+    } else {
+      const color = this.element ? this.color : (this.isSplit ? '#aaa' : '#fff');
+      game.spawnHitParticles(this.x, this.y, color, this.element ? 8 : 4);
+      game.addDmgText(enemy.x, enemy.y - 15, '' + Math.round(dmg), color, false, this.isSplit);
+    }
+    
+    // 击杀检查（确保只执行一次）
+    if (enemy.hp <= 0 && enemy.active) {
+      enemy.active = false;
+      this.tower.gainXP(enemy.xpReward);
+      game.kills++;
+      game.spawnDeathParticles(enemy.x, enemy.y, enemy.color, 20);
+      game.addDmgText(enemy.x, enemy.y - 30, '+' + enemy.xpReward + ' XP', '#c5d5a8');
+      
+      // 毒爆效果
+      if (this.element === 'poison' || enemy.debuffs.some(d => d.type === 'poison')) {
+        game.explodePoison(enemy.x, enemy.y, this.damage * 0.5, this.tower);
+      }
+    }
+    
+    // 后效（仅非穿透时触发）
+    if (!isPierce) {
+      this.postHitEffects(enemy);
+    }
+  }
+  
+  postHitEffects(enemy) {
+    // 分裂逻辑
+    if (!this.isSplit && this.tower.splitCount > 0 && this.splitGeneration < this.tower.splitTimes) {
+      this.split(enemy);
+    }
+    
+    // 闪电连锁
+    if (this.element === 'lightning' && this.tower.chainCount > 0) {
+      this.chainLightning(enemy);
+    }
+    
+    // 吸血
+    if (this.tower.lifeSteal > 0) {
+      const heal = this.damage * this.tower.lifeSteal;
+      this.tower.currentHP = Math.min(this.tower.currentHP + heal, this.tower.maxHP);
+      if (heal > 1) game.spawnHealParticles(this.tower.x, this.tower.y, 3);
+    }
+    
+    // 溅射
+    if (this.tower.hasSplash) {
+      let splashed = 0;
+      for (const e of game.enemies) {
+        if (e !== enemy && e.active && e.hp > 0 && dist(e, enemy) < 100 && splashed < 3) {
+          const sDmg = this.damage * 0.5;
+          e.hp -= sDmg;
+          game.spawnHitParticles(e.x, e.y, '#88f', 4);
+          game.addDmgText(e.x, e.y - 10, '' + Math.round(sDmg), '#88f');
+          splashed++;
+        }
+      }
+    }
+  }
+  
+  split(originalTarget) {
+    const count = this.tower.splitCount;
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 / count) * i + this.angle + rand(-0.2, 0.2);
+      const proj = new Projectile(
+        this.x, this.y, 
+        originalTarget,
+        this.damage, false, this.tower,
+        { 
+          isSplit: true, 
+          splitGeneration: this.splitGeneration + 1,
+          angle: angle,
+          noHoming: true,
+          pierce: 0
+        }
+      );
+      game.projectiles.push(proj);
+    }
+    game.spawnSplitEffect(this.x, this.y);
+  }
+  
+  chainLightning(firstTarget) {
+    let current = firstTarget;
+    let chainLeft = this.tower.chainCount;
+    const chained = new Set([firstTarget]);
+    
+    while (chainLeft > 0) {
+      let nearest = null, minD = 150;
+      for (const e of game.enemies) {
+        if (e.active && e.hp > 0 && !chained.has(e) && dist(e, current) < minD) {
+          minD = dist(e, current);
+          nearest = e;
+        }
+      }
+      
+      if (!nearest) break;
+      
+      const chainDmg = this.damage * 0.6;
+      nearest.hp -= chainDmg;
+      chained.add(nearest);
+      
+      game.spawnLightning(current.x, current.y, nearest.x, nearest.y);
+      game.addDmgText(nearest.x, nearest.y - 10, '' + Math.round(chainDmg), '#efcf7b', false, true);
+      
+      nearest.applyDebuff('stun', 0, {slowPower: 0.3, burnDuration: 0.5});
+      
+      current = nearest;
+      chainLeft--;
+      
+      if (nearest.hp <= 0 && nearest.active) {
+        nearest.active = false;
+        this.tower.gainXP(nearest.xpReward);
+        game.kills++;
+        game.spawnDeathParticles(nearest.x, nearest.y, nearest.color, 15);
+      }
+    }
+  }
+  
+  spawnElementalHitEffect(enemy) {
+    switch(this.element) {
+      case 'fire': game.spawnFireParticles(this.x, this.y, 6); break;
+      case 'ice': game.spawnIceParticles(this.x, this.y, 6); break;
+      case 'lightning': game.spawnSparkParticles(this.x, this.y, 5); break;
+      case 'poison': game.spawnPoisonParticles(this.x, this.y, 4); break;
+    }
+  }
+  
+  render(ctx) {
+    Art.drawProjectile(ctx, this);
+  }
+}
+
+// 敌人定义
+const ENEMY_DEFS = {
+  NORMAL: { hp: 20, speed: 40, damage: 4, xp: 5, color: '#cf997e', size: 12 },
+  FAST:   { hp: 12, speed: 80, damage: 2, xp: 4, color: '#dcc17e', size: 9 },
+  TANK:   { hp: 70, speed: 22, damage: 8, xp: 14, color: '#b4bb96', size: 18 },
+  BOSS:   { hp: 300, speed: 16, damage: 14, xp: 60, color: '#e19a7a', size: 24 }
+};
+
+// 敌人类
+class Enemy {
+  constructor(type, wave) {
+    const def = ENEMY_DEFS[type];
+    this.type = type;
+    this.x = rand(SPAWN_MARGIN, W - SPAWN_MARGIN);
+    this.y = -30;
+    
+    const waveEff = Math.max(0, wave - 3);
+    const hpScale = 1 + waveEff * 0.10;
+    const dmgScale = 1 + waveEff * 0.06;
+    
+    this.maxHP = def.hp * hpScale;
+    this.hp = this.maxHP;
+    this.speed = def.speed + waveEff * 1.5;
+    this.originalSpeed = this.speed;
+    this.damage = def.damage * dmgScale;
+    this.xpReward = def.xp + Math.floor(wave * 0.4);
+    this.color = def.color;
+    this.size = def.size;
+    this.active = true;
+    this.hitFlash = 0;
+    this.wobble = rand(0, Math.PI * 2);
+    
+    this.debuffs = [];
+  }
+  
+  update(dt, tower) {
+    this.wobble += dt * 3;
+    this.hitFlash = Math.max(0, this.hitFlash - dt * 5);
+    
+    this.updateDebuffs(dt);
+    
+    const d = normalize(tower.x - this.x, tower.y - this.y);
+    const sway = Math.sin(this.wobble) * 12;
+    this.x += (d.x * this.speed + sway * 0.3) * dt;
+    this.y += d.y * this.speed * dt;
+    
+    if (dist(this, tower) < CONTACT_RADIUS + this.size) {
+      tower.takeDamage(this.damage * dt);
+      this.hitFlash = 1;
+    }
+    
+    // 如果超出屏幕底部，视为逃脱（可选惩罚）
+    if (this.y > H + 50) {
+      this.active = false;
+    }
+  }
+  
+  updateDebuffs(dt) {
+    let isSlowed = false;
+    let slowAmount = 0;
+    
+    for (let i = this.debuffs.length - 1; i >= 0; i--) {
+      const d = this.debuffs[i];
+      d.duration -= dt;
+      
+      switch(d.type) {
+        case 'burn':
+          this.hp -= d.damage * dt;
+          this.hitFlash = 0.3;
+          if (Math.random() < 0.2) game.spawnFireParticles(this.x, this.y, 1);
+          break;
+        case 'slow':
+        case 'stun':
+          isSlowed = true;
+          slowAmount = Math.max(slowAmount, d.power || 0.4);
+          break;
+        case 'poison':
+          this.hp -= d.damage * dt;
+          if (Math.random() < 0.15) game.spawnPoisonParticles(this.x, this.y, 1);
+          break;
+      }
+      
+      if (d.duration <= 0) this.debuffs.splice(i, 1);
+    }
+    
+    this.speed = isSlowed ? this.originalSpeed * (1 - slowAmount) : this.originalSpeed;
+    
+    // 如果Debuff导致死亡
+    if (this.hp <= 0 && this.active) {
+      this.active = false;
+      game.kills++;
+      game.spawnDeathParticles(this.x, this.y, this.color, 15);
+    }
+  }
+  
+  applyDebuff(type, damage, source) {
+    switch(type) {
+      case 'fire':
+        this.debuffs.push({
+          type: 'burn',
+          duration: source.burnDuration || 3,
+          damage: source.attack * 0.25
+        });
+        break;
+      case 'ice':
+        this.debuffs.push({
+          type: 'slow',
+          duration: 2.5,
+          power: source.slowPower || 0.4
+        });
+        break;
+      case 'poison':
+        this.debuffs.push({
+          type: 'poison',
+          duration: 4,
+          damage: damage * 0.15
+        });
+        break;
+      case 'stun':
+        this.debuffs.push({
+          type: 'stun',
+          duration: source.burnDuration || 0.5,
+          power: source.slowPower || 0.3
+        });
+        break;
+    }
+  }
+  
+  render(ctx) {
+    Art.drawEnemy(ctx, this, game.tower);
+  }
+}
+
+// 炮塔
+class Tower {
+  constructor() { 
+    this.x = W / 2; 
+    this.y = TOWER_Y; 
+    this.reset(); 
+  }
+  
+  reset() {
+    this.x = W / 2;
+    this.y = TOWER_Y;
+    this.maxHP = 150;
+    this.currentHP = 150;
+    this.attack = 15;
+    this.attackSpeed = 1.3;
+    this.attackRange = 240;
+    this.critRate = 0.05;
+    this.critDamage = 1.5;
+    this.lifeSteal = 0;
+    this.hasSplash = false;
+    this.hasInstantKill = false;
+    this.damageTakenMult = 1.0;
+    this.hpRegen = 0.5;
+    
+    this.multiShot = 0;
+    this.spreadAngle = 0;
+    
+    this.splitCount = 0;
+    this.splitDamage = 0.4;
+    this.splitTimes = 1;
+    
+    this.pierceCount = 0;
+    
+    this.elementType = null;
+    this.burnDuration = 3;
+    this.slowPower = 0.4;
+    this.chainCount = 0;
+    
+    this.bulletSize = 1;
+    this.trailLength = 6;
+    
+    this.xp = 0;
+    this.level = 1;
+    this.attackTimer = 0;
+    this.targetAngle = -Math.PI / 2;
+    this.currentAngle = -Math.PI / 2;
+    this.muzzleFlash = 0;
+    this.hurtFlash = 0;
+  }
+  
+  get xpToNextLevel() {
+    if (this.level <= 3) return 10 + (this.level - 1) * 5;
+    return 20 + (this.level - 3) * 12;
+  }
+  
+  update(dt, enemies) {
+    // 确保attackTimer始终递减（防御性）
+    this.attackTimer -= dt;
+    
+    this.muzzleFlash = Math.max(0, this.muzzleFlash - dt * 10);
+    this.hurtFlash = Math.max(0, this.hurtFlash - dt * 5);
+    
+    this.currentHP = Math.min(this.currentHP + this.hpRegen * dt, this.maxHP);
+    
+    let nearest = null, minD = Infinity;
+    for (const e of enemies) {
+      if (!e.active || e.hp <= 0) continue;
+      const d = dist(this, e);
+      if (d < this.attackRange && d < minD) { minD = d; nearest = e; }
+    }
+    
+    if (nearest) {
+      this.targetAngle = Math.atan2(nearest.y - this.y, nearest.x - this.x);
+    } else {
+      // 如果没有目标，缓慢回到默认角度
+      const defaultAngle = -Math.PI / 2;
+      let diff = defaultAngle - this.targetAngle;
+      while (diff > Math.PI) diff -= Math.PI * 2;
+      while (diff < -Math.PI) diff += Math.PI * 2;
+      this.targetAngle += diff * dt * 2;
+    }
+    
+    let diff = this.targetAngle - this.currentAngle;
+    while (diff > Math.PI) diff -= Math.PI * 2;
+    while (diff < -Math.PI) diff += Math.PI * 2;
+    this.currentAngle += diff * Math.min(1, dt * 12);
+    
+    if (nearest && this.attackTimer <= 0) {
+      this.fire(nearest);
+      this.attackTimer = 1 / this.attackSpeed;
+    }
+  }
+  
+  fire(target) {
+    const isCrit = Math.random() < this.critRate;
+    const dmg = this.attack * (isCrit ? this.critDamage : 1);
+    const bx = this.x + Math.cos(this.currentAngle) * 24;
+    const by = this.y + Math.sin(this.currentAngle) * 24;
+    
+    const totalShots = 1 + this.multiShot;
+    
+    for (let i = 0; i < totalShots; i++) {
+      let angle = this.currentAngle;
+      
+      if (totalShots > 1) {
+        const spreadRad = (this.spreadAngle || 0) * Math.PI / 180;
+        const step = totalShots > 1 ? spreadRad / (totalShots - 1) : 0;
+        const offset = (i - (totalShots - 1) / 2) * step;
+        angle += offset * (0.9 + Math.random() * 0.2);
+      }
+      
+      const proj = new Projectile(
+        bx + Math.cos(angle) * 10, 
+        by + Math.sin(angle) * 10,
+        target, dmg, isCrit, this,
+        { angle: angle }
+      );
+      game.projectiles.push(proj);
+    }
+    
+    this.muzzleFlash = 1;
+    game.screenShake = isCrit ? 5 : 2.5;
+  }
+  
+  takeDamage(amount) {
+    if (amount <= 0) return;
+    this.currentHP -= amount * this.damageTakenMult;
+    if (amount > 0.5) this.hurtFlash = 1;
+    if (this.currentHP <= 0) { 
+      this.currentHP = 0; 
+      game.state = STATES.GAME_OVER; 
+    }
+  }
+  
+  gainXP(amount) {
+    if (amount <= 0) return;
+    this.xp += amount;
+    while (this.xp >= this.xpToNextLevel) {
+      this.xp -= this.xpToNextLevel;
+      this.level++;
+      this.currentHP = Math.min(this.currentHP + this.maxHP * 0.15, this.maxHP);
+      game.triggerCardSelection();
+      game.spawnLevelUpParticles();
+    }
+  }
+  
+  render(ctx) {
+    Art.drawTower(ctx, this, game.totalTime);
+  }
+}
+
+// 卡牌数据库
+const CARDS = [
+  { id:'C01', name:'锋利子弹', rarity:'common', icon:'🔫', desc:'攻击力 +5', apply(t){ t.attack+=5; }},
+  { id:'C02', name:'强化装甲', rarity:'common', icon:'🛡️', desc:'最大生命 +25', apply(t){ t.maxHP+=25; t.currentHP+=25; }},
+  { id:'C03', name:'快速射击', rarity:'common', icon:'⚡', desc:'攻速 +15%', apply(t){ t.attackSpeed*=1.15; }},
+  { id:'C04', name:'鹰眼镜片', rarity:'common', icon:'🔭', desc:'攻击范围 +40', apply(t){ t.attackRange+=40; }},
+  { id:'C05', name:'急救包', rarity:'common', icon:'💊', desc:'完全恢复生命', apply(t){ t.currentHP=t.maxHP; }},
+  { id:'C16', name:'生命活力', rarity:'common', icon:'💚', desc:'每秒回血 +1', apply(t){ t.hpRegen+=1; }},
+  
+  { id:'C06', name:'穿甲弹', rarity:'rare', icon:'💥', desc:'攻击力 +12', apply(t){ t.attack+=12; }},
+  { id:'C07', name:'涡轮引擎', rarity:'rare', icon:'🌀', desc:'攻速 +30%', apply(t){ t.attackSpeed*=1.30; }},
+  { id:'C08', name:'暴击训练', rarity:'rare', icon:'🎯', desc:'暴击率 +10%', apply(t){ t.critRate+=0.10; }},
+  { id:'C09', name:'致命打击', rarity:'rare', icon:'☠️', desc:'暴击伤害 +30%', apply(t){ t.critDamage+=0.3; }},
+  { id:'C10', name:'生命之泉', rarity:'rare', icon:'💖', desc:'最大生命 +50', apply(t){ t.maxHP+=50; t.currentHP+=50; }},
+  
+  { id:'C11', name:'连锁闪电', rarity:'epic', icon:'⚡', desc:'溅射2敌(50%伤害)', apply(t){ t.hasSplash=true; }},
+  { id:'C12', name:'吸血弹头', rarity:'epic', icon:'🧛', desc:'命中回复10%伤害HP', apply(t){ t.lifeSteal+=0.10; }},
+  { id:'C13', name:'狂暴模式', rarity:'epic', icon:'😡', desc:'攻速×1.5 受伤+20%', apply(t){ t.attackSpeed*=1.5; t.damageTakenMult+=0.2; }},
+  { id:'C14', name:'钢铁堡垒', rarity:'epic', icon:'🏰', desc:'生命×1.5 攻速×0.85', apply(t){ t.maxHP=Math.floor(t.maxHP*1.5); t.currentHP=Math.floor(t.currentHP*1.5); t.attackSpeed*=0.85; }},
+  { id:'C15', name:'死神之手', rarity:'epic', icon:'💀', desc:'5%概率即死(非Boss)', apply(t){ t.hasInstantKill=true; }},
+  
+  { id:'C17', name:'双发装置', rarity:'rare', icon:'🔫', desc:'射击+1子弹，伤害-8%', apply(t){ t.multiShot++; t.attack*=0.92; }},
+  { id:'C18', name:'散射模式', rarity:'epic', icon:'📐', desc:'射击+2子弹，散布±15°，攻速-10%', apply(t){ t.multiShot+=2; t.spreadAngle=15; t.attackSpeed*=0.9; }},
+  { id:'C19', name:'弹幕风暴', rarity:'legendary', icon:'🌪️', desc:'射击+4子弹，伤害-30%，散布±30°', apply(t){ t.multiShot+=4; t.spreadAngle=30; t.attack*=0.7; t.bulletSize=0.8; }},
+  
+  { id:'C20', name:'分裂弹头', rarity:'epic', icon:'⚛️', desc:'命中分裂2个弹片，40%伤害', apply(t){ t.splitCount=2; t.splitDamage=0.4; t.splitTimes=1; }},
+  { id:'C21', name:'弹弹乐', rarity:'rare', icon:'🎱', desc:'30%概率弹射，伤害-20%每次', apply(t){ t.splitCount=1; t.splitDamage=0.8; t.splitTimes=2; }},
+  { id:'C22', name:'无限裂变', rarity:'legendary', icon:'♾️', desc:'弹片可再分裂（最多3次），每次-35%伤害', apply(t){ t.splitCount=2; t.splitDamage=0.65; t.splitTimes=3; }},
+  
+  { id:'C23', name:'燃烧弹', rarity:'epic', icon:'🔥', desc:'附加灼烧：3秒共造成80%攻击伤害', apply(t){ t.elementType='fire'; t.bulletSize=1.2; t.trailLength=8; }},
+  { id:'C24', name:'霜冻核心', rarity:'epic', icon:'❄️', desc:'减速敌人40%，持续2.5秒', apply(t){ t.elementType='ice'; t.slowPower=0.4; }},
+  { id:'C25', name:'雷电法王', rarity:'legendary', icon:'⚡', desc:'命中连锁3个敌人，造成60%伤害', apply(t){ t.elementType='lightning'; t.chainCount=3; t.attackSpeed*=1.1; t.trailLength=4; }},
+  { id:'C26', name:'剧毒瘟疫', rarity:'epic', icon:'☠️', desc:'击杀时毒爆：50%范围伤害+中毒', apply(t){ t.elementType='poison'; }},
+  
+  { id:'C27', name:'元素混沌', rarity:'legendary', icon:'🌈', desc:'同时附加火冰雷，攻速-20%', apply(t){ t.elementType='fire'; t.slowPower=0.3; t.chainCount=2; t.attackSpeed*=0.8; t.bulletSize=1.3; }},
+  { id:'C28', name:'无限火力', rarity:'legendary', icon:'🔁', desc:'子弹穿透所有敌人直到出屏', apply(t){ t.pierceCount=99; t.attack*=1.3; t.bulletSize=1.5; t.trailLength=10; }}
+];
+
+const RARITY_LABELS = { common:'普通', rare:'稀有', epic:'史诗', legendary:'传说' };
+
+// DDA 波次配置
+function getWaveConfig(wave) {
+  let normals, fasts, tanks, bosses, interval;
+  if (wave === 1)      { normals=2; fasts=0; tanks=0; bosses=0; interval=2.0; }
+  else if (wave === 2) { normals=3; fasts=0; tanks=0; bosses=0; interval=1.8; }
+  else if (wave === 3) { normals=4; fasts=1; tanks=0; bosses=0; interval=1.6; }
+  else if (wave === 4) { normals=4; fasts=2; tanks=0; bosses=0; interval=1.4; }
+  else if (wave === 5) { normals=5; fasts=2; tanks=1; bosses=0; interval=1.3; }
+  else {
+    normals = 4 + Math.floor(wave * 1.3);
+    fasts   = Math.floor(wave * 0.7);
+    tanks   = Math.max(0, Math.floor((wave - 4) / 2));
+    bosses  = (wave % 8 === 0) ? 1 + Math.floor(wave/20) : 0;
+    interval = Math.max(0.35, 1.2 - wave * 0.03);
+  }
+  const queue = [];
+  for (let i = 0; i < normals; i++) queue.push('NORMAL');
+  for (let i = 0; i < fasts; i++)   queue.push('FAST');
+  for (let i = 0; i < tanks; i++)   queue.push('TANK');
+  for (let i = 0; i < bosses; i++)  queue.push('BOSS');
+  for (let i = queue.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [queue[i], queue[j]] = [queue[j], queue[i]];
+  }
+  return { queue, interval };
+}
+
+// 主游戏对象
+const game = {
+  state: STATES.TITLE,
+  tower: new Tower(),
+  enemies: [],
+  projectiles: [],
+  particles: [],
+  dmgTexts: [],
+  lightningEffects: [],
+  wave: 0, kills: 0, totalTime: 0,
+  spawnQueue: [], spawnTimer: 0, spawnInterval: 1,
+  waveBreak: false, waveBreakTimer: 0,
+  cardCandidates: [],
+  screenShake: 0,
+  lastTime: 0,
+  paused: false, helpOpen: false, modules: [],
+
+  reset() {
+    this.tower.reset();
+    this.enemies = []; this.projectiles = [];
+    this.particles = []; this.dmgTexts = [];
+    this.lightningEffects = [];
+    this.wave = 0; this.kills = 0; this.totalTime = 0;
+    this.spawnQueue = []; this.spawnTimer = 0;
+    this.waveBreak = false; this.waveBreakTimer = 1.5;
+    this.cardCandidates = []; this.screenShake = 0;
+    this.paused = false; this.modules = [];
+    this.state = STATES.PLAYING;
+    this.startNextWave();
+  },
+
+  startNextWave() {
+    this.wave++;
+    const cfg = getWaveConfig(this.wave);
+    this.spawnQueue = cfg.queue;
+    this.spawnInterval = cfg.interval;
+    this.spawnTimer = 1.0;
+    this.waveBreak = false;
+  },
+
+  triggerCardSelection() {
+    this.cardCandidates = this.pickRandomCards(3);
+    this.state = STATES.CARD_SELECT;
+  },
+
+  pickRandomCards(count) {
+    const result = [];
+    const hasLegendary = this.tower.level >= 8 && Math.random() < 0.25;
+    
+    for (let i = 0; i < count; i++) {
+      let rarity;
+      const roll = Math.random();
+      
+      if (hasLegendary && i === 0) {
+        rarity = 'legendary';
+      } else {
+        rarity = roll < 0.10 ? 'epic' : roll < 0.40 ? 'rare' : 'common';
+      }
+      
+      const pool = CARDS.filter(c => c.rarity === rarity);
+      result.push(randPick(pool));
+    }
+    return result;
+  },
+
+  selectCard(index) {
+    if (index >= 0 && index < this.cardCandidates.length) {
+      const selected = this.cardCandidates[index];
+      selected.apply(this.tower);
+      this.modules.push(selected);
+      this.state = STATES.PLAYING;
+      this.cardCandidates = [];
+      GameUI.showReward(selected);
+    }
+  },
+
+  // 特效生成函数
+  spawnHitParticles(x, y, color, n) {
+    if (this.particles.length < MAX_PARTICLES)
+      this.particles.push(new Particle(x, y, 0, 0, 0.22, 10, color, 'ring', false));
+    for (let i = 0; i < n && this.particles.length < MAX_PARTICLES; i++)
+      this.particles.push(new Particle(x, y, rand(-100, 100), rand(-100, 100), rand(0.2, 0.5), rand(2, 4), color));
+  },
+  
+  spawnDeathParticles(x, y, color, n) {
+    if (this.particles.length < MAX_PARTICLES)
+      this.particles.push(new Particle(x, y, 0, 0, 0.42, 24, color, 'ring', false));
+    for (let i = 0; i < n && this.particles.length < MAX_PARTICLES; i++)
+      this.particles.push(new Particle(x, y, rand(-150, 150), rand(-200, 50), rand(0.4, 1.0), rand(3, 6), color, Math.random()>0.5?'circle':'rect'));
+  },
+  
+  spawnHealParticles(x, y, n) {
+    for (let i = 0; i < n && this.particles.length < MAX_PARTICLES; i++)
+      this.particles.push(new Particle(x+rand(-20,20), y, rand(-30,30), rand(-80,-40), rand(0.4,0.8), rand(3,5), '#a0d9b8', 'circle', false));
+  },
+  
+  spawnLevelUpParticles() {
+    for (let i = 0; i < 30 && this.particles.length < MAX_PARTICLES; i++) {
+      const a = (i/30)*Math.PI*2;
+      this.particles.push(new Particle(this.tower.x, this.tower.y, Math.cos(a)*150, Math.sin(a)*150, rand(0.6,1.2), rand(3,6), '#e5b777'));
+    }
+  },
+  
+  spawnFireParticles(x, y, n) {
+    for (let i = 0; i < n && this.particles.length < MAX_PARTICLES; i++) {
+      const angle = rand(0, Math.PI*2);
+      const speed = rand(20, 60);
+      this.particles.push(new Particle(x, y, Math.cos(angle)*speed, Math.sin(angle)*speed - 40, rand(0.4,0.9), rand(3,7), randPick(['#ed9366','#e5b777','#f4d696']), 'circle', false));
+    }
+  },
+  
+  spawnIceParticles(x, y, n) {
+    for (let i = 0; i < n && this.particles.length < MAX_PARTICLES; i++) {
+      this.particles.push(new Particle(x, y, rand(-50,50), rand(-50,50), rand(0.5,1.2), rand(2,5), randPick(['#9edbd8','#b8dbbd','#e3ece0']), 'rect', false));
+    }
+  },
+  
+  spawnSparkParticles(x, y, n) {
+    for (let i = 0; i < n && this.particles.length < MAX_PARTICLES; i++) {
+      const angle = rand(0, Math.PI*2);
+      const speed = rand(100, 200);
+      this.particles.push(new Particle(x, y, Math.cos(angle)*speed, Math.sin(angle)*speed, rand(0.1,0.3), rand(2,4), '#efcf7b', 'circle', false));
+    }
+  },
+  
+  spawnPoisonParticles(x, y, n) {
+    for (let i = 0; i < n && this.particles.length < MAX_PARTICLES; i++) {
+      this.particles.push(new Particle(x, y, rand(-30,30), rand(-60,-20), rand(0.5,1.0), rand(4,8), '#b0c78c', 'circle', false));
+    }
+  },
+  
+  spawnSplitEffect(x, y) {
+    for (let i = 0; i < 10; i++) {
+      const angle = (i/10)*Math.PI*2;
+      this.particles.push(new Particle(x, y, Math.cos(angle)*120, Math.sin(angle)*120, 0.3, 3, '#fff', 'circle', false));
+    }
+  },
+  
+  spawnPierceEffect(x, y, color) {
+    this.particles.push(new Particle(x, y, 0, 0, 0.15, 15, color, 'circle', false));
+  },
+  
+  spawnLightning(x1, y1, x2, y2) {
+    const points = [{x:x1, y:y1}];
+    const segments = 6;
+    for (let i = 1; i < segments; i++) {
+      const t = i / segments;
+      points.push({
+        x: lerp(x1, x2, t) + rand(-25, 25),
+        y: lerp(y1, y2, t) + rand(-25, 25)
+      });
+    }
+    points.push({x:x2, y:y2});
+    this.lightningEffects.push(new LightningEffect(points, '#efcf7b'));
+  },
+  
+  explodePoison(x, y, damage, source) {
+    for (const e of this.enemies) {
+      if (e.active && e.hp > 0 && dist(e, {x,y}) < 100) {
+        const dmg = damage;
+        e.hp -= dmg;
+        e.applyDebuff('poison', dmg, source);
+        this.addDmgText(e.x, e.y - 10, '' + Math.round(dmg), '#b0c78c');
+        
+        if (e.hp <= 0 && e.active) {
+          e.active = false;
+          this.kills++;
+          this.spawnDeathParticles(e.x, e.y, e.color, 10);
+        }
+      }
+    }
+    this.spawnPoisonParticles(x, y, 15);
+  },
+
+  addDmgText(x, y, text, color, big=false, isCrit=false) {
+    if (this.dmgTexts.length >= MAX_DAMAGE_TEXTS) this.dmgTexts.shift();
+    this.dmgTexts.push(new DamageText(x+rand(-15,15), y, text, color, big, isCrit));
+  },
+
+  update(dt) {
+    if (this.state !== STATES.PLAYING || this.paused || this.helpOpen) return;
+    this.totalTime += dt;
+    this.screenShake = Math.max(0, this.screenShake - dt * 12);
+
+    // 性能保护：限制子弹数量（保留最新的）
+    if (this.projectiles.length > MAX_PROJECTILES) {
+      this.projectiles.splice(0, this.projectiles.length - MAX_PROJECTILES);
+    }
+
+    if (this.waveBreak) {
+      this.waveBreakTimer -= dt;
+      this.tower.currentHP = Math.min(this.tower.currentHP + this.tower.maxHP * 0.08 * dt, this.tower.maxHP);
+      if (this.waveBreakTimer <= 0) this.startNextWave();
+    }
+
+    if (!this.waveBreak && this.spawnQueue.length > 0) {
+      this.spawnTimer -= dt;
+      if (this.spawnTimer <= 0) {
+        this.enemies.push(new Enemy(this.spawnQueue.pop(), this.wave));
+        this.spawnTimer = this.spawnInterval;
+      }
+    }
+
+    if (!this.waveBreak && this.spawnQueue.length === 0 && !this.enemies.some(e => e.active)) {
+      this.waveBreak = true;
+      this.waveBreakTimer = 3.5;
+    }
+
+    this.tower.update(dt, this.enemies);
+    
+    for (const e of this.enemies) if (e.active) e.update(dt, this.tower);
+    for (const p of this.projectiles) if (p.active) p.update(dt);
+    for (const p of this.particles) if (p.active) p.update(dt);
+    for (const t of this.dmgTexts) if (t.active) t.update(dt);
+    for (const l of this.lightningEffects) if (l.active) l.update(dt);
+
+    this.enemies = this.enemies.filter(e => e.active);
+    this.projectiles = this.projectiles.filter(p => p.active);
+    this.particles = this.particles.filter(p => p.active);
+    this.dmgTexts = this.dmgTexts.filter(t => t.active);
+    this.lightningEffects = this.lightningEffects.filter(l => l.active);
+  },
+
+  render() {
+    Art.render(this, ctx);
+  }
+};
+
+// 主循环
+function gameLoop(ts){
+  const dt=Math.min((ts-game.lastTime)/1000, 0.05);
+  game.lastTime=ts;
+  game.update(dt);
+  game.render();
+  requestAnimationFrame(gameLoop);
+}
+
+game.state=STATES.TITLE;
+requestAnimationFrame((ts)=>{
+  game.lastTime=ts;
+  gameLoop(ts);
+});
+
+</script>
+<script src="ui.js"></script>
+</body>
+</html>

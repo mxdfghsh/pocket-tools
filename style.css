@@ -543,3 +543,9 @@ body.entered .back-home { display: grid; }
 
 /* 底部工具入口 */
 .tools-foot{margin-top:22px}
+
+/* 置顶按钮 */
+.card-head{position:relative}
+.card .pin{position:absolute;top:0;right:0;width:26px;height:26px;display:grid;place-items:center;font-size:15px;line-height:1;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.card .pin:hover{color:var(--accent);border-color:var(--accent)}
+.card .pin.on{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 50%,transparent);background:color-mix(in srgb,var(--accent) 12%,transparent)}

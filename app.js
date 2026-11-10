@@ -568,7 +568,8 @@
     return el("article", { class: "card", id: "tool-" + t.id, "data-tool": t.id, style: "animation-delay:" + Math.min(i * 45, 400) + "ms" },
       el("div", { class: "card-head" },
         el("span", { class: "ico" }, t.icon),
-        el("div", {}, el("h2", {}, t.name), el("p", {}, t.desc))
+        el("div", {}, el("h2", {}, t.name), el("p", {}, t.desc)),
+        el("button", { class: "pin", type: "button", "data-pin": t.id, title: "置顶这个工具", "aria-label": "置顶" }, "☆")
       ),
       t.build()
     );
@@ -577,6 +578,19 @@
   /* ---- 首屏固定 8 个大众向工具 ---- */
   const FEATURED = ["time", "unit", "tax", "loan", "color", "text", "img", "money"];
   const rank = (t) => { const i = FEATURED.indexOf(t.id); return i < 0 ? 99 : i; };
+
+  /* ---- 置顶（最多 3 个） ---- */
+  const PKEY = "pocket-pinned";
+  const readPinned = () => { try { return JSON.parse(localStorage.getItem(PKEY) || "[]"); } catch (e) { return []; } };
+  const isPinned = (id) => readPinned().indexOf(id) >= 0;
+  const flushPinned = () => {
+    document.querySelectorAll(".pin").forEach((b) => {
+      const on = isPinned(b.getAttribute("data-pin"));
+      b.textContent = on ? "★" : "☆";
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  };
 
   /* ---- 最近用过 ---- */
   const RKEY = "pocket-recent";
@@ -611,12 +625,16 @@
         const hay = (t.name + " " + t.desc + " " + t.tags.join(" ") + " " + t.id).toLowerCase();
         return hay.indexOf(term) >= 0;
       })
-      .sort((a, b) => rank(a) - rank(b));
+      .sort((a, b) => {
+        const pa = isPinned(a.id) ? 0 : 1, pb = isPinned(b.id) ? 0 : 1;
+        return pa - pb || rank(a) - rank(b);
+      });
     grid.innerHTML = "";
     list.forEach((t, i) => grid.appendChild(card(t, i)));
     empty.hidden = list.length > 0;
     $("#stat-count").textContent = tools.length + " 个工具";
     renderRecent();
+    flushPinned();
   }
 
   q.addEventListener("input", debounce(render, 120));
@@ -631,6 +649,17 @@
 
   /* 点了卡片就记一笔最近，同时把 hash 换成它，方便收藏/分享 */
   grid.addEventListener("click", (e) => {
+    const pinBtn = e.target.closest && e.target.closest(".pin");
+    if (pinBtn) {
+      e.preventDefault();
+      const id = pinBtn.getAttribute("data-pin");
+      let list = readPinned();
+      if (list.indexOf(id) >= 0) list = list.filter((x) => x !== id);
+      else { list.unshift(id); if (list.length > 3) list = list.slice(0, 3); }
+      try { localStorage.setItem(PKEY, JSON.stringify(list)); } catch (err) {}
+      render();
+      return;
+    }
     const c = e.target.closest && e.target.closest(".card");
     if (!c || !c.id) return;
     const id = c.getAttribute("data-tool");

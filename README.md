@@ -15,7 +15,7 @@
 
 ```
 主页 index.html
- ├─ 工具 tools.html        57 个本地工具
+ ├─ 工具 tools.html        59 个本地工具
  ├─ 游戏中心 hub.html
  │   ├─ 网页经典 web.html   16 款本站托管 + 12 个外链
  │   └─ 中国象棋 chess.html

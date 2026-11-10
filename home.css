@@ -672,3 +672,15 @@ footer p { margin: 3px 0; }
 .install-tip button{font:inherit;font-size:12.5px;border-radius:9px;border:1px solid var(--line-strong);background:transparent;color:var(--ink);padding:7px 10px;cursor:pointer}
 .install-tip .it-go{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:700}
 @media (min-width:720px){.install-tip{display:none}}
+
+/* ---- 终端彩蛋 ---- */
+#termBtn{position:fixed;right:12px;bottom:calc(var(--nav-h,62px) + 66px);z-index:64;width:40px;height:40px;border-radius:50%;border:1px solid var(--line-strong);background:color-mix(in srgb,var(--surface) 92%,transparent);color:var(--muted);font:700 13px/1 var(--mono);cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#termBtn:hover{color:var(--accent);border-color:var(--accent)}
+#termBox{position:fixed;left:12px;right:12px;bottom:calc(var(--nav-h,62px) + 12px);z-index:66;max-width:640px;margin:0 auto;border:1px solid var(--line-strong);border-radius:14px;background:color-mix(in srgb,var(--bg) 96%,#000);box-shadow:0 24px 60px -24px rgba(0,0,0,.75);overflow:hidden}
+.term-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid var(--line);font:600 11.5px/1 var(--mono);color:var(--muted)}
+.term-bar button{border:0;background:transparent;color:var(--muted);font-size:13px;cursor:pointer;padding:2px 6px}
+.term-out{height:220px;overflow:auto;padding:10px 12px;font:12.5px/1.7 var(--mono);color:var(--ink);white-space:pre-wrap;word-break:break-word}
+.term-line.ok{color:var(--ok)}
+.term-line.dim{color:var(--muted)}
+.term-form{display:flex;gap:8px;align-items:center;padding:8px 12px 10px;border-top:1px solid var(--line);font:12.5px var(--mono);color:var(--ok)}
+.term-form input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--ink);font:12.5px var(--mono)}

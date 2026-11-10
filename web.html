@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="skins.css?v=5">
 <link rel="stylesheet" href="splash.css?v=2">
 <link rel="stylesheet" href="motion.css?v=1">
+<link rel="stylesheet" href="directory.css?v=1">
 </head>
 <body>
 <div class="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
@@ -33,139 +34,82 @@
   <h1>网上搬来的<em>经典</em></h1>
   <p class="lead">都是成熟的开源作品（做过很多年的那种），不是我自己写的。手机直接玩。</p>
 </header>
-<main class="wrap">
-  <div class="grid">
-    <a class="wg" href="web/llk/index.html" style="border-color:rgba(52,211,153,.5);background:linear-gradient(140deg,rgba(52,211,153,.12),rgba(15,23,42,.14))">
-      <b>🀄 连连看</b>
-      <p>两个一样的图案，能用不超过三个弯连起来就能消。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/mahjong/index.html" style="border-color:rgba(251,191,36,.45);background:linear-gradient(140deg,rgba(251,191,36,.12),rgba(120,113,108,.12))">
-      <b>🀄 麻将连连看</b>
-      <p>麻将牌叠成塔，配对消掉，配对时必须左右都能走通。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/breakout/index.html" style="border-color:rgba(56,189,248,.45);background:linear-gradient(140deg,rgba(56,189,248,.1),rgba(167,139,250,.1))">
-      <b>🏓 打砖块（经典版）</b>
-      <p>挡板接球敲砖，带音效，鼠标或触摸滑动挡板。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/p15/index.html" style="border-color:rgba(148,163,184,.5);background:linear-gradient(140deg,rgba(148,163,184,.14),rgba(15,23,42,.16))">
-      <b>🔢 数字华容道</b>
-      <p>15 个数字一个空位，按顺序排回去，看着简单其实挺费脑。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/gobang/index.html" style="border-color:rgba(120,113,108,.6);background:linear-gradient(140deg,rgba(120,113,108,.16),rgba(15,23,42,.12))">
-      <b>⚫ 五子棋</b>
-      <p>和电脑下，先连成五个就赢。棋盘是木纹的。</p>
-      <span>开局 →</span>
-    </a>
-    <a class="wg" href="web/tetris/index.html" style="border-color:rgba(56,189,248,.5);background:linear-gradient(140deg,rgba(56,189,248,.12),rgba(167,139,250,.1))">
-      <b>🧱 俄罗斯方块</b>
-      <p>经典下落+消行，带音效，键盘或触摸都行。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/bubble/index.html" style="border-color:rgba(244,114,182,.5);background:linear-gradient(140deg,rgba(244,114,182,.12),rgba(251,191,36,.08))">
-      <b>🫧 泡泡龙</b>
-      <p>把同色泡泡打在一起，连三个以上就爆。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/tdr/index.html" style="border-color:rgba(74,222,128,.5);background:linear-gradient(140deg,rgba(74,222,128,.12),rgba(15,23,42,.14))">
-      <b>🗼 塔防 Roguelike</b>
-      <p>每波过后三选一拿增益，塔越叠越强，挂了就重开。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/match3/index.html" style="border-color:rgba(167,139,250,.5);background:linear-gradient(140deg,rgba(167,139,250,.12),rgba(244,114,182,.08))">
-      <b>💎 宝石消消乐</b>
-      <p>三个一样的连成线就消，连锁越多分越高。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/sokoban/index.html" style="border-color:rgba(251,146,60,.5);background:linear-gradient(140deg,rgba(251,146,60,.12),rgba(120,113,108,.1))">
-      <b>📦 推箱子</b>
-      <p>把箱子推到目标点，只能推不能拉，一步走错就得重来。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/b2b/index.html" style="border-color:rgba(96,165,250,.5);background:linear-gradient(140deg,rgba(96,165,250,.12),rgba(15,23,42,.15))">
-      <b>🧩 滑块拼图（Block to Block）</b>
-      <p>挪开挡路的方块，让角色走到出口。电脑上体验更好。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/bcbk/index.html" style="border-color:rgba(148,163,184,.55);background:linear-gradient(140deg,rgba(148,163,184,.14),rgba(15,23,42,.12))">
-      <b>⬛ 别踩白块儿</b>
-      <p>只踩黑块，别碰白的。越按越快，手一滑就没了。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/jfcz/index.html" style="border-color:rgba(56,189,248,.5);background:linear-gradient(140deg,rgba(56,189,248,.12),rgba(167,139,250,.08))">
-      <b>🎯 见缝插针</b>
-      <p>往转盘上扎针，别扎到已有的针。18 个进球过关。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/sheep/index.html" style="border-color:rgba(74,222,128,.5);background:linear-gradient(140deg,rgba(74,222,128,.12),rgba(250,204,21,.08))">
-      <b>🐑 羊了个羊</b>
-      <p>三层牌堆凑三消，槽位满了就输。第二关真的很难。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/td/index.html" style="border-color:rgba(250,204,21,.5);background:linear-gradient(140deg,rgba(250,204,21,.12),rgba(74,222,128,.08))">
-      <b>🏰 王国守卫（塔防）</b>
-      <p>摆塔防怪，弓箭、炮台、冰霜、魔法四种塔，一波一波来。</p>
-      <span>开始 →</span>
-    </a>
-    <a class="wg" href="web/jump/index.html" style="border-color:rgba(110,231,168,.5);background:linear-gradient(140deg,rgba(110,231,168,.12),rgba(96,165,250,.08))">
-      <b>🦘 跳一跳</b>
-      <p>按住蓄力、松手起跳，落在方块正中间能连击加分。移植版，手机竖屏玩。</p>
-      <span style="color:#6ee7a8">开始 →</span>
-    </a>
-    <a class="wg" href="web/snake-io/index.html" style="border-color:rgba(251,191,36,.5);background:linear-gradient(140deg,rgba(251,191,36,.12),rgba(251,113,133,.08))">
-      <b>🐍 贪吃蛇小作战</b>
-      <p>贪吃蛇大作战那种：吃豆变长、绕晕对手，有 AI 对手和摇杆操作。</p>
-      <span style="color:#fbbf24">开始 →</span>
-    </a>
-    <a class="wg" href="big/hexgl/index.html" style="border-color:rgba(255,107,69,.55);background:linear-gradient(140deg,rgba(255,107,69,.14),rgba(155,176,255,.1))">
-      <b>🏎️ HexGL 极速竞速</b>
-      <p>唯一一个大件：3D 未来赛车，WebGL 跑，键盘或触屏转向，一圈一圈刷时间。</p>
-      <span style="color:#ff6b45">开跑 →</span>
-    </a>
-    <a class="wg" href="web/claw/GoldMiner.html" style="border-color:rgba(251,113,133,.5);background:linear-gradient(140deg,rgba(251,113,133,.12),rgba(255,209,102,.08))">
-      <b>🎁 抓娃娃机</b>
-      <p>圣诞主题的抓娃娃机：倒计时内抓满奖励，和商场里那种一样。</p>
-      <span style="color:#fb7185">开始 →</span>
-    </a>
-    <a class="wg" href="web/goldminer/index.html" style="border-color:rgba(251,191,36,.55);background:linear-gradient(140deg,rgba(251,191,36,.12),rgba(146,64,14,.12))">
-      <b>⛏️ 黄金矿工</b>
-      <p>4399《黄金矿工》的 HTML5 复刻：钩子来回摆，抓金块、抓石头、买道具，关卡跟原版对齐。</p>
-      <span style="color:#fbbf24">开始 →</span>
-    </a>
-    <a class="wg" href="web/fishing/index.html" style="border-color:rgba(34,211,238,.5);background:linear-gradient(140deg,rgba(34,211,238,.12),rgba(52,211,153,.08))">
-      <b>🎣 钓鱼生活</b>
-      <p>离线摸鱼小游戏，钓上来什么全看运气。适合发呆的时候玩。</p>
-      <span style="color:#22d3ee">开始 →</span>
-    </a>
-    <a class="wg" href="web/fisharcade/index.html" style="border-color:rgba(96,165,250,.5);background:linear-gradient(140deg,rgba(96,165,250,.12),rgba(167,139,250,.08))">
-      <b>🐟 捕鱼达人</b>
-      <p>转炮台打鱼，越大的鱼越值钱。手机上点屏幕转炮口。</p>
-      <span style="color:#60a5fa">开始 →</span>
-    </a>
-    <a class="wg" href="web/mario/main.html" style="border-color:rgba(251,113,133,.5);background:linear-gradient(140deg,rgba(251,113,133,.1),rgba(251,191,36,.1))">
-      <b>🍄 超级马里奥（无限版）</b>
-      <p>Infinite Mario 网页版：跑跳、踩蘑菇、顶砖块，关卡无限生成。开源（Unlicense），不是任天堂原版但玩法一样。</p>
-      <span style="color:#fb7185">开始 →</span>
-    </a>
-    <a class="wg" href="https://www.luanti.org/" target="_blank" rel="noopener noreferrer" style="border-color:rgba(52,211,153,.55);background:linear-gradient(140deg,rgba(52,211,153,.12),rgba(110,231,255,.1))">
-      <b>🌍 Luanti（开源版我的世界） <span style="font-size:10px;font-weight:700;color:#34d399;border:1px solid rgba(52,211,153,.4);border-radius:99px;padding:2px 8px;vertical-align:middle">手机可玩</span></b>
-      <p>免费开源的方块沙盒，玩法接近我的世界，安卓手机装 App 就能玩，触屏操作。不是网页，但确实是手机上最接近的选择。</p>
-      <span>去官网下载 ↗</span>
-    </a>
-    <a class="wg" href="https://classic.minecraft.net/" target="_blank" rel="noopener noreferrer" style="opacity:.55">
-      <b>⛏️ 我的世界 · 官方网页版</b>
-      <p>⚠️ 只在<b>电脑</b>上能玩：官方检测到手机没有键盘会直接拒绝加载。有电脑的话可以点开。</p>
-      <span style="color:var(--muted)">需要电脑键盘</span>
-    </a>
-    <a class="wg" href="web/2048/index.html"><b>🔢 2048</b><p>原版开源 2048，滑动合并数字，全世界都在玩的那个。</p><span>开始 →</span></a>
-    <a class="wg" href="web/clumsy/index.html"><b>🐦 像素小鸟</b><p>Clumsy Bird，点一下飞一下，别看简单，很容易上瘾。</p><span>开始 →</span></a>
-    <a class="wg" href="web/hextris/index.html"><b>🔷 六边形消除</b><p>Hextris，转六边形把同色块凑到一起消掉，节奏一快就上头。</p><span>开始 →</span></a>
-    <a class="wg" href="web/pacman/index.htm"><b>👻 吃豆人</b><p>Pac-Man 网页版，吃掉所有豆子别被鬼抓到。</p><span>开始 →</span></a>
-  </div>
-  <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:30px">
+<main class="wrap dir">
+<div class="bar" role="toolbar" aria-label="筛选与跳转">
+<button class="chip" id="onlyWeb" type="button" aria-pressed="false">只看网页直接玩</button>
+<a class="chip" href="#g-speed">手速</a><a class="chip" href="#g-puzzle">益智</a><a class="chip" href="#g-board">棋牌</a><a class="chip" href="#g-retro">老游戏</a><a class="chip" href="#g-action">动作 · 街机</a><a class="chip" href="#g-big">大游戏</a>
+<span class="cnt" id="cnt" aria-live="polite">34 / 34</span>
+</div>
+<section class="grp" id="g-speed">
+<div class="sec"><h2>手速</h2><span>点、跳、躲，拼反应</span></div>
+<div class="grid">
+<a class="wg lk" href="web/bcbk/index.html"><b>⬛ 别踩白块儿</b><p>只踩黑块，别碰白的。越按越快，手一滑就没了。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/jfcz/index.html"><b>🎯 见缝插针</b><p>往转盘上扎针，别扎到已有的针。18 个进球过关。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/jump/index.html"><b>🦘 跳一跳</b><p>按住蓄力、松手起跳，落在方块正中间能连击加分。移植版，手机竖屏玩。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/clumsy/index.html"><b>🐦 像素小鸟</b><p>Clumsy Bird，点一下飞一下，别看简单，很容易上瘾。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/hextris/index.html"><b>🔷 六边形消除</b><p>Hextris，转六边形把同色块凑到一起消掉，节奏一快就上头。</p><span>开始 →</span></a>
+</div>
+</section>
+<section class="grp" id="g-puzzle">
+<div class="sec"><h2>益智</h2><span>动脑的，一局不赶时间</span></div>
+<div class="grid">
+<a class="wg lk" href="web/llk/index.html"><b>🀄 连连看</b><p>两个一样的图案，能用不超过三个弯连起来就能消。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/p15/index.html"><b>🔢 数字华容道</b><p>15 个数字一个空位，按顺序排回去，看着简单其实挺费脑。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/match3/index.html"><b>💎 宝石消消乐</b><p>三个一样的连成线就消，连锁越多分越高。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/sokoban/index.html"><b>📦 推箱子</b><p>把箱子推到目标点，只能推不能拉，一步走错就得重来。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/b2b/index.html"><b>🧩 滑块拼图（Block to Block）</b><p>挪开挡路的方块，让角色走到出口。电脑上体验更好。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/sheep/index.html"><b>🐑 羊了个羊</b><p>三层牌堆凑三消，槽位满了就输。第二关真的很难。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/2048/index.html"><b>🔢 2048</b><p>原版开源 2048，滑动合并数字，全世界都在玩的那个。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/bubble/index.html"><b>🫧 泡泡龙</b><p>把同色泡泡打在一起，连三个以上就爆。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/td/index.html"><b>🏰 王国守卫（塔防）</b><p>摆塔防怪，弓箭、炮台、冰霜、魔法四种塔，一波一波来。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/tdr/index.html"><b>🗼 塔防 Roguelike</b><p>每波过后三选一拿增益，塔越叠越强，挂了就重开。</p><span>开始 →</span></a>
+</div>
+</section>
+<section class="grp" id="g-board">
+<div class="sec"><h2>棋牌</h2><span>和电脑下，或者配对消牌</span></div>
+<div class="grid">
+<a class="wg lk" href="web/gobang/index.html"><b>⚫ 五子棋</b><p>和电脑下，先连成五个就赢。棋盘是木纹的。</p><span>开局 →</span></a>
+<a class="wg lk" href="web/mahjong/index.html"><b>🀄 麻将连连看</b><p>麻将牌叠成塔，配对消掉，配对时必须左右都能走通。</p><span>开始 →</span></a>
+</div>
+</section>
+<section class="grp" id="g-retro">
+<div class="sec"><h2>老游戏</h2><span>玩了很多年的那几个</span></div>
+<div class="grid">
+<a class="wg lk" href="web/tetris/index.html"><b>🧱 俄罗斯方块</b><p>经典下落+消行，带音效，键盘或触摸都行。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/breakout/index.html"><b>🏓 打砖块（经典版）</b><p>挡板接球敲砖，带音效，鼠标或触摸滑动挡板。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/pacman/index.htm"><b>👻 吃豆人</b><p>Pac-Man 网页版，吃掉所有豆子别被鬼抓到。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/goldminer/index.html"><b>⛏️ 黄金矿工</b><p>4399《黄金矿工》的 HTML5 复刻：钩子来回摆，抓金块、抓石头、买道具，关卡跟原版对齐。</p><span>开始 →</span></a>
+</div>
+</section>
+<section class="grp" id="g-action">
+<div class="sec"><h2>动作 · 街机</h2><span>跑、打、抓，带点街机味</span></div>
+<div class="grid">
+<a class="wg lk" href="web/mario/main.html"><b>🍄 超级马里奥（无限版）</b><p>Infinite Mario 网页版：跑跳、踩蘑菇、顶砖块，关卡无限生成。开源（Unlicense），不是任天堂原版但玩法一样。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/snake-io/index.html"><b>🐍 贪吃蛇小作战</b><p>贪吃蛇大作战那种：吃豆变长、绕晕对手，有 AI 对手和摇杆操作。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/claw/GoldMiner.html"><b>🎁 抓娃娃机</b><p>圣诞主题的抓娃娃机：倒计时内抓满奖励，和商场里那种一样。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/fishing/index.html"><b>🎣 钓鱼生活</b><p>离线摸鱼小游戏，钓上来什么全看运气。适合发呆的时候玩。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/fisharcade/index.html"><b>🐟 捕鱼达人</b><p>转炮台打鱼，越大的鱼越值钱。手机上点屏幕转炮口。</p><span>开始 →</span></a>
+</div>
+</section>
+<section class="grp" id="g-big">
+<div class="sec"><h2>大游戏</h2><span>体量大一点：3D 赛车，和沙盒类</span></div>
+<div class="grid">
+<a class="wg lk" href="big/hexgl/index.html"><b>🏎️ HexGL 极速竞速</b><p>唯一一个大件：3D 未来赛车，WebGL 跑，键盘或触屏转向，一圈一圈刷时间。</p><span>开跑 →</span></a>
+<a class="wg lk ext" data-off href="https://www.luanti.org/" target="_blank" rel="noopener noreferrer"><b>🌍 Luanti（开源版我的世界）<i class="tg">手机可玩</i></b><p>免费开源的方块沙盒，玩法接近我的世界，安卓手机装 App 就能玩，触屏操作。不是网页，但确实是手机上最接近的选择。</p><span>去官网下载 ↗</span></a>
+<a class="wg lk ext" data-off href="https://classic.minecraft.net/" target="_blank" rel="noopener noreferrer"><b>⛏️ 我的世界 · 官方网页版</b><p>⚠️ 只在<b>电脑</b>上能玩：官方检测到手机没有键盘会直接拒绝加载。有电脑的话可以点开。</p><span>需要电脑键盘</span></a>
+</div>
+</section>
+<section class="grp" id="g-site">
+<div class="sec"><h2>电脑上的小游戏站</h2><span>不是本站托管，电脑浏览器点开就玩；手机点开会跳手机版</span></div>
+<div class="grid">
+<a class="wg ext lk" data-off href="https://www.4399.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 4399 小游戏</b><p>几万款 Flash / HTML5 小游戏，电脑浏览器直接开。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-off href="https://www.7k7k.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 7k7k 小游戏</b><p>老牌站，黄金矿工、狂扁小朋友这类经典都在。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-off href="https://www.2144.cn/" target="_blank" rel="noopener noreferrer"><b>🕹️ 2144 小游戏</b><p>小游戏和页游都有，广告相对少。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-off href="https://www.37.com/" target="_blank" rel="noopener noreferrer"><b>🌐 37 网游</b><p>国内老牌网页游戏平台，点开进游戏。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-off href="https://www.9377.com/" target="_blank" rel="noopener noreferrer"><b>🌐 9377 页游</b><p>另一家页游平台，传奇/仙侠这类的多。</p><span>打开 ↗</span></a>
+</div>
+</section>
+<p style="text-align:center;font-size:12px;color:var(--muted);margin-top:30px">
     来源：<a href="https://github.com/gabrielecirulli/2048" style="color:var(--accent)">2048</a>（MIT）·
     <a href="https://github.com/ellisonleao/clumsy-bird" style="color:var(--accent)">Clumsy Bird</a>（GPL-3.0）·
     <a href="https://github.com/hextris/hextris" style="color:var(--accent)">Hextris</a>·
@@ -175,29 +119,8 @@
     <a href="https://github.com/huajiniyixia/No-Fishing-No-Life" style="color:var(--accent)">钓鱼生活</a>（MIT）·
     <a href="https://github.com/BlueYu-0221/fishgame" style="color:var(--accent)">捕鱼</a>
   </p>
-
-  <div class="sec-title" style="margin-top:34px">
-    <h2>🌐 电脑上的小游戏站</h2>
-    <p>这些不是本站托管，电脑浏览器点开就玩；手机点开会跳手机版</p>
-  </div>
-  <div class="grid">
-    <a class="wg ext" href="https://www.4399.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 4399 小游戏</b><p>几万款 Flash / HTML5 小游戏，电脑浏览器直接开。</p><span>打开 ↗</span></a>
-    <a class="wg ext" href="https://www.7k7k.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 7k7k 小游戏</b><p>老牌站，黄金矿工、狂扁小朋友这类经典都在。</p><span>打开 ↗</span></a>
-    <a class="wg ext" href="https://www.2144.cn/" target="_blank" rel="noopener noreferrer"><b>🕹️ 2144 小游戏</b><p>小游戏和页游都有，广告相对少。</p><span>打开 ↗</span></a>
-  </div>
-
-  <div class="sec-title" style="margin-top:26px">
-    <h2>🌐 网页游戏平台</h2>
-    <p>大型页游，同样是浏览器里直接进，不用下客户端</p>
-  </div>
-  <div class="grid">
-    <a class="wg ext" href="https://www.37.com/" target="_blank" rel="noopener noreferrer"><b>🌐 37 网游</b><p>国内老牌网页游戏平台，点开进游戏。</p><span>打开 ↗</span></a>
-    <a class="wg ext" href="https://www.9377.com/" target="_blank" rel="noopener noreferrer"><b>🌐 9377 页游</b><p>另一家页游平台，传奇/仙侠这类的多。</p><span>打开 ↗</span></a>
-  </div>
-  <p style="text-align:center;margin-top:14px"><a class="btn ghost" href="links.html" style="display:inline-flex">全部外链（34 个）→</a></p>
-  <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:10px">
-    ⚠️ 外部站点内容不由本站控制，广告和弹窗请自行留意。
-  </p>
+<p style="text-align:center;margin-top:14px"><a class="btn ghost" href="links.html" style="display:inline-flex">全部外链（34 个）→</a></p>
+<p class="muted" style="text-align:center;font-size:12px;margin-top:10px">⚠️ 外部站点内容不由本站控制，广告和弹窗请自行留意。</p>
 </main>
 <footer><p>口袋小站 · 网页小游戏</p><p class="muted">开源作品 · 本地托管</p></footer>
 <script src="theme.js"></script>
@@ -205,5 +128,10 @@
 <script src="skin.js"></script>
 <script src="ui.js"></script>
 <script src="motion.js"></script>
+<script>
+(function(){var b=document.getElementById("onlyWeb");if(!b)return;var n=document.getElementById("cnt"),m=document.querySelector("main"),cs=[].slice.call(document.querySelectorAll(".lk")),bx=[].slice.call(document.querySelectorAll(".grp"));
+function run(){var on=b.getAttribute("aria-pressed")==="true",k=0;cs.forEach(function(c){var h=on&&c.hasAttribute("data-off");c.hidden=h;if(!h)k++});bx.forEach(function(g){g.hidden=!g.querySelector(".lk:not([hidden])")});n.textContent=k+" / "+cs.length;m.classList.add("filtered")}
+b.addEventListener("click",function(){b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")==="true"?"false":"true");run()});})();
+</script>
 </body>
 </html>

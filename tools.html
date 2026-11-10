@@ -23,6 +23,7 @@
 <link rel="stylesheet" href="skins.css?v=5">
 <link rel="stylesheet" href="splash.css?v=2">
 <link rel="stylesheet" href="motion.css?v=1">
+<link rel="stylesheet" href="directory.css?v=1">
 <noscript><style>.landing{display:none!important}body{overflow:auto!important}body .hero,body main,body footer,body .nav{visibility:visible!important}</style></noscript>
 </head>
 <body>
@@ -85,6 +86,16 @@
     </span>
     <span class="api-go">去检测 →</span>
   </a>
+  <div class="dir"><div class="bar tbar" id="cats" role="toolbar" aria-label="按类型筛选">
+<button class="chip" type="button" data-cat="全部" aria-pressed="true">全部</button>
+<button class="chip" type="button" data-cat="开发" aria-pressed="false">开发</button>
+<button class="chip" type="button" data-cat="文本" aria-pressed="false">文本</button>
+<button class="chip" type="button" data-cat="时间" aria-pressed="false">时间</button>
+<button class="chip" type="button" data-cat="安全与生成" aria-pressed="false">安全与生成</button>
+<button class="chip" type="button" data-cat="颜色与图片" aria-pressed="false">颜色与图片</button>
+<button class="chip" type="button" data-cat="计算换算" aria-pressed="false">计算换算</button>
+<button class="chip" type="button" data-cat="其他" aria-pressed="false" hidden>其他</button>
+</div></div>
   <div id="grid" class="grid"></div>
   <div id="empty" class="empty" hidden>
     <span>🔍</span>
@@ -112,5 +123,17 @@
 <script src="skin.js"></script>
 <script src="ui.js"></script>
 <script src="motion.js"></script>
+<script>
+(function(){var g=document.getElementById("grid"),bar=document.getElementById("cats");if(!g||!bar)return;
+var R=[["时间",/时间|日期|倒数|倒计时|日历|时区|秒表|计时|番茄|年龄|农历|星期|cron/i],["安全与生成",/哈希|hash|md5|sha-?\d|密码|uuid|随机|抽签|骰子|转盘|加密|解密|摩斯|签名|token/i],["颜色与图片",/颜色|取色|图片|二维码|qr|渐变|图标|svg|条形码|像素/i],["开发",/json|base64|url|正则|regex|jwt|html|css|sql|unicode|编码|解码|格式化|压缩|美化|xml|yaml|curl|转义|http|状态码|ascii/i],["文本",/文本|字数|统计|大小写|去重|排序|markdown|繁简|简繁|拼音|对比|替换|拆分|合并|空格|lorem|emoji|朗读|语音/i],["计算换算",/进制|单位|换算|计算|汇率|bmi|利率|贷款|百分比|税|面积|体重|热量|配速|心率|速度|长度|温度|大写|金额|复利|存款|利息/i]];
+function pick(s){for(var i=0;i<R.length;i++)if(R[i][1].test(s))return R[i][0];return ""}
+function cat(c){var h=c.querySelector("h2"),p=c.querySelector(".card-head p"),t=h?h.textContent:c.textContent;return pick(t)||pick(t+" "+(p?p.textContent:""))||"其他"}
+var cur="全部",chips=[].slice.call(bar.querySelectorAll(".chip")),raf=0;
+function run(){raf=0;var cs=[].slice.call(g.querySelectorAll(".card")),n={};cs.forEach(function(c){var k=c.getAttribute("data-c")||cat(c);c.setAttribute("data-c",k);n[k]=(n[k]||0)+1;if(cur!=="全部"&&k!==cur){c.setAttribute("data-cf","")}else if(c.hasAttribute("data-cf")){c.removeAttribute("data-cf");c.classList.add("cf-in")}});
+chips.forEach(function(b){var k=b.getAttribute("data-cat"),v=k==="全部"?cs.length:(n[k]||0);b.innerHTML=k+"<small>"+v+"</small>";if(k==="其他")b.hidden=!v&&cur!=="其他"})}
+function queue(){if(!raf)raf=requestAnimationFrame(run)}
+bar.addEventListener("click",function(e){var b=e.target.closest(".chip");if(!b)return;cur=b.getAttribute("data-cat");chips.forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});run()});
+new MutationObserver(queue).observe(g,{childList:true});run();})();
+</script>
 </body>
 </html>

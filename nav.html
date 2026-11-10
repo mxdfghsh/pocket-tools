@@ -31,183 +31,239 @@
 <header class="hero-home">
 <p class="eyebrow">ONLINE LINKS</p>
 <h1>在线<em>资源</em></h1>
-<p class="lead">一共 97 个入口，按「玩」和「看」分成两大块。标了「要装 App」和「需代理」，剩下的点开就能用——这个站的原则就是"在线"，能不下载就不下载。</p>
+<p class="lead">97 个入口，全在浏览器里用。上面能搜、能按类型筛，还能只显示「网页直接能用」的——标了要装 App 或需代理的会被过滤掉。</p>
 </header>
 <main class="wrap dir">
-<div class="bar" role="toolbar" aria-label="筛选与跳转">
-<button class="chip" id="onlyWeb" type="button" aria-pressed="false">只看网页直接能用的</button>
-<a class="chip" href="#g-web">网页里直接玩的大游戏</a><a class="chip" href="#g-mini">小游戏站</a><a class="chip" href="#g-store">游戏平台 · 商店</a><a class="chip" href="#g-cloud">云游戏</a><a class="chip" href="#g-board">棋牌 · 桌游</a><a class="chip" href="#g-indie">独立 · 剧情</a><a class="chip" href="#g-pvp">多人竞技</a><a class="chip" href="#r-book">小说</a><a class="chip" href="#m-music">音乐</a><a class="chip" href="#v-movie">影视</a><a class="chip" href="#c-comic">漫画</a>
-<span class="cnt" id="cnt" aria-live="polite">97 / 97</span>
+<div class="nf" role="search">
+  <div class="nf-row">
+    <input id="nfQ" type="search" placeholder="搜一下，比如 steam / 小说 / 动漫 / 音乐" autocomplete="off" aria-label="搜索资源">
+    <button id="nfWeb" class="nf-toggle" type="button" aria-pressed="false">只看网页直用</button>
+  </div>
+  <div class="nf-chips" id="nfCats">
+    <button class="nf-chip" type="button" data-cat="all" aria-pressed="true">全部<small>97</small></button>
+    <button class="nf-chip" type="button" data-cat="g-web">网页里直接玩的大游戏<small>7</small></button><button class="nf-chip" type="button" data-cat="g-mini">小游戏站<small>8</small></button><button class="nf-chip" type="button" data-cat="g-store">游戏平台 · 商店<small>11</small></button><button class="nf-chip" type="button" data-cat="g-cloud">云游戏<small>5</small></button><button class="nf-chip" type="button" data-cat="g-board">棋牌 · 桌游<small>5</small></button><button class="nf-chip" type="button" data-cat="g-indie">独立 · 剧情<small>4</small></button><button class="nf-chip" type="button" data-cat="g-pvp">多人竞技<small>3</small></button><button class="nf-chip" type="button" data-cat="r-book">小说<small>17</small></button><button class="nf-chip" type="button" data-cat="m-music">音乐<small>14</small></button><button class="nf-chip" type="button" data-cat="v-movie">影视<small>13</small></button><button class="nf-chip" type="button" data-cat="c-comic">漫画<small>10</small></button>
+  </div>
+  <p class="nf-meta"><span id="nfCount">97</span> 个结果<button id="nfReset" type="button">清空</button></p>
 </div>
 
+<div class="blk" data-blk="玩">
 <div class="th" data-reveal><strong>玩</strong><span>游戏平台、云游戏、小游戏站、棋牌和竞技</span></div>
-
-<section class="grp" id="g-web">
+<section class="grp" id="g-web" data-block="玩">
 <div class="sec" data-reveal><h2>网页里直接玩的大游戏</h2><span>不用下载，打开网页就进</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" href="https://zombsroyale.io/" target="_blank" rel="noopener noreferrer"><b>🪂 Zombs Royale</b><p>100 人大逃杀，缩圈捡装备，浏览器直接排。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://tankionline.com/" target="_blank" rel="noopener noreferrer"><b>🛡️ Tanki Online</b><p>坦克对战 MMO，一局几分钟。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://crawl.develz.org/" target="_blank" rel="noopener noreferrer"><b>🕯️ 地牢爬行 DCSS</b><p>老牌 roguelike，一局能玩很久。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://hexgl.bkcore.com/" target="_blank" rel="noopener noreferrer"><b>🏎️ HexGL 在线版</b><p>3D 未来赛车，原作者官网直接开跑。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.retrogames.cc/" target="_blank" rel="noopener noreferrer"><b>🕹️ RetroGames.cc</b><p>FC / SFC / MD / GBA 老游戏，浏览器里直接玩。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://freecivweb.org/" target="_blank" rel="noopener noreferrer"><b>🏛 Freeciv Web<i class="px">需代理</i></b><p>开源《文明》，和真人联机打仗。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://dos.zone/" target="_blank" rel="noopener noreferrer"><b>🗄 DOS 游戏在线<i class="px">需代理</i></b><p>js-dos 官方游戏库，DOOM 这些浏览器里跑。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-web" href="https://zombsroyale.io/" target="_blank" rel="noopener noreferrer"><b>🪂 Zombs Royale</b><p>100 人大逃杀，缩圈捡装备，浏览器直接排。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-web" href="https://tankionline.com/" target="_blank" rel="noopener noreferrer"><b>🛡️ Tanki Online</b><p>坦克对战 MMO，一局几分钟。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-web" href="https://crawl.develz.org/" target="_blank" rel="noopener noreferrer"><b>🕯️ 地牢爬行 DCSS</b><p>老牌 roguelike，一局能玩很久。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-web" href="https://hexgl.bkcore.com/" target="_blank" rel="noopener noreferrer"><b>🏎️ HexGL 在线版</b><p>3D 未来赛车，原作者官网直接开跑。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-web" href="https://www.retrogames.cc/" target="_blank" rel="noopener noreferrer"><b>🕹️ RetroGames.cc</b><p>FC / SFC / MD / GBA 老游戏，浏览器里直接玩。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-web" data-px href="https://freecivweb.org/" target="_blank" rel="noopener noreferrer"><b>🏛 Freeciv Web<i class="px">需代理</i></b><p>开源《文明》，和真人联机打仗。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-web" data-px href="https://dos.zone/" target="_blank" rel="noopener noreferrer"><b>🗄 DOS 游戏在线<i class="px">需代理</i></b><p>js-dos 官方游戏库，DOOM 这些浏览器里跑。</p><span>打开 ↗</span></a>
 </div>
 </section>
-<section class="grp" id="g-mini">
+<section class="grp" id="g-mini" data-block="玩">
 <div class="sec" data-reveal><h2>小游戏站</h2><span>电脑浏览器点开就玩</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" href="https://www.4399.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 4399 小游戏</b><p>几万款 Flash / HTML5 小游戏。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.7k7k.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 7k7k 小游戏</b><p>老牌站，双人和经典 Flash 多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.2144.cn/" target="_blank" rel="noopener noreferrer"><b>🕹️ 2144 小游戏</b><p>小游戏 + 页游都有，广告相对少。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.37.com/" target="_blank" rel="noopener noreferrer"><b>🌐 37 网游</b><p>老牌页游平台，点开进游戏。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.9377.com/" target="_blank" rel="noopener noreferrer"><b>🌐 9377 页游</b><p>同类平台，开服游戏多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.602.com/" target="_blank" rel="noopener noreferrer"><b>🌐 602 游戏</b><p>页游平台，主打网页游戏开服。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.youzu.com/" target="_blank" rel="noopener noreferrer"><b>🌐 游族网络</b><p>页游 + 手游，少年三国志那家。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.ledu.com/" target="_blank" rel="noopener noreferrer"><b>🌐 乐都网</b><p>页游排行榜，先看榜单再挑。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-mini" href="https://www.4399.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 4399 小游戏</b><p>几万款 Flash / HTML5 小游戏。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-mini" href="https://www.7k7k.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 7k7k 小游戏</b><p>老牌站，双人和经典 Flash 多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-mini" href="https://www.2144.cn/" target="_blank" rel="noopener noreferrer"><b>🕹️ 2144 小游戏</b><p>小游戏 + 页游都有，广告相对少。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-mini" href="https://www.37.com/" target="_blank" rel="noopener noreferrer"><b>🌐 37 网游</b><p>老牌页游平台，点开进游戏。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-mini" href="https://www.9377.com/" target="_blank" rel="noopener noreferrer"><b>🌐 9377 页游</b><p>同类平台，开服游戏多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-mini" href="https://www.602.com/" target="_blank" rel="noopener noreferrer"><b>🌐 602 游戏</b><p>页游平台，主打网页游戏开服。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-mini" href="https://www.youzu.com/" target="_blank" rel="noopener noreferrer"><b>🌐 游族网络</b><p>页游 + 手游，少年三国志那家。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-mini" href="https://www.ledu.com/" target="_blank" rel="noopener noreferrer"><b>🌐 乐都网</b><p>页游排行榜，先看榜单再挑。</p><span>打开 ↗</span></a>
 </div>
 </section>
-<section class="grp" id="g-store">
+<section class="grp" id="g-store" data-block="玩">
 <div class="sec" data-reveal><h2>游戏平台 · 商店</h2><span>买断制游戏的大卖场</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" href="https://store.steampowered.com/" target="_blank" rel="noopener noreferrer"><b>🎮 Steam 商店</b><p>PC 游戏最大的一家，看评测买游戏。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://store.steampowered.com/specials" target="_blank" rel="noopener noreferrer"><b>💸 Steam 特惠</b><p>打折专区，史低多在夏促冬促。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://steampp.net/" target="_blank" rel="noopener noreferrer"><b>⚡ Steam++（Watt Toolkit）</b><p>给 Steam 社区 / GitHub 做加速的工具。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://steamcommunity.com/" target="_blank" rel="noopener noreferrer"><b>🧩 Steam 社区<i class="px">需代理</i></b><p>创意工坊、讨论区、好友。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://steamdb.info/" target="_blank" rel="noopener noreferrer"><b>📊 SteamDB<i class="px">需代理</i></b><p>查历史最低价、在线人数。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://store.epicgames.com/zh-CN/" target="_blank" rel="noopener noreferrer"><b>🛒 Epic 商店<i class="px">需代理</i></b><p>每周送免费游戏。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.gog.com/" target="_blank" rel="noopener noreferrer"><b>🕹 GOG</b><p>全 DRM-free，老游戏多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.humblebundle.com/" target="_blank" rel="noopener noreferrer"><b>📦 Humble Bundle</b><p>打包卖游戏，钱能捐慈善。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.nintendo.com.hk/" target="_blank" rel="noopener noreferrer"><b>🎮 任天堂 Switch</b><p>港服官网，含 eShop 入口。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://store.playstation.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ PlayStation</b><p>PS Store 网页版。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.xbox.com/zh-CN/" target="_blank" rel="noopener noreferrer"><b>🟩 Xbox</b><p>微软官网 / 商店，Game Pass 入口。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-store" href="https://store.steampowered.com/" target="_blank" rel="noopener noreferrer"><b>🎮 Steam 商店</b><p>PC 游戏最大的一家，看评测买游戏。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-store" href="https://store.steampowered.com/specials" target="_blank" rel="noopener noreferrer"><b>💸 Steam 特惠</b><p>打折专区，史低多在夏促冬促。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-store" href="https://steampp.net/" target="_blank" rel="noopener noreferrer"><b>⚡ Steam++（Watt Toolkit）</b><p>给 Steam 社区 / GitHub 做加速的工具。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-store" data-px href="https://steamcommunity.com/" target="_blank" rel="noopener noreferrer"><b>🧩 Steam 社区<i class="px">需代理</i></b><p>创意工坊、讨论区、好友。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-store" data-px href="https://steamdb.info/" target="_blank" rel="noopener noreferrer"><b>📊 SteamDB<i class="px">需代理</i></b><p>查历史最低价、在线人数。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-store" data-px href="https://store.epicgames.com/zh-CN/" target="_blank" rel="noopener noreferrer"><b>🛒 Epic 商店<i class="px">需代理</i></b><p>每周送免费游戏。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-store" href="https://www.gog.com/" target="_blank" rel="noopener noreferrer"><b>🕹 GOG</b><p>全 DRM-free，老游戏多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-store" href="https://www.humblebundle.com/" target="_blank" rel="noopener noreferrer"><b>📦 Humble Bundle</b><p>打包卖游戏，钱能捐慈善。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-store" href="https://www.nintendo.com.hk/" target="_blank" rel="noopener noreferrer"><b>🎮 任天堂 Switch</b><p>港服官网，含 eShop 入口。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-store" href="https://store.playstation.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ PlayStation</b><p>PS Store 网页版。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-store" href="https://www.xbox.com/zh-CN/" target="_blank" rel="noopener noreferrer"><b>🟩 Xbox</b><p>微软官网 / 商店，Game Pass 入口。</p><span>打开 ↗</span></a>
 </div>
 </section>
-<section class="grp" id="g-cloud">
+<section class="grp" id="g-cloud" data-block="玩">
 <div class="sec" data-reveal><h2>云游戏</h2><span>游戏跑在服务器上，浏览器只负责显示</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" href="https://cg.163.com/" target="_blank" rel="noopener noreferrer"><b>☁️ 网易云游戏</b><p>网易官方，云电脑 / 云手机，免下载直接玩 PC 大作。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-app href="https://start.qq.com/" target="_blank" rel="noopener noreferrer"><b>☁️ 腾讯 START<i class="px">要装 App</i></b><p>腾讯云游戏，原神、王者这些。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://play.geforcenow.com/" target="_blank" rel="noopener noreferrer"><b>🖥️ GeForce NOW<i class="px">需代理</i></b><p>英伟达云游戏，接自己的 Steam / Epic 库。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://luna.amazon.com/" target="_blank" rel="noopener noreferrer"><b>🎮 Amazon Luna<i class="px">需代理</i></b><p>亚马逊云游戏，Prime 有免费档。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://www.xbox.com/play" target="_blank" rel="noopener noreferrer"><b>🎮 Xbox 云游戏<i class="px">需代理</i></b><p>Game Pass 云游戏，浏览器里玩 3A。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-cloud" href="https://cg.163.com/" target="_blank" rel="noopener noreferrer"><b>☁️ 网易云游戏</b><p>网易官方，云电脑 / 云手机，免下载直接玩 PC 大作。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-cloud" data-app href="https://start.qq.com/" target="_blank" rel="noopener noreferrer"><b>☁️ 腾讯 START<i class="px">要装 App</i></b><p>腾讯云游戏，原神、王者这些。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-cloud" data-px href="https://play.geforcenow.com/" target="_blank" rel="noopener noreferrer"><b>🖥️ GeForce NOW<i class="px">需代理</i></b><p>英伟达云游戏，接自己的 Steam / Epic 库。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-cloud" data-px href="https://luna.amazon.com/" target="_blank" rel="noopener noreferrer"><b>🎮 Amazon Luna<i class="px">需代理</i></b><p>亚马逊云游戏，Prime 有免费档。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-cloud" data-px href="https://www.xbox.com/play" target="_blank" rel="noopener noreferrer"><b>🎮 Xbox 云游戏<i class="px">需代理</i></b><p>Game Pass 云游戏，浏览器里玩 3A。</p><span>打开 ↗</span></a>
 </div>
 </section>
-<section class="grp" id="g-board">
+<section class="grp" id="g-board" data-block="玩">
 <div class="sec" data-reveal><h2>棋牌 · 桌游</h2><span>慢一点的，坐下来玩</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" href="https://web.sanguosha.com/" target="_blank" rel="noopener noreferrer"><b>🃏 三国杀 OL</b><p>网页版直接开，经典身份局。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.ourgame.com/" target="_blank" rel="noopener noreferrer"><b>♟️ 联众游戏</b><p>老牌棋牌平台。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.bianfeng.com/" target="_blank" rel="noopener noreferrer"><b>♟️ 边锋游戏</b><p>浙江那家棋牌站。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://lichess.org/" target="_blank" rel="noopener noreferrer"><b>♞ lichess</b><p>免费国际象棋，不用注册。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://boardgamearena.com/" target="_blank" rel="noopener noreferrer"><b>🎲 Board Game Arena<i class="px">需代理</i></b><p>在线桌游，卡坦岛这些。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-board" href="https://web.sanguosha.com/" target="_blank" rel="noopener noreferrer"><b>🃏 三国杀 OL</b><p>网页版直接开，经典身份局。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-board" href="https://www.ourgame.com/" target="_blank" rel="noopener noreferrer"><b>♟️ 联众游戏</b><p>老牌棋牌平台。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-board" href="https://www.bianfeng.com/" target="_blank" rel="noopener noreferrer"><b>♟️ 边锋游戏</b><p>浙江那家棋牌站。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-board" href="https://lichess.org/" target="_blank" rel="noopener noreferrer"><b>♞ lichess</b><p>免费国际象棋，不用注册。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-board" data-px href="https://boardgamearena.com/" target="_blank" rel="noopener noreferrer"><b>🎲 Board Game Arena<i class="px">需代理</i></b><p>在线桌游，卡坦岛这些。</p><span>打开 ↗</span></a>
 </div>
 </section>
-<section class="grp" id="g-indie">
+<section class="grp" id="g-indie" data-block="玩">
 <div class="sec" data-reveal><h2>独立 · 剧情</h2><span>重剧情、重创意的那类</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" href="https://www.66rpg.com/" target="_blank" rel="noopener noreferrer"><b>📖 橙光游戏</b><p>中文互动小说平台。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://itch.io/" target="_blank" rel="noopener noreferrer"><b>🎮 itch.io<i class="px">需代理</i></b><p>独立游戏大本营，网页能玩的小作品很多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.crazygames.com/" target="_blank" rel="noopener noreferrer"><b>🎯 CrazyGames</b><p>海外网页游戏站，量大加载慢。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://poki.com/" target="_blank" rel="noopener noreferrer"><b>🎯 Poki</b><p>同类，界面干净。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-indie" href="https://www.66rpg.com/" target="_blank" rel="noopener noreferrer"><b>📖 橙光游戏</b><p>中文互动小说平台。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-indie" data-px href="https://itch.io/" target="_blank" rel="noopener noreferrer"><b>🎮 itch.io<i class="px">需代理</i></b><p>独立游戏大本营，网页能玩的小作品很多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-indie" href="https://www.crazygames.com/" target="_blank" rel="noopener noreferrer"><b>🎯 CrazyGames</b><p>海外网页游戏站，量大加载慢。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-indie" href="https://poki.com/" target="_blank" rel="noopener noreferrer"><b>🎯 Poki</b><p>同类，界面干净。</p><span>打开 ↗</span></a>
 </div>
 </section>
-<section class="grp" id="g-pvp">
+<section class="grp" id="g-pvp" data-block="玩">
 <div class="sec" data-reveal><h2>多人竞技</h2><span>和真人打，基本都要代理</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" data-px href="https://krunker.io/" target="_blank" rel="noopener noreferrer"><b>🔫 Krunker<i class="px">需代理</i></b><p>浏览器里的 FPS，点开就能对枪。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://slither.io/" target="_blank" rel="noopener noreferrer"><b>🐍 slither.io<i class="px">需代理</i></b><p>大蛇吃小蛇，全球同服。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://skribbl.io/" target="_blank" rel="noopener noreferrer"><b>✏️ skribbl.io<i class="px">需代理</i></b><p>你画我猜，能和陌生人开局。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-pvp" data-px href="https://krunker.io/" target="_blank" rel="noopener noreferrer"><b>🔫 Krunker<i class="px">需代理</i></b><p>浏览器里的 FPS，点开就能对枪。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-pvp" data-px href="https://slither.io/" target="_blank" rel="noopener noreferrer"><b>🐍 slither.io<i class="px">需代理</i></b><p>大蛇吃小蛇，全球同服。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-pvp" data-px href="https://skribbl.io/" target="_blank" rel="noopener noreferrer"><b>✏️ skribbl.io<i class="px">需代理</i></b><p>你画我猜，能和陌生人开局。</p><span>打开 ↗</span></a>
 </div>
 </section>
-
+</div>
+<div class="blk" data-blk="看">
 <div class="th" data-reveal><strong>看</strong><span>小说、音乐、影视、漫画</span></div>
-
-<section class="grp" id="r-book">
+<section class="grp" id="r-book" data-block="看">
 <div class="sec" data-reveal><h2>小说</h2><span>正版站，免费章节能看</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" data-app href="https://fanqienovel.com/" target="_blank" rel="noopener noreferrer"><b>🍅 番茄小说<i class="px">要装 App</i></b><p>字节的，全站免费看，广告换免费。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-app href="https://www.qimao.com/" target="_blank" rel="noopener noreferrer"><b>🐱 七猫中文网<i class="px">要装 App</i></b><p>全本免费，排行榜清楚。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-app href="https://www.shuqi.com/" target="_blank" rel="noopener noreferrer"><b>📚 书旗小说<i class="px">要装 App</i></b><p>阿里系，免费书多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-app href="https://www.tadu.com/" target="_blank" rel="noopener noreferrer"><b>📖 塔读文学<i class="px">要装 App</i></b><p>免费阅读起家，男频女频都有。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.qidian.com/" target="_blank" rel="noopener noreferrer"><b>🗡️ 起点中文网</b><p>网文界老大，新书首发都在这。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://book.qq.com/" target="_blank" rel="noopener noreferrer"><b>📕 QQ 阅读</b><p>阅文旗下，和起点书库互通。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.zongheng.com/" target="_blank" rel="noopener noreferrer"><b>🧭 纵横中文网</b><p>男频为主，玄幻仙侠历史。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.jjwxc.net/" target="_blank" rel="noopener noreferrer"><b>🌸 晋江文学城</b><p>女频大本营。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.17k.com/" target="_blank" rel="noopener noreferrer"><b>🖋️ 17K 小说网</b><p>老牌站，新人作者多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.ciweimao.com/" target="_blank" rel="noopener noreferrer"><b>🐹 刺猬猫</b><p>二次元、同人、综漫。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://book.sfacg.com/" target="_blank" rel="noopener noreferrer"><b>✨ SF 轻小说</b><p>轻小说和二次元原创。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.gongzicp.com/" target="_blank" rel="noopener noreferrer"><b>🕊️ 长佩文学</b><p>耽美向，作品偏文学性。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://weread.qq.com/" target="_blank" rel="noopener noreferrer"><b>📗 微信读书</b><p>正版电子书，新用户有免费卡。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://book.douban.com/" target="_blank" rel="noopener noreferrer"><b>🎬 豆瓣读书</b><p>找书看榜单和书评。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.gushiwen.cn/" target="_blank" rel="noopener noreferrer"><b>🏮 古诗文网</b><p>唐诗宋词古文，带注释翻译。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.gutenberg.org/" target="_blank" rel="noopener noreferrer"><b>📜 古腾堡计划</b><p>七万多本公版电子书。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://zh.wikisource.org/" target="_blank" rel="noopener noreferrer"><b>📚 维基文库<i class="px">需代理</i></b><p>中文公版文献最全。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" data-app href="https://fanqienovel.com/" target="_blank" rel="noopener noreferrer"><b>🍅 番茄小说<i class="px">要装 App</i></b><p>字节的，全站免费看，广告换免费。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" data-app href="https://www.qimao.com/" target="_blank" rel="noopener noreferrer"><b>🐱 七猫中文网<i class="px">要装 App</i></b><p>全本免费，排行榜清楚。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" data-app href="https://www.shuqi.com/" target="_blank" rel="noopener noreferrer"><b>📚 书旗小说<i class="px">要装 App</i></b><p>阿里系，免费书多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" data-app href="https://www.tadu.com/" target="_blank" rel="noopener noreferrer"><b>📖 塔读文学<i class="px">要装 App</i></b><p>免费阅读起家，男频女频都有。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" href="https://www.qidian.com/" target="_blank" rel="noopener noreferrer"><b>🗡️ 起点中文网</b><p>网文界老大，新书首发都在这。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" href="https://book.qq.com/" target="_blank" rel="noopener noreferrer"><b>📕 QQ 阅读</b><p>阅文旗下，和起点书库互通。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" href="https://www.zongheng.com/" target="_blank" rel="noopener noreferrer"><b>🧭 纵横中文网</b><p>男频为主，玄幻仙侠历史。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" href="https://www.jjwxc.net/" target="_blank" rel="noopener noreferrer"><b>🌸 晋江文学城</b><p>女频大本营。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" href="https://www.17k.com/" target="_blank" rel="noopener noreferrer"><b>🖋️ 17K 小说网</b><p>老牌站，新人作者多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" href="https://www.ciweimao.com/" target="_blank" rel="noopener noreferrer"><b>🐹 刺猬猫</b><p>二次元、同人、综漫。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" href="https://book.sfacg.com/" target="_blank" rel="noopener noreferrer"><b>✨ SF 轻小说</b><p>轻小说和二次元原创。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" href="https://www.gongzicp.com/" target="_blank" rel="noopener noreferrer"><b>🕊️ 长佩文学</b><p>耽美向，作品偏文学性。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" href="https://weread.qq.com/" target="_blank" rel="noopener noreferrer"><b>📗 微信读书</b><p>正版电子书，新用户有免费卡。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" href="https://book.douban.com/" target="_blank" rel="noopener noreferrer"><b>🎬 豆瓣读书</b><p>找书看榜单和书评。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" href="https://www.gushiwen.cn/" target="_blank" rel="noopener noreferrer"><b>🏮 古诗文网</b><p>唐诗宋词古文，带注释翻译。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" href="https://www.gutenberg.org/" target="_blank" rel="noopener noreferrer"><b>📜 古腾堡计划</b><p>七万多本公版电子书。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="r-book" data-px href="https://zh.wikisource.org/" target="_blank" rel="noopener noreferrer"><b>📚 维基文库<i class="px">需代理</i></b><p>中文公版文献最全。</p><span>打开 ↗</span></a>
 </div>
 </section>
-<section class="grp" id="m-music">
+<section class="grp" id="m-music" data-block="看">
 <div class="sec" data-reveal><h2>音乐</h2><span>网页版能直接放，会员曲目另说</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" href="https://music.163.com/" target="_blank" rel="noopener noreferrer"><b>🎵 网易云音乐</b><p>评论区和歌单做得最好。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://y.qq.com/" target="_blank" rel="noopener noreferrer"><b>🐧 QQ 音乐</b><p>版权最全，新歌首发都在这。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.kugou.com/" target="_blank" rel="noopener noreferrer"><b>🎧 酷狗音乐</b><p>老牌，还有相声有声书。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.kuwo.cn/" target="_blank" rel="noopener noreferrer"><b>🎶 酷我音乐</b><p>无损音质，界面清爽。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://music.migu.cn/" target="_blank" rel="noopener noreferrer"><b>📻 咪咕音乐</b><p>移动家的，很多歌能免费听。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.ximalaya.com/" target="_blank" rel="noopener noreferrer"><b>🎙️ 喜马拉雅</b><p>有声书、相声、播客。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.qingting.fm/" target="_blank" rel="noopener noreferrer"><b>📡 蜻蜓 FM</b><p>电台直播 + 节目回听。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.lizhi.fm/" target="_blank" rel="noopener noreferrer"><b>🌰 荔枝</b><p>素人播客多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer"><b>🟢 Spotify<i class="px">需代理</i></b><p>全球最大，推荐算法强。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer"><b>▶️ YouTube Music<i class="px">需代理</i></b><p>现场版、翻唱、冷门歌最全。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer"><b>☁️ SoundCloud<i class="px">需代理</i></b><p>独立音乐人和 remix。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://bandcamp.com/" target="_blank" rel="noopener noreferrer"><b>🎸 Bandcamp<i class="px">需代理</i></b><p>独立厂牌，买一张钱直接给音乐人。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://freemusicarchive.org/" target="_blank" rel="noopener noreferrer"><b>🎼 Free Music Archive</b><p>免版权音乐库，做视频配乐合适。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://archive.org/details/audio" target="_blank" rel="noopener noreferrer"><b>🗄 Internet Archive 音频<i class="px">需代理</i></b><p>老唱片、现场录音、公版音频。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" href="https://music.163.com/" target="_blank" rel="noopener noreferrer"><b>🎵 网易云音乐</b><p>评论区和歌单做得最好。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" href="https://y.qq.com/" target="_blank" rel="noopener noreferrer"><b>🐧 QQ 音乐</b><p>版权最全，新歌首发都在这。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" href="https://www.kugou.com/" target="_blank" rel="noopener noreferrer"><b>🎧 酷狗音乐</b><p>老牌，还有相声有声书。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" href="https://www.kuwo.cn/" target="_blank" rel="noopener noreferrer"><b>🎶 酷我音乐</b><p>无损音质，界面清爽。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" href="https://music.migu.cn/" target="_blank" rel="noopener noreferrer"><b>📻 咪咕音乐</b><p>移动家的，很多歌能免费听。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" href="https://www.ximalaya.com/" target="_blank" rel="noopener noreferrer"><b>🎙️ 喜马拉雅</b><p>有声书、相声、播客。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" href="https://www.qingting.fm/" target="_blank" rel="noopener noreferrer"><b>📡 蜻蜓 FM</b><p>电台直播 + 节目回听。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" href="https://www.lizhi.fm/" target="_blank" rel="noopener noreferrer"><b>🌰 荔枝</b><p>素人播客多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" data-px href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer"><b>🟢 Spotify<i class="px">需代理</i></b><p>全球最大，推荐算法强。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" data-px href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer"><b>▶️ YouTube Music<i class="px">需代理</i></b><p>现场版、翻唱、冷门歌最全。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" data-px href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer"><b>☁️ SoundCloud<i class="px">需代理</i></b><p>独立音乐人和 remix。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" data-px href="https://bandcamp.com/" target="_blank" rel="noopener noreferrer"><b>🎸 Bandcamp<i class="px">需代理</i></b><p>独立厂牌，买一张钱直接给音乐人。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" href="https://freemusicarchive.org/" target="_blank" rel="noopener noreferrer"><b>🎼 Free Music Archive</b><p>免版权音乐库，做视频配乐合适。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="m-music" data-px href="https://archive.org/details/audio" target="_blank" rel="noopener noreferrer"><b>🗄 Internet Archive 音频<i class="px">需代理</i></b><p>老唱片、现场录音、公版音频。</p><span>打开 ↗</span></a>
 </div>
 </section>
-<section class="grp" id="v-movie">
+<section class="grp" id="v-movie" data-block="看">
 <div class="sec" data-reveal><h2>影视</h2><span>正版平台，网页版能放</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" href="https://www.bilibili.com/" target="_blank" rel="noopener noreferrer"><b>📺 哔哩哔哩</b><p>番剧、纪录片、免费视频最多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://v.qq.com/" target="_blank" rel="noopener noreferrer"><b>🐧 腾讯视频</b><p>独播剧和综艺多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.iqiyi.com/" target="_blank" rel="noopener noreferrer"><b>🎬 爱奇艺</b><p>剧集和电影库都大。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.youku.com/" target="_blank" rel="noopener noreferrer"><b>▶️ 优酷</b><p>港剧和纪录片资源不错。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.mgtv.com/" target="_blank" rel="noopener noreferrer"><b>🥭 芒果 TV</b><p>综艺最强。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://tv.sohu.com/" target="_blank" rel="noopener noreferrer"><b>🧡 搜狐视频</b><p>美剧和自制剧，免费片还挺多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.miguvideo.com/" target="_blank" rel="noopener noreferrer"><b>📡 咪咕视频</b><p>体育赛事直播是特色。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-app href="https://www.ixigua.com/" target="_blank" rel="noopener noreferrer"><b>🍉 西瓜视频<i class="px">要装 App</i></b><p>短视频 + 免费影视剪辑。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.1905.com/" target="_blank" rel="noopener noreferrer"><b>🎞️ 1905 电影网</b><p>电影频道官方，老国产片免费。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.yangshipin.cn/" target="_blank" rel="noopener noreferrer"><b>📻 央视频</b><p>央视的，纪录片新闻剧集免费。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://tv.cctv.com/live/" target="_blank" rel="noopener noreferrer"><b>📺 央视网直播</b><p>CCTV 全套 + 卫视，网页直接放。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://movie.douban.com/" target="_blank" rel="noopener noreferrer"><b>🎬 豆瓣电影</b><p>评分、榜单、影评。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-px href="https://archive.org/details/movies" target="_blank" rel="noopener noreferrer"><b>🗄 Internet Archive 影视<i class="px">需代理</i></b><p>几万部公版老电影。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" href="https://www.bilibili.com/" target="_blank" rel="noopener noreferrer"><b>📺 哔哩哔哩</b><p>番剧、纪录片、免费视频最多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" href="https://v.qq.com/" target="_blank" rel="noopener noreferrer"><b>🐧 腾讯视频</b><p>独播剧和综艺多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" href="https://www.iqiyi.com/" target="_blank" rel="noopener noreferrer"><b>🎬 爱奇艺</b><p>剧集和电影库都大。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" href="https://www.youku.com/" target="_blank" rel="noopener noreferrer"><b>▶️ 优酷</b><p>港剧和纪录片资源不错。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" href="https://www.mgtv.com/" target="_blank" rel="noopener noreferrer"><b>🥭 芒果 TV</b><p>综艺最强。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" href="https://tv.sohu.com/" target="_blank" rel="noopener noreferrer"><b>🧡 搜狐视频</b><p>美剧和自制剧，免费片还挺多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" href="https://www.miguvideo.com/" target="_blank" rel="noopener noreferrer"><b>📡 咪咕视频</b><p>体育赛事直播是特色。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" data-app href="https://www.ixigua.com/" target="_blank" rel="noopener noreferrer"><b>🍉 西瓜视频<i class="px">要装 App</i></b><p>短视频 + 免费影视剪辑。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" href="https://www.1905.com/" target="_blank" rel="noopener noreferrer"><b>🎞️ 1905 电影网</b><p>电影频道官方，老国产片免费。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" href="https://www.yangshipin.cn/" target="_blank" rel="noopener noreferrer"><b>📻 央视频</b><p>央视的，纪录片新闻剧集免费。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" href="https://tv.cctv.com/live/" target="_blank" rel="noopener noreferrer"><b>📺 央视网直播</b><p>CCTV 全套 + 卫视，网页直接放。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" href="https://movie.douban.com/" target="_blank" rel="noopener noreferrer"><b>🎬 豆瓣电影</b><p>评分、榜单、影评。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="v-movie" data-px href="https://archive.org/details/movies" target="_blank" rel="noopener noreferrer"><b>🗄 Internet Archive 影视<i class="px">需代理</i></b><p>几万部公版老电影。</p><span>打开 ↗</span></a>
 </div>
 </section>
-<section class="grp" id="c-comic">
+<section class="grp" id="c-comic" data-block="看">
 <div class="sec" data-reveal><h2>漫画</h2><span>正版站，免费章节能看</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" href="https://manga.bilibili.com/" target="_blank" rel="noopener noreferrer"><b>📖 哔哩哔哩漫画</b><p>正版日漫最全，有免费试读。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-app href="https://www.kuaikanmanhua.com/" target="_blank" rel="noopener noreferrer"><b>💬 快看漫画<i class="px">要装 App</i></b><p>国漫大本营，条漫多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://ac.qq.com/" target="_blank" rel="noopener noreferrer"><b>🐧 腾讯动漫</b><p>国漫日漫都有，下拉式阅读。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-app href="https://www.dongmanmanhua.cn/" target="_blank" rel="noopener noreferrer"><b>🇰🇷 咚漫<i class="px">要装 App</i></b><p>Webtoon 中文站，剧情条漫。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-app href="https://www.manmanapp.com/" target="_blank" rel="noopener noreferrer"><b>🌱 漫漫漫画<i class="px">要装 App</i></b><p>轻松向国漫。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://mangaplus.shueisha.co.jp/" target="_blank" rel="noopener noreferrer"><b>🇯🇵 MANGA Plus</b><p>集英社官方，Jump 连载同步，前几话免费。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://www.webtoons.com/zh-hans/" target="_blank" rel="noopener noreferrer"><b>🌐 Webtoon 中文</b><p>Naver 官方中文版，每天免费券。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://tapas.io/" target="_blank" rel="noopener noreferrer"><b>☕ Tapas</b><p>欧美网络漫画，原创连载。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://digitalcomicmuseum.com/" target="_blank" rel="noopener noreferrer"><b>🏛️ Digital Comic Museum</b><p>公有领域黄金时代美漫。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" href="https://comicbookplus.com/" target="_blank" rel="noopener noreferrer"><b>📚 Comic Book Plus</b><p>公版漫画库，老超人都在。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-comic" href="https://manga.bilibili.com/" target="_blank" rel="noopener noreferrer"><b>📖 哔哩哔哩漫画</b><p>正版日漫最全，有免费试读。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-comic" data-app href="https://www.kuaikanmanhua.com/" target="_blank" rel="noopener noreferrer"><b>💬 快看漫画<i class="px">要装 App</i></b><p>国漫大本营，条漫多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-comic" href="https://ac.qq.com/" target="_blank" rel="noopener noreferrer"><b>🐧 腾讯动漫</b><p>国漫日漫都有，下拉式阅读。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-comic" data-app href="https://www.dongmanmanhua.cn/" target="_blank" rel="noopener noreferrer"><b>🇰🇷 咚漫<i class="px">要装 App</i></b><p>Webtoon 中文站，剧情条漫。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-comic" data-app href="https://www.manmanapp.com/" target="_blank" rel="noopener noreferrer"><b>🌱 漫漫漫画<i class="px">要装 App</i></b><p>轻松向国漫。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-comic" href="https://mangaplus.shueisha.co.jp/" target="_blank" rel="noopener noreferrer"><b>🇯🇵 MANGA Plus</b><p>集英社官方，Jump 连载同步，前几话免费。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-comic" href="https://www.webtoons.com/zh-hans/" target="_blank" rel="noopener noreferrer"><b>🌐 Webtoon 中文</b><p>Naver 官方中文版，每天免费券。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-comic" href="https://tapas.io/" target="_blank" rel="noopener noreferrer"><b>☕ Tapas</b><p>欧美网络漫画，原创连载。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-comic" href="https://digitalcomicmuseum.com/" target="_blank" rel="noopener noreferrer"><b>🏛️ Digital Comic Museum</b><p>公有领域黄金时代美漫。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-comic" href="https://comicbookplus.com/" target="_blank" rel="noopener noreferrer"><b>📚 Comic Book Plus</b><p>公版漫画库，老超人都在。</p><span>打开 ↗</span></a>
 </div>
 </section>
+</div>
 
-<p class="muted" style="font-size:12px;margin:22px 0 0">📌 标「要装 App」的是那类必须下客户端的（番茄、七猫、快传…），网页版功能残缺；标「需代理」的国内直连打不开。其余点开就能用。外部站点内容不由本站控制。</p>
+<div class="empty nf-empty" id="nfEmpty" hidden><span>🔍</span><p>没搜到，换个词试试</p></div>
+<p class="muted" style="font-size:12px;margin:22px 0 0">📌 标「要装 App」的是那类必须下客户端的，网页版功能残缺；标「需代理」的国内直连打不开。其余点开就能用。外部站点内容不由本站控制。</p>
 </main>
 
 <footer><p>口袋小站 · 在线资源</p><p class="muted">开源游戏 · 本地托管 · 外链跳转</p>  <p class="muted">by 沫小汐 · 代码 MIT · 第三方许可见 <a href="https://github.com/mxdfghsh/pocket-tools/blob/main/CREDITS.md" target="_blank" rel="noopener">CREDITS</a></p>
 </footer>
 
 <script>
-(function(){var b=document.getElementById("onlyWeb");if(!b)return;var n=document.getElementById("cnt"),m=document.querySelector("main"),cs=[].slice.call(document.querySelectorAll(".lk")),bx=[].slice.call(document.querySelectorAll(".grp"));
-function run(){var on=b.getAttribute("aria-pressed")==="true",k=0;cs.forEach(function(c){var h=on&&(c.hasAttribute("data-px")||c.hasAttribute("data-app"));c.hidden=h;if(!h)k++});bx.forEach(function(g){g.hidden=!g.querySelector(".lk:not([hidden])")});n.textContent=k+" / "+cs.length;m.classList.add("filtered")}
-b.addEventListener("click",function(){b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")==="true"?"false":"true");run()});})();
+(function () {
+  var q = document.getElementById("nfQ");
+  var web = document.getElementById("nfWeb");
+  var cats = document.getElementById("nfCats");
+  var cnt = document.getElementById("nfCount");
+  var reset = document.getElementById("nfReset");
+  var empty = document.getElementById("nfEmpty");
+  if (!q) return;
+  var cards = [].slice.call(document.querySelectorAll(".lk"));
+  var secs = [].slice.call(document.querySelectorAll(".grp"));
+  var blks = [].slice.call(document.querySelectorAll(".blk"));
+  var cur = "all";
+
+  function run() {
+    var term = q.value.trim().toLowerCase();
+    var onlyWeb = web.getAttribute("aria-pressed") === "true";
+    var n = 0;
+    cards.forEach(function (c) {
+      var text = c.textContent.toLowerCase();
+      var ok = (cur === "all" || c.getAttribute("data-cat") === cur) &&
+               (!term || text.indexOf(term) >= 0) &&
+               (!onlyWeb || (!c.hasAttribute("data-px") && !c.hasAttribute("data-app")));
+      c.hidden = !ok;
+      if (ok) n++;
+    });
+    secs.forEach(function (s) { s.hidden = !s.querySelector(".lk:not([hidden])"); });
+    blks.forEach(function (b) { b.hidden = !b.querySelector(".grp:not([hidden])"); });
+    cnt.textContent = n;
+    if (empty) empty.hidden = n !== 0;
+  }
+
+  q.addEventListener("input", run);
+  web.addEventListener("click", function () {
+    web.setAttribute("aria-pressed", web.getAttribute("aria-pressed") === "true" ? "false" : "true");
+    run();
+  });
+  cats.addEventListener("click", function (e) {
+    var b = e.target.closest(".nf-chip");
+    if (!b) return;
+    cur = b.getAttribute("data-cat");
+    [].forEach.call(cats.querySelectorAll(".nf-chip"), function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+    run();
+  });
+  if (reset) reset.addEventListener("click", function () {
+    q.value = ""; cur = "all";
+    web.setAttribute("aria-pressed", "false");
+    [].forEach.call(cats.querySelectorAll(".nf-chip"), function (x) { x.setAttribute("aria-pressed", x.getAttribute("data-cat") === "all" ? "true" : "false"); });
+    run();
+  });
+  run();
+})();
 </script>
 <script src="theme.js"></script>
 <script src="skin.js"></script>

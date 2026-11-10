@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #333;
+}
+
+.ylgy-box {
+    max-width: 400px;
+    width: 100vw;
+    height: 100vh;
+    background: #c3fe8b;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.grass {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+}
+.grass div{
+    position: absolute;
+    animation: mymove .2s infinite;
+    -webkit-animation: mymove .2s infinite;
+}
+.grass .item1{
+    width: 31px;
+    height: 22px;
+    background: url(./images/grass1.png) no-repeat center/cover;
+}
+.grass .item2{
+    width: 22px;
+    height: 23px;
+    background: url(./images/grass2.png) no-repeat center/cover;
+}
+
+
+
+
+@keyframes mymove {
+    0% {
+        height:21px;
+        margin-top: 0;
+    }
+    50% {
+        height:21px;
+        margin-top: 0;
+    }
+    100% {
+        height:23px;
+        margin-top: -2px;
+    }
+}
+
+
+@-webkit-keyframes mymove {
+    0% {
+        height:21px;
+        margin-top: 0;
+    }
+    50% {
+        height:21px;
+        margin-top: 0px;
+    }
+    100% {
+        height:23px;
+        margin-top: -2px;
+    }
+}
+
+
+
+.rail-box {
+    width: 100%;
+    height: 125px;
+    background: url(./images/fence.png) no-repeat;
+    background-size: 99%;
+    margin: 0 auto;
+    position:absolute;
+    bottom: 100px;
+    z-index: 5;
+    left: 1px;
+    box-sizing: border-box;
+    padding: 22px 28px 45px 22px;
+    display: flex;
+}
+
+
+.content-box {
+    width: 100%;
+    height: 510px;
+    position:absolute;
+    top: 100px;
+    box-sizing: border-box;
+    z-index: 3;
+    transition: all 1s;
+}
+
+
+.rail-box div {
+    width: 14.6%;
+    height: 57px;
+}
+.content-box div {
+    width: 14.6%;
+    height: 57px;
+    position: absolute;
+}
+.content-box div.mask::before{
+    content: "";
+    display: block;
+    width: 50px;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
+    position:absolute;
+}
+
+
+.content-box div {
+    animation: mymove1 1s;
+    -webkit-animation: mymove1 1s;
+}
+
+
+
+.prop1 {
+    background: url('./images/daoju1.png')no-repeat;
+}
+
+.prop2 {
+    background: url('./images/daoju2.png')no-repeat;
+}
+
+.prop3 {
+    background: url('./images/daoju3.png')no-repeat;
+}
+
+.prop4 {
+    background: url('./images/daoju4.png')no-repeat;
+}
+
+.prop5 {
+    background: url('./images/daoju5.png')no-repeat;
+}
+
+
+.prop6 {
+    background: url('./images/daoju6.png')no-repeat;
+}
+.prop7 {
+    background: url('./images/daoju7.png')no-repeat;
+}
+.prop8 {
+    background: url('./images/daoju8.png')no-repeat;
+}
+.prop9 {
+    background: url('./images/daoju9.png')no-repeat;
+}
+.prop9 {
+    background: url('./images/daoju9.png')no-repeat;
+}
+.prop10 {
+    background: url('./images/daoju10.png')no-repeat;
+}
+.prop11 {
+    background: url('./images/daoju11.png')no-repeat;
+}
+.prop12 {
+    background: url('./images/daoju12.png')no-repeat;
+}
+.prop13 {
+    background: url('./images/daoju13.png')no-repeat;
+}
+.prop14 {
+    background: url('./images/daoju.png')no-repeat;
+}
+
+
+.btn-box {
+    width: 100%;
+    height: 100px;
+    position:absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    z-index: 5;
+}
+
+.btn-box div {
+    width: 97px;
+    height: 75px;
+    cursor: pointer;
+}
+
+
+.btn-box div:nth-child(1) {
+    background: url(./images/withdraw.png) no-repeat;
+}
+.btn-box div:nth-child(2){
+    background: url(./images/withdraw1.png) no-repeat;
+}
+.btn-box div:nth-child(3){
+    background: url(./images/withdraw3.png) no-repeat;
+
+}
+
+
+
+@keyframes mymove1 {
+    0% {
+        transform: translateX(300px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}

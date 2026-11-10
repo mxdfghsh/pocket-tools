@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✨ 宝石消消乐</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a href="../hub.html" style="position:fixed;left:10px;top:10px;z-index:99999;font:600 12px/1.5 -apple-system,PingFang SC,sans-serif;color:#fff;background:rgba(0,0,0,.55);padding:7px 11px;border-radius:999px;text-decoration:none;backdrop-filter:blur(6px)">← 口袋小站</a>
+  <!-- 粒子背景 -->
+  <div id="particles-bg"></div>
+
+  <!-- 开始界面 -->
+  <div id="start-screen" class="screen active">
+    <div class="logo-container">
+      <div class="logo-gems">
+        <span class="gem gem-red">💎</span>
+        <span class="gem gem-blue">💙</span>
+        <span class="gem gem-green">💚</span>
+      </div>
+      <h1 class="game-title">宝石消消乐</h1>
+      <p class="game-subtitle">Gem Blast</p>
+    </div>
+    <div class="menu-buttons">
+      <button class="btn btn-primary" onclick="startGame()">
+        <span class="btn-icon">▶</span> 开始游戏
+      </button>
+      <button class="btn btn-secondary" onclick="showHowToPlay()">
+        <span class="btn-icon">❓</span> 怎么玩
+      </button>
+      <button class="btn btn-secondary" onclick="toggleSound()">
+        <span class="btn-icon" id="sound-icon">🔊</span> 声音
+      </button>
+    </div>
+    <div id="best-score-display" class="best-score">
+      最高分: <span id="best-score-start">0</span>
+    </div>
+  </div>
+
+  <!-- 教程界面 -->
+  <div id="howto-screen" class="screen">
+    <h2>怎么玩？</h2>
+    <div class="howto-content">
+      <div class="howto-item">
+        <div class="howto-icon">👆</div>
+        <p>点击并拖动宝石来交换相邻宝石的位置</p>
+      </div>
+      <div class="howto-item">
+        <div class="howto-icon">✨</div>
+        <p>连接3个或更多相同颜色的宝石来消除</p>
+      </div>
+      <div class="howto-item">
+        <div class="howto-icon">🔥</div>
+        <p>连续消除获得连击奖励，分数翻倍！</p>
+      </div>
+      <div class="howto-item">
+        <div class="howto-icon">⭐</div>
+        <p>消除5个获得爆炸宝石，消除一整行！</p>
+      </div>
+      <div class="howto-item">
+        <div class="howto-icon">⏱</div>
+        <p>在限定步数内尽可能获得高分</p>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="hideHowToPlay()">明白了！</button>
+  </div>
+
+  <!-- 游戏界面 -->
+  <div id="game-screen" class="screen">
+    <!-- 顶部信息栏 -->
+    <div class="game-header">
+      <div class="header-item">
+        <div class="header-label">分数</div>
+        <div class="header-value" id="score-display">0</div>
+      </div>
+      <div class="header-item">
+        <div class="header-label">最高分</div>
+        <div class="header-value" id="best-score-game">0</div>
+      </div>
+      <div class="header-item">
+        <div class="header-label">关卡</div>
+        <div class="header-value" id="level-display">1</div>
+      </div>
+      <div class="header-item">
+        <div class="header-label">步数</div>
+        <div class="header-value" id="moves-display">30</div>
+      </div>
+    </div>
+
+    <!-- 目标分数进度 -->
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-text">
+        目标: <span id="target-score">1000</span>
+      </div>
+    </div>
+
+    <!-- 连击显示 -->
+    <div id="combo-display" class="combo-display hidden">
+      <span id="combo-count">x2</span> 连击！
+    </div>
+
+    <!-- 游戏棋盘 -->
+    <div class="board-container">
+      <div id="game-board" class="game-board"></div>
+      <!-- 特效层 -->
+      <div id="effects-layer" class="effects-layer"></div>
+    </div>
+
+    <!-- 底部控制 -->
+    <div class="game-controls">
+      <button class="ctrl-btn" onclick="pauseGame()" title="暂停">⏸</button>
+      <button class="ctrl-btn" onclick="shuffleBoard()" title="洗牌" id="shuffle-btn">🔀</button>
+      <button class="ctrl-btn" onclick="showStartScreen()" title="退出">🏠</button>
+    </div>
+  </div>
+
+  <!-- 暂停界面 -->
+  <div id="pause-screen" class="screen overlay-screen">
+    <div class="overlay-box">
+      <h2>游戏暂停</h2>
+      <button class="btn btn-primary" onclick="resumeGame()">继续游戏</button>
+      <button class="btn btn-secondary" onclick="restartGame()">重新开始</button>
+      <button class="btn btn-secondary" onclick="showStartScreen()">返回主菜单</button>
+    </div>
+  </div>
+
+  <!-- 关卡完成界面 -->
+  <div id="level-complete-screen" class="screen overlay-screen">
+    <div class="overlay-box celebrate">
+      <div class="stars-container" id="stars-display"></div>
+      <h2>🎉 太棒了！</h2>
+      <p>第 <span id="complete-level">1</span> 关通过！</p>
+      <div class="score-summary">
+        <div>得分: <span id="final-score">0</span></div>
+        <div>步数剩余: <span id="remaining-moves">0</span></div>
+        <div>连击最高: <span id="best-combo">0</span></div>
+      </div>
+      <button class="btn btn-primary" onclick="nextLevel()">下一关 ▶</button>
+      <button class="btn btn-secondary" onclick="restartGame()">再玩一次</button>
+    </div>
+  </div>
+
+  <!-- 游戏失败界面 -->
+  <div id="game-over-screen" class="screen overlay-screen">
+    <div class="overlay-box">
+      <div class="game-over-icon">💔</div>
+      <h2>游戏结束</h2>
+      <p>差一点就成功了！</p>
+      <div class="score-summary">
+        <div>最终得分: <span id="over-score">0</span></div>
+        <div>最高分: <span id="over-best">0</span></div>
+      </div>
+      <button class="btn btn-primary" onclick="restartGame()">再试一次</button>
+      <button class="btn btn-secondary" onclick="showStartScreen()">返回主菜单</button>
+    </div>
+  </div>
+
+  <!-- 分数飞出特效容器 -->
+  <div id="score-popup-container"></div>
+
+  <script src="js/audio.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>

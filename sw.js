@@ -1,11 +1,11 @@
 /* 口袋小站 · Service Worker（离线可用） */
-const CACHE = "pocket-v12";
+const CACHE = "pocket-v13";
 const ASSETS = [
   "./", "./index.html", "./tools.html", "./hub.html", "./web.html", "./play.html",
   "./games.html", "./about.html", "./nes.html", "./chess.html", "./dos.html",
   "./home.css", "./style.css", "./games.css", "./theme.css", "./skins.css", "./splash.css",
   "./theme.js", "./skin.js", "./ui.js", "./motion.css", "./motion.js",
-  "./app.js", "./extra.js", "./extra2.js", "./extra3.js", "./landing.js", "./games.js", "./games-more.js", "./chess.js", "./nes.js", "./pwa.js",
+  "./app.js", "./extra.js", "./extra2.js", "./extra3.js", "./extra4.js", "./qrcode.js", "./landing.js", "./games.js", "./games-more.js", "./chess.js", "./nes.js", "./pwa.js",
   "./manifest.json", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png",
 ];
 

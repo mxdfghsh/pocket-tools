@@ -32,3 +32,15 @@
   .dir.filtered .lk:not([hidden]){animation:lkin .22s ease-out}
   @keyframes lkin{from{opacity:0;transform:translateY(4px)}}
 }
+
+/* ---- 第二批 ---- */
+/* 卡片标题旁的小标签（web.html「手机可玩」），与「需代理」同一套 */
+.dir .tg{font-style:normal;font-size:11px;font-weight:400;padding:2px 7px;border:1px solid var(--line-strong);border-radius:999px;color:color-mix(in srgb,var(--ink) 72%,var(--surface))}
+
+/* 工具箱分类筛选：用独立属性隐藏，不和 app.js 的搜索隐藏互相覆盖 */
+.card[data-cf]{display:none!important}
+.dir .bar.tbar{padding-top:2px}
+.dir .chip small{margin-left:5px;font-size:11px;opacity:.75}
+@media (prefers-reduced-motion:no-preference){
+  .card.cf-in{animation:rise .28s cubic-bezier(.22,.8,.3,1) both}
+}

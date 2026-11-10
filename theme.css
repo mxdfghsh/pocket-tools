@@ -10,7 +10,7 @@ html[data-theme="light"] {
   --surface-2: #efeade;
   --ink: #17181c;
   --text: var(--ink);
-  --muted: #6c6a61;
+  --muted: #5a5850;
   --line: rgba(23, 24, 28, .14);
   --line-strong: rgba(23, 24, 28, .34);
   --accent: #c03a20;

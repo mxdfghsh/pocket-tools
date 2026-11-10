@@ -8,6 +8,6 @@
   css.href = "pet.css?v=2";
   document.head.appendChild(css);
   var js = document.createElement("script");
-  js.src = "pet.js?v=2";
+  js.src = "pet.js?v=3";
   document.body.appendChild(js);
 })();

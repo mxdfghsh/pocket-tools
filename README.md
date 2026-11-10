@@ -15,7 +15,7 @@
 
 ```
 主页 index.html
- ├─ 工具箱 tools.html ── 17 个本地工具
+ ├─ 工具箱 tools.html ── 25 个本地工具
  ├─ 游戏中心 hub.html
  │   ├─ 网页经典 web.html      （11 款，含马里奥/矿工/捕鱼/抓娃娃）
  │   ├─ 休闲经营 play.html     （10 款）

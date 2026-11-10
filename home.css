@@ -640,3 +640,17 @@ footer p { margin: 3px 0; }
   .card > *, .b > *, .wg > *, .pg > *, .card-link > *, .api-entry > * { position: relative; z-index: 1; }
 }
 
+
+/* 外链卡上的「需代理」小标签 */
+.wg em {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 1px 5px;
+  font-style: normal;
+  font-size: 10.5px;
+  line-height: 1.5;
+  border: 1px solid color-mix(in srgb, currentColor 45%, transparent);
+  border-radius: 6px;
+  opacity: .8;
+  vertical-align: 1px;
+}

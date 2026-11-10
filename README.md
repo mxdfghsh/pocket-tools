@@ -15,20 +15,17 @@
 
 ```
 主页 index.html
- ├─ 工具 tools.html          57 个本地工具（app.js + extra*.js 注册）
+ ├─ 工具 tools.html        57 个本地工具
  ├─ 游戏中心 hub.html
- │   ├─ 网页经典 web.html     16 款本站托管 + 12 个外链（原作者 GitHub Pages demo）
+ │   ├─ 网页经典 web.html   16 款本站托管 + 12 个外链
  │   └─ 中国象棋 chess.html
- ├─ 外链 links.html           48 个游戏/平台入口（Steam、Switch、PS、Xbox、云游戏…）
- ├─ 小说 read.html            17 个正版阅读站
- ├─ 音乐 music.html           14 个在线音乐 / 播客 / 免版权
- ├─ 影视 video.html           13 个正版影视 / 直播
- ├─ 漫画 comic.html           10 个正版漫画
- ├─ 检测 relay.html           API Key 检测（noindex）
+ ├─ 在线资源 nav.html       97 个入口（游戏平台 / 云游戏 / 小游戏 / 小说 / 音乐 / 影视 / 漫画），
+ │                          标明「要装 App」「需代理」，其余网页直接能用
+ ├─ 检测 relay.html         API Key 检测（noindex）
  └─ 关于 about.html
 ```
 
-游戏与素材都在 `web/` 下，具体来源和许可证见 `CREDITS.md`。
+游戏和素材在 `web/` 下，来源与许可证见 `CREDITS.md`。
 
 ## 皮肤
 

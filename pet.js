@@ -1,64 +1,21 @@
 (() => {
-  if (document.getElementById("pocket-pet")) return;
-  const BASE = "pet/assets/";
-  const root = document.createElement("aside");
-  root.id = "pocket-pet";
-  root.innerHTML = `
-    <button class="pp-menu-toggle" type="button" aria-label="打开桌宠菜单">☰</button>
-    <img class="pp-sprite" src="${BASE}idle.png" alt="银白狐耳桌宠" draggable="false">
-    <div class="pp-speech" hidden></div>
-    <nav class="pp-actions" hidden>
-      <button data-act="chat">聊天</button><button data-act="pet">摸摸</button>
-      <button data-act="sleep">睡觉</button><button data-act="hide">隐藏</button>
-    </nav>`;
-  document.body.appendChild(root);
-  const sprite=root.querySelector(".pp-sprite"), speech=root.querySelector(".pp-speech");
-  const actions=root.querySelector(".pp-actions"), menuBtn=root.querySelector(".pp-menu-toggle");
-  const poses={idle:"idle",happy:"happy",curious:"curious",shy:"shy",angry:"angry",sleep:"sleep",surprised:"surprised"};
-  let idleTimer, speechTimer, down=null, moved=false;
-  function pose(name, back=0){
-    const file=poses[name]||"idle";
-    sprite.src=BASE+file+".png"; sprite.dataset.pose=file;
-    if(back) setTimeout(()=>{if(sprite.dataset.pose===file) pose("idle");},back);
-  }
-  function say(t){
-    speech.textContent=t; speech.hidden=false;
-    clearTimeout(speechTimer); speechTimer=setTimeout(()=>speech.hidden=true,2400);
-  }
-  function resetIdle(){
-    clearTimeout(idleTimer);
-    idleTimer=setTimeout(()=>{pose("sleep");say("呼……晚安。");},90000);
-  }
-  sprite.addEventListener("pointerdown",e=>{
-    down={x:e.clientX,y:e.clientY,left:root.offsetLeft,top:root.offsetTop};
-    moved=false; sprite.setPointerCapture(e.pointerId);
-  });
-  sprite.addEventListener("pointermove",e=>{
-    if(!down)return;
-    const dx=e.clientX-down.x,dy=e.clientY-down.y;
-    if(Math.abs(dx)+Math.abs(dy)>7)moved=true;
-    if(moved){
-      root.style.left=Math.max(0,Math.min(innerWidth-root.offsetWidth,down.left+dx))+"px";
-      root.style.top=Math.max(0,Math.min(innerHeight-root.offsetHeight,down.top+dy))+"px";
-      root.style.right="auto";root.style.bottom="auto";
-    }
-  });
-  sprite.addEventListener("pointerup",()=>{
-    if(down&&!moved){pose("happy",2600);say("欸嘿！");resetIdle();}
-    down=null;
-  });
-  sprite.addEventListener("pointercancel",()=>down=null);
-  menuBtn.addEventListener("click",()=>actions.hidden=!actions.hidden);
-  actions.addEventListener("click",e=>{
-    const a=e.target.dataset.act;if(!a)return;
-    if(a==="chat"){pose("curious",2500);say("今天也要加油哦！");}
-    if(a==="pet"){pose("happy",2600);say("再摸摸嘛～");}
-    if(a==="sleep"){pose("sleep");say("晚安～");}
-    if(a==="hide"){root.hidden=true;}
-    actions.hidden=true;resetIdle();
-  });
-  const saved=JSON.parse(localStorage.getItem("pocket-pet-pos")||"null");
-  if(saved){root.style.left=saved.left;root.style.top=saved.top;root.style.right="auto";root.style.bottom="auto";}
-  addEventListener("beforeunload",()=>localStorage.setItem("pocket-pet-pos",JSON.stringify({left:root.style.left,top:root.style.top})));
-  resetIdle();
+ if(document.getElementById("pocket-pet")) return;
+ const BASE=new URL("pet/assets/",document.currentScript?.src||location.href).href;
+ const root=document.createElement("aside"); root.id="pocket-pet";
+ root.innerHTML=`<button class="pp-menu-toggle" aria-label="桌宠菜单">☰</button><img class="pp-sprite" src="${BASE}idle.png" alt="狐耳桌宠" draggable="false"><div class="pp-speech" hidden></div><nav class="pp-actions" hidden><button data-act="chat">聊天</button><button data-act="pet">摸摸</button><button data-act="sleep">睡觉</button><button data-act="show">唤醒</button></nav>`;
+ document.body.appendChild(root);
+ const img=root.querySelector(".pp-sprite"),bubble=root.querySelector(".pp-speech"),menu=root.querySelector(".pp-actions");
+ const valid=["idle","happy","curious","shy","angry","sleep","surprised","sleepy"];
+ let timer,sayTimer,down=null,moved=false,longPress=false,pressTimer;
+ function pose(p,back=0){p=valid.includes(p)?p:"idle";img.src=BASE+p+".png";img.dataset.pose=p;if(back)setTimeout(()=>{if(img.dataset.pose===p)pose("idle")},back)}
+ function say(t){bubble.textContent=t;bubble.hidden=false;clearTimeout(sayTimer);sayTimer=setTimeout(()=>bubble.hidden=true,2600)}
+ function schedule(){clearTimeout(timer);timer=setTimeout(()=>{let a=[["curious","嗯？有人在看我吗？"],["shy","才、才没有害羞呢！"],["surprised","欸？怎么啦？"]][Math.floor(Math.random()*3)];pose(a[0],1900);say(a[1]);schedule()},22000+Math.random()*12000)}
+ img.addEventListener("pointerdown",e=>{down={x:e.clientX,y:e.clientY,l:root.offsetLeft,t:root.offsetTop};moved=false;longPress=false;pressTimer=setTimeout(()=>{if(down&&!moved){longPress=true;pose("shy",2000);say("呀！突然摸我！")}},650);img.setPointerCapture(e.pointerId)});
+ img.addEventListener("pointermove",e=>{if(!down)return;let x=e.clientX-down.x,y=e.clientY-down.y;if(Math.abs(x)+Math.abs(y)>7){moved=true;clearTimeout(pressTimer)}if(moved){root.style.left=Math.max(0,Math.min(innerWidth-root.offsetWidth,down.l+x))+"px";root.style.top=Math.max(0,Math.min(innerHeight-root.offsetHeight,down.t+y))+"px";root.style.right="auto";root.style.bottom="auto"}});
+ img.addEventListener("pointerup",()=>{clearTimeout(pressTimer);if(down&&!moved&&!longPress){pose("happy",2400);say(["嘿嘿！","再摸摸嘛～","我很开心哦！"][Math.floor(Math.random()*3)]);schedule()}down=null});
+ img.addEventListener("pointercancel",()=>{clearTimeout(pressTimer);down=null});
+ root.querySelector(".pp-menu-toggle").onclick=()=>menu.hidden=!menu.hidden;
+ menu.onclick=e=>{let a=e.target.dataset.act;if(!a)return;if(a==="chat"){pose("curious",2200);say("今天也要加油哦！")}if(a==="pet"){pose("happy",2400);say("最喜欢被摸摸了！")}if(a==="sleep"){pose("sleep");say("晚安～");clearTimeout(timer)}if(a==="show"){pose("idle");say("我回来啦！");schedule()}menu.hidden=true};
+ try{let s=JSON.parse(localStorage.getItem("pocket-pet-pos")||"null");if(s?.left&&s?.top){root.style.left=s.left;root.style.top=s.top;root.style.right="auto";root.style.bottom="auto"}addEventListener("beforeunload",()=>localStorage.setItem("pocket-pet-pos",JSON.stringify({left:root.style.left,top:root.style.top})))}catch(e){}
+ schedule();
 })();

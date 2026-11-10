@@ -41,6 +41,7 @@
   </div>
   <div class="nf-chips" id="nfCats">
     <button class="nf-chip" type="button" data-cat="all" aria-pressed="true">全部<small>97</small></button>
+    <button class="nf-chip" type="button" data-cat="games">🎮 全部游戏<small>43</small></button>
     <button class="nf-chip" type="button" data-cat="g-web">网页里直接玩的大游戏<small>7</small></button><button class="nf-chip" type="button" data-cat="g-mini">小游戏站<small>8</small></button><button class="nf-chip" type="button" data-cat="g-store">游戏平台 · 商店<small>11</small></button><button class="nf-chip" type="button" data-cat="g-cloud">云游戏<small>5</small></button><button class="nf-chip" type="button" data-cat="g-board">棋牌 · 桌游<small>5</small></button><button class="nf-chip" type="button" data-cat="g-indie">独立 · 剧情<small>4</small></button><button class="nf-chip" type="button" data-cat="g-pvp">多人竞技<small>3</small></button><button class="nf-chip" type="button" data-cat="r-book">小说<small>17</small></button><button class="nf-chip" type="button" data-cat="m-music">音乐<small>14</small></button><button class="nf-chip" type="button" data-cat="v-movie">影视<small>13</small></button><button class="nf-chip" type="button" data-cat="c-comic">漫画<small>10</small></button>
   </div>
   <p class="nf-meta"><span id="nfCount">97</span> 个结果<button id="nfReset" type="button">清空</button></p>
@@ -225,6 +226,7 @@
   var secs = [].slice.call(document.querySelectorAll(".grp"));
   var blks = [].slice.call(document.querySelectorAll(".blk"));
   var cur = "all";
+  var GAME_CATS = { "g-web":1,"g-mini":1,"g-store":1,"g-cloud":1,"g-board":1,"g-indie":1,"g-pvp":1 };
 
   function run() {
     var term = q.value.trim().toLowerCase();
@@ -232,7 +234,9 @@
     var n = 0;
     cards.forEach(function (c) {
       var text = c.textContent.toLowerCase();
-      var ok = (cur === "all" || c.getAttribute("data-cat") === cur) &&
+      var cat = c.getAttribute("data-cat");
+      var catOk = cur === "all" || (cur === "games" ? !!GAME_CATS[cat] : cat === cur);
+      var ok = catOk &&
                (!term || text.indexOf(term) >= 0) &&
                (!onlyWeb || (!c.hasAttribute("data-px") && !c.hasAttribute("data-app")));
       c.hidden = !ok;
@@ -262,6 +266,17 @@
     [].forEach.call(cats.querySelectorAll(".nf-chip"), function (x) { x.setAttribute("aria-pressed", x.getAttribute("data-cat") === "all" ? "true" : "false"); });
     run();
   });
+  function syncFromHash() {
+    if (location.hash === "#games") {
+      cur = "games";
+      [].forEach.call(cats.querySelectorAll(".nf-chip"), function (x) {
+        x.setAttribute("aria-pressed", x.getAttribute("data-cat") === "games" ? "true" : "false");
+      });
+      run();
+    }
+  }
+  window.addEventListener("hashchange", syncFromHash);
+  syncFromHash();
   run();
 })();
 </script>

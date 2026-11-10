@@ -378,11 +378,6 @@ input[type=color] {
 .md-body hr { margin: 1em 0; border: 0; border-top: 1px solid var(--line); }
 
 /* ---------------- 入口页（封面） ---------------- */
-body:not(.entered) { overflow: hidden; }
-body:not(.entered) .hero,
-body:not(.entered) main,
-body:not(.entered) footer,
-body:not(.entered) .nav { visibility: hidden; }
 
 .landing {
   position: fixed;

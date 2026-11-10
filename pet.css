@@ -1,1 +1,21 @@
-#pocket-pet{position:fixed;right:14px;bottom:14px;width:clamp(126px,19vw,190px);z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:6px;user-select:none;pointer-events:none}#pocket-pet>*{pointer-events:auto}#pocket-pet .pp-sprite{display:block;width:100%;height:auto;max-height:250px;object-fit:contain;cursor:grab;touch-action:none;transform-origin:50% 88%;filter:drop-shadow(0 5px 9px #0004);animation:pp-breathe 2.7s ease-in-out infinite}#pocket-pet .pp-menu-toggle{border:0;border-radius:11px;background:#30213b;color:white;padding:6px 11px;font-size:18px}#pocket-pet .pp-speech{max-width:190px;background:#fff;color:#33233b;border-radius:15px;padding:8px 12px;font:13px/1.5 system-ui;box-shadow:0 3px 12px #0002}#pocket-pet .pp-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;background:#30213b;padding:8px;border-radius:13px}#pocket-pet [hidden]{display:none!important}#pocket-pet .pp-actions button{border:0;border-radius:9px;padding:8px 11px;background:#59446b;color:white}@keyframes pp-breathe{0%,100%{transform:translateY(0) scale(1,1)}25%{transform:translateY(-2px) scale(1.012,.992)}50%{transform:translateY(-5px) scale(1.018,.985)}75%{transform:translateY(-2px) scale(1.008,.996)}}@media(max-width:600px){#pocket-pet{width:118px;right:8px;bottom:12px}#pocket-pet .pp-sprite{max-height:165px}}@media(prefers-reduced-motion:reduce){#pocket-pet .pp-sprite{animation:none}}
+#pocket-pet{position:fixed;right:14px;bottom:14px;width:clamp(126px,19vw,190px);z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:6px;user-select:none;pointer-events:none}#pocket-pet>*{pointer-events:auto}#pocket-pet .pp-sprite{display:block;width:100%;height:auto;max-height:250px;object-fit:contain;cursor:grab;touch-action:none;transform-origin:50% 88%;filter:drop-shadow(0 5px 9px #0004);animation:pp-breathe 2.7s ease-in-out infinite}#pocket-pet .pp-menu-toggle{border:0;border-radius:11px;background:#30213b;color:white;padding:6px 11px;font-size:18px}#pocket-pet .pp-speech{max-width:190px;background:#fff;color:#33233b;border-radius:15px;padding:8px 12px;font:13px/1.5 system-ui;box-shadow:0 3px 12px #0002}#pocket-pet .pp-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;background:#30213b;padding:8px;border-radius:13px}#pocket-pet [hidden]{display:none!important}#pocket-pet .pp-actions button{border:0;border-radius:9px;padding:8px 11px;background:#59446b;color:white}@keyframes pp-breathe{0%,100%{transform:translateY(0) scale(1,1)}25%{transform:translateY(-2px) scale(1.012,.992)}50%{transform:translateY(-5px) scale(1.018,.985)}75%{transform:translateY(-2px) scale(1.008,.996)}}@media(max-width:600px){#pocket-pet{width:118px;right:8px;bottom:12px}#pocket-pet .pp-sprite{max-height:165px}}@media(prefers-reduced-motion:reduce){#pocket-pet .pp-sprite{animation:none}}#pocket-pet .pp-actions{
+  width:210px;box-sizing:border-box;display:flex;flex-direction:column;
+  gap:9px;padding:13px;background:rgba(30,22,39,.96);
+  border:1px solid #9c794d;border-radius:17px;color:#fff4df;
+  box-shadow:0 8px 28px #0006;backdrop-filter:blur(12px);
+}
+#pocket-pet .pp-actions header{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+#pocket-pet .pp-actions header span{color:#e8bd69;font-style:normal}
+#pocket-pet .pp-actions header i{font-style:normal}
+#pocket-pet .pp-bond-track{height:6px;background:#554454;border-radius:9px;overflow:hidden}
+#pocket-pet .pp-bond-fill{display:block;width:0;height:100%;background:linear-gradient(90deg,#c47b55,#f0ce83);transition:width .3s}
+#pocket-pet .pp-level{color:#cdbb9e;font-size:10px;text-align:right;margin-top:-6px}
+#pocket-pet .pp-action-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+#pocket-pet .pp-action-grid button{
+  min-width:0;padding:9px 2px;border:1px solid #725b70;border-radius:10px;
+  background:#49364e;color:#fff2dc;font-size:12px;white-space:nowrap;
+  transition:background .15s,transform .15s
+}
+#pocket-pet .pp-action-grid button:active{background:#806044;transform:scale(.95)}
+#pocket-pet .pp-menu-toggle{background:#30213b;border:1px solid #9c794d}
+@media(max-width:600px){#pocket-pet .pp-actions{width:190px;padding:10px}}

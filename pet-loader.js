@@ -5,9 +5,9 @@
   if (!on) return;
   var css = document.createElement("link");
   css.rel = "stylesheet";
-  css.href = "pet.css?v=2";
+  css.href = "pet.css?v=3";
   document.head.appendChild(css);
   var js = document.createElement("script");
-  js.src = "pet.js?v=3";
+  js.src = "pet.js?v=4";
   document.body.appendChild(js);
 })();

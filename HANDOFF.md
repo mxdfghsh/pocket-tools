@@ -139,3 +139,32 @@ python3 -m http.server 8080
 - [ ] 工具箱随便挑三个工具算一下（Base64 / 时间戳 / JSON）
 - [ ] 随便进两个游戏，能进能出（左上角有「← 口袋小站」）
 - [ ] 控制台没有 404 / 报错
+
+## 不用来回传文件
+
+仓库是公开的，**读取不需要任何权限**，直接拿 raw 地址就行：
+
+```
+https://raw.githubusercontent.com/mxdfghsh/pocket-tools/main/HANDOFF.md
+https://raw.githubusercontent.com/mxdfghsh/pocket-tools/main/tools.html
+https://raw.githubusercontent.com/mxdfghsh/pocket-tools/main/app.js
+https://raw.githubusercontent.com/mxdfghsh/pocket-tools/main/style.css
+```
+
+要改哪个文件就先读哪个，别凭印象写。
+
+**写**有两种方式，二选一：
+
+1. **有 shell 的智能体**：给它一个 fine-grained token（只勾这个仓库、Contents: Read and write、7 天），
+   自己 `git clone` → 改 → 开分支 push。别直接推 main。
+2. **只有网页的智能体**：输出 **unified diff**（不是整份文件），格式跟 `git diff` 一致，
+   文件路径相对仓库根目录。站长会把 diff 贴给本地 agent 应用。
+
+diff 的规矩：
+
+- 一次别超过 3 个文件、300 行，方便核对
+- 新增文件用 `--- /dev/null` + `+++ b/路径`
+- 不要包含二进制文件
+- 改完附一句话说明「改了什么、为什么」
+
+本地应用 diff 的脚本在站长那边，贴进去就自动应用、跑检查、推分支。

@@ -695,3 +695,8 @@ html.calm *,
 html.calm *::before,
 html.calm *::after{animation:none!important;transition:none!important}
 html.calm .ticker-track{animation:none!important}
+
+/* 桌面端 AI 区块（配合 pc.css 的两列/四列） */
+@media (min-width: 1024px) {
+  .ai-sub { margin-top: 26px; }
+}

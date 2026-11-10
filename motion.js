@@ -57,18 +57,13 @@
 
   body.append(bar, top);
 
-  const hero = document.querySelector(".hero-home, .hero");
   let ticking = false;
   const onScroll = () => {
     const y = window.scrollY || document.documentElement.scrollTop;
     const max = document.documentElement.scrollHeight - window.innerHeight;
     bar.style.transform = "scaleX(" + (max > 0 ? Math.min(y / max, 1) : 0) + ")";
     bar.classList.toggle("on", y > 4);
-    top.classList.toggle("on", y > window.innerHeight * 0.9);
-    if (hero) {
-      if (y < 760) hero.style.transform = y > 0 ? "translate3d(0," + (-y * 0.045).toFixed(1) + "px,0)" : "";
-      else hero.style.transform = "translate3d(0,-34px,0)";
-    }
+    top.classList.toggle("on", y > window.innerHeight * 1.2);
     ticking = false;
   };
   const queue = () => {

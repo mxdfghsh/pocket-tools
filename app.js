@@ -565,7 +565,8 @@
   const q = $("#q");
 
   function card(t, i) {
-    return el("article", { class: "card", id: "tool-" + t.id, "data-tool": t.id, style: "animation-delay:" + Math.min(i * 45, 400) + "ms" },
+    const animated = firstRender ? { style: "animation-delay:" + Math.min(i * 45, 400) + "ms" } : {};
+    return el("article", Object.assign({ class: "card", id: "tool-" + t.id, "data-tool": t.id }, animated),
       el("div", { class: "card-head" },
         el("span", { class: "ico" }, t.icon),
         el("div", {}, el("h2", {}, t.name), el("p", {}, t.desc)),
@@ -606,8 +607,14 @@
   const renderRecent = () => {
     if (!recentEl || !recentList) return;
     const items = readRecent().map((id) => tools.find((t) => t.id === id)).filter(Boolean);
-    recentEl.hidden = items.length === 0;
+    recentEl.hidden = false;
     recentList.innerHTML = "";
+    if (!items.length) {
+      recentList.appendChild(el("span", { class: "recent-empty" }, "用过哪个工具，它就会出现在这儿（最多 6 个）"));
+      if (recentClear) recentClear.hidden = true;
+      return;
+    }
+    if (recentClear) recentClear.hidden = false;
     items.forEach((t) => {
       const a = el("a", { href: "#tool-" + t.id, class: "recent-chip", "data-tool": t.id },
         el("span", {}, t.icon), el("b", {}, t.name));
@@ -617,6 +624,7 @@
   const recentClear = $("#recentClear");
   if (recentClear) recentClear.addEventListener("click", () => { try { localStorage.removeItem(RKEY); } catch (e) {} renderRecent(); });
 
+  let firstRender = true;
   function render() {
     const term = q.value.trim().toLowerCase();
     const list = tools
@@ -629,12 +637,14 @@
         const pa = isPinned(a.id) ? 0 : 1, pb = isPinned(b.id) ? 0 : 1;
         return pa - pb || rank(a) - rank(b);
       });
+    grid.classList.toggle("no-anim", !firstRender);
     grid.innerHTML = "";
     list.forEach((t, i) => grid.appendChild(card(t, i)));
     empty.hidden = list.length > 0;
     $("#stat-count").textContent = tools.length + " 个工具";
     renderRecent();
     flushPinned();
+    firstRender = false;
   }
 
   q.addEventListener("input", debounce(render, 120));

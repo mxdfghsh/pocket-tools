@@ -8,8 +8,8 @@
 <title>口袋工具箱 · Pocket Tools</title>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="口袋小站">
-<meta property="og:title" content="口袋工具箱 · 49 个本地小工具">
-<meta property="og:description" content="纯前端、零依赖、离线可用的个人小站：49 个本地小工具 + 7 个经典小游戏。">
+<meta property="og:title" content="口袋工具箱 · 57 个本地小工具">
+<meta property="og:description" content="纯前端、零依赖、离线可用的个人小站：57 个本地小工具 + 7 个经典小游戏。">
 <meta property="og:url" content="https://mxdfghsh.github.io/pocket-tools/tools.html">
 <meta property="og:image" content="https://mxdfghsh.github.io/pocket-tools/icon-512.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -44,7 +44,7 @@
   <div class="landing-inner">
     <div class="landing-badge">🧰 POCKET TOOLS</div>
     <h1 class="landing-title">把常用的小工具<br><em>装进口袋</em></h1>
-    <p class="landing-sub"><b id="landingCount">49</b> 个纯前端小工具 · 零依赖 · 数据不出本机</p>
+    <p class="landing-sub"><b id="landingCount">57</b> 个纯前端小工具 · 零依赖 · 数据不出本机</p>
     <button id="enterBtn" class="landing-cta" type="button">进入工具箱 <span aria-hidden="true">→</span></button>
     <div class="landing-icons" aria-hidden="true">
       <span>🔤</span><span>⏱️</span><span>🧩</span><span>🔐</span><span>🔑</span><span>🆔</span>
@@ -71,7 +71,7 @@
   </div>
 
   <div class="pills">
-    <span class="pill" id="stat-count">49 个工具</span>
+    <span class="pill" id="stat-count">57 个工具</span>
     <span class="pill">0 依赖</span>
     <span class="pill">100% 本地计算</span>
   </div>
@@ -118,6 +118,7 @@
 <script src="extra3.js"></script>
 <script src="extra4.js"></script>
 <script src="extra5.js"></script>
+<script src="extra6.js"></script>
 <script src="landing.js"></script>
 <script src="pwa.js"></script>
 <script src="theme.js"></script>
@@ -126,7 +127,7 @@
 <script src="motion.js"></script>
 <script>
 (function(){var g=document.getElementById("grid"),bar=document.getElementById("cats");if(!g||!bar)return;
-var R=[["时间",/时间|日期|倒数|倒计时|日历|时区|秒表|计时|番茄|年龄|农历|星期|cron/i],["安全与生成",/哈希|hash|md5|sha-?\d|密码|uuid|随机|抽签|骰子|转盘|加密|解密|摩斯|签名|token/i],["颜色与图片",/颜色|取色|图片|二维码|qr|渐变|图标|svg|条形码|像素/i],["开发",/json|base64|url|正则|regex|jwt|html|css|sql|unicode|编码|解码|格式化|压缩|美化|xml|yaml|curl|转义|http|状态码|ascii/i],["文本",/文本|字数|统计|大小写|去重|排序|markdown|繁简|简繁|拼音|对比|替换|拆分|合并|空格|lorem|emoji|朗读|语音/i],["计算换算",/进制|单位|换算|计算|汇率|bmi|利率|贷款|百分比|税|面积|体重|热量|配速|心率|速度|长度|温度|大写|金额|复利|存款|利息/i]];
+var R=[["时间",/时间|日期|倒数|倒计时|日历|时区|秒表|计时|番茄|年龄|农历|星期|cron/i],["安全与生成",/哈希|hash|md5|sha-?\d|密码|uuid|随机|抽签|骰子|转盘|加密|解密|摩斯|签名|token/i],["颜色与图片",/颜色|取色|图片|二维码|qr|渐变|图标|svg|条形码|像素/i],["开发",/json|base64|url|正则|regex|jwt|html|css|sql|unicode|编码|解码|格式化|压缩|美化|xml|yaml|curl|转义|http|状态码|权限|chmod|子网|cidr|掩码|开发|ascii/i],["文本",/文本|字数|统计|大小写|去重|排序|markdown|繁简|简繁|拼音|对比|替换|拆分|合并|空格|lorem|emoji|朗读|语音/i],["计算换算",/进制|单位|换算|计算|汇率|bmi|利率|贷款|百分比|税|面积|体重|热量|配速|心率|速度|长度|温度|大写|金额|复利|存款|利息/i]];
 function pick(s){for(var i=0;i<R.length;i++)if(R[i][1].test(s))return R[i][0];return ""}
 function cat(c){var h=c.querySelector("h2"),p=c.querySelector(".card-head p"),t=h?h.textContent:c.textContent;return pick(t)||pick(t+" "+(p?p.textContent:""))||"其他"}
 var cur="全部",chips=[].slice.call(bar.querySelectorAll(".chip")),raf=0;

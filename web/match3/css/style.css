@@ -2,8 +2,6 @@
    宝石消消乐 - 主样式文件
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap');
-
 /* CSS 变量 */
 :root {
   --gem-red: #ff4757;

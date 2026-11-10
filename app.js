@@ -565,7 +565,7 @@
   const q = $("#q");
 
   function card(t, i) {
-    return el("article", { class: "card", style: "animation-delay:" + Math.min(i * 45, 400) + "ms" },
+    return el("article", { class: "card", id: "tool-" + t.id, "data-tool": t.id, style: "animation-delay:" + Math.min(i * 45, 400) + "ms" },
       el("div", { class: "card-head" },
         el("span", { class: "ico" }, t.icon),
         el("div", {}, el("h2", {}, t.name), el("p", {}, t.desc))
@@ -574,17 +574,49 @@
     );
   }
 
+  /* ---- 首屏固定 8 个大众向工具 ---- */
+  const FEATURED = ["time", "unit", "tax", "loan", "color", "text", "img", "money"];
+  const rank = (t) => { const i = FEATURED.indexOf(t.id); return i < 0 ? 99 : i; };
+
+  /* ---- 最近用过 ---- */
+  const RKEY = "pocket-recent";
+  const readRecent = () => { try { return JSON.parse(localStorage.getItem(RKEY) || "[]"); } catch (e) { return []; } };
+  const pushRecent = (id) => {
+    try {
+      const r = readRecent().filter((x) => x !== id);
+      r.unshift(id);
+      localStorage.setItem(RKEY, JSON.stringify(r.slice(0, 6)));
+    } catch (e) {}
+  };
+  const recentEl = $("#recent"), recentList = $("#recentList");
+  const renderRecent = () => {
+    if (!recentEl || !recentList) return;
+    const items = readRecent().map((id) => tools.find((t) => t.id === id)).filter(Boolean);
+    recentEl.hidden = items.length === 0;
+    recentList.innerHTML = "";
+    items.forEach((t) => {
+      const a = el("a", { href: "#tool-" + t.id, class: "recent-chip", "data-tool": t.id },
+        el("span", {}, t.icon), el("b", {}, t.name));
+      recentList.appendChild(a);
+    });
+  };
+  const recentClear = $("#recentClear");
+  if (recentClear) recentClear.addEventListener("click", () => { try { localStorage.removeItem(RKEY); } catch (e) {} renderRecent(); });
+
   function render() {
     const term = q.value.trim().toLowerCase();
-    const list = tools.filter((t) => {
-      if (!term) return true;
-      const hay = (t.name + " " + t.desc + " " + t.tags.join(" ") + " " + t.id).toLowerCase();
-      return hay.indexOf(term) >= 0;
-    });
+    const list = tools
+      .filter((t) => {
+        if (!term) return true;
+        const hay = (t.name + " " + t.desc + " " + t.tags.join(" ") + " " + t.id).toLowerCase();
+        return hay.indexOf(term) >= 0;
+      })
+      .sort((a, b) => rank(a) - rank(b));
     grid.innerHTML = "";
     list.forEach((t, i) => grid.appendChild(card(t, i)));
     empty.hidden = list.length > 0;
     $("#stat-count").textContent = tools.length + " 个工具";
+    renderRecent();
   }
 
   q.addEventListener("input", debounce(render, 120));
@@ -597,6 +629,38 @@
     if (e.key === "Escape" && document.activeElement === q) q.blur();
   });
 
+  /* 点了卡片就记一笔最近，同时把 hash 换成它，方便收藏/分享 */
+  grid.addEventListener("click", (e) => {
+    const c = e.target.closest && e.target.closest(".card");
+    if (!c || !c.id) return;
+    const id = c.getAttribute("data-tool");
+    if (id) pushRecent(id);
+    try { history.replaceState(null, "", "#" + c.id); } catch (err) {}
+  });
+  q.addEventListener("change", () => {
+    if (!q.value.trim()) render();
+  });
+
+  /* 带 #tool-xxx 进来：滚到那个工具并闪一下 */
+  function jumpToHash() {
+    const h = decodeURIComponent(location.hash || "").replace(/^#/, "");
+    if (!h) return;
+    let target = document.getElementById(h);
+    if (!target && h.startsWith("tool-")) {
+      const id = h.slice(5);
+      const t = tools.find((x) => x.id === id);
+      if (t) { q.value = ""; render(); target = document.getElementById("tool-" + id); }
+    }
+    if (!target) return;
+    setTimeout(() => {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      target.classList.add("flash");
+      setTimeout(() => target.classList.remove("flash"), 1800);
+    }, 80);
+  }
+  window.addEventListener("hashchange", jumpToHash);
+
   render();
+  jumpToHash();
   window.PocketTools = { register, render, toast, el, copyBtn, copyText, debounce, enc, tools };
 })();

@@ -526,3 +526,25 @@ body.entered .back-home { display: grid; }
 .kv-row:last-child { border-bottom: 0; }
 .kv-row span { color: var(--muted); }
 .kv-row b { font-family: var(--mono); font-weight: 700; text-align: right; }
+
+/* ---- 最近用过 ---- */
+.recent{margin:14px 0 4px}
+.recent-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
+.recent-head h2{margin:0;font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.recent-head button{font:inherit;font-size:12px;padding:3px 9px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
+.recent-list{display:flex;flex-wrap:wrap;gap:8px}
+.recent-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-size:13px}
+.recent-chip:hover{border-color:var(--accent)}
+.recent-chip span{font-size:15px;line-height:1}
+
+/* 从分享链接跳过来时闪一下 */
+.card.flash{animation:cardFlash 1.6s ease-out}
+@keyframes cardFlash{
+  0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 70%,transparent)}
+  35%{box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 45%,transparent)}
+  100%{box-shadow:0 0 0 0 transparent}
+}
+.card:target{border-color:var(--accent)}
+
+/* 底部工具入口 */
+.tools-foot{margin-top:22px}

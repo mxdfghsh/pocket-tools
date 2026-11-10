@@ -328,7 +328,7 @@
     [418, "I'm a teapot", "我是茶壶（彩蛋）"], [422, "Unprocessable Entity", "格式对但内容不对"],
     [429, "Too Many Requests", "请求太频繁"], [451, "Unavailable For Legal Reasons", "因法律不可用"],
     [500, "Internal Server Error", "服务器内部错误"], [501, "Not Implemented", "不支持"], [502, "Bad Gateway", "网关错误"],
-    [503, "Service Unavailable", "服务不可用"], [504, "Gateway Timeout", "网关超时"], [429, "Too Many Requests", "限流"],
+    [503, "Service Unavailable", "服务不可用"], [504, "Gateway Timeout", "网关超时"],
   ];
 
   register({

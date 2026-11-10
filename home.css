@@ -654,3 +654,21 @@ footer p { margin: 3px 0; }
   opacity: .8;
   vertical-align: 1px;
 }
+
+/* 首页四个场景入口 */
+.scene{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:8px;max-width:640px}
+.scene li a{display:block;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-size:14px;line-height:1.6;transition:border-color .16s,transform .16s}
+.scene li a b{font-weight:700}
+.scene li a:hover{border-color:var(--accent);transform:translateY(-1px)}
+@media (min-width:720px){.scene{grid-template-columns:1fr 1fr}}
+
+/* 「加到桌面」轻提示 */
+.install-tip{position:fixed;left:12px;right:12px;bottom:calc(var(--nav-h,62px) + 12px);z-index:70;display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:14px;border:1px solid var(--line-strong);background:color-mix(in srgb,var(--surface) 96%,transparent);box-shadow:0 12px 30px -16px rgba(0,0,0,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;transform:translateY(12px);transition:opacity .24s,transform .24s}
+.install-tip.on{opacity:1;transform:none}
+.install-tip .it-ico{font-size:18px;line-height:1}
+.install-tip .it-txt{flex:1;min-width:0;display:grid;gap:2px;font-size:12.5px;line-height:1.5}
+.install-tip .it-txt b{font-size:13.5px}
+.install-tip .it-txt span{color:var(--muted)}
+.install-tip button{font:inherit;font-size:12.5px;border-radius:9px;border:1px solid var(--line-strong);background:transparent;color:var(--ink);padding:7px 10px;cursor:pointer}
+.install-tip .it-go{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:700}
+@media (min-width:720px){.install-tip{display:none}}

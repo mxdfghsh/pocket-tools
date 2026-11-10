@@ -35,6 +35,7 @@
 </header>
 <main class="wrap dir">
 <div class="th" data-reveal><strong>本站游戏</strong><span>点开即玩，数据都在自己站上</span></div>
+<div class="row" style="margin:0 0 12px"><button id="randGame" class="btn mini" type="button">🎲 随便来一局</button><span id="randTip" class="muted" style="font-size:12px"></span></div>
 <div class="big" data-reveal>
 <a class="b" href="web.html"><span class="n">🕹️</span><b>网页经典</b><p>跳一跳、别踩白块儿、见缝插针、羊了个羊、泡泡龙、推箱子、吃豆人、马里奥……本站 16 款直接玩，另有 12 款点开外链（GitHub Pages 上的原作者 demo，没广告）</p><span>16 款本站 + 外链 →</span></a>
 <a class="b" href="chess.html"><span class="n">🀄</span><b>中国象棋</b><p>和 AI 对弈，全中文界面。</p><span>开一局 →</span></a>
@@ -46,7 +47,7 @@
 <div class="bar" aria-label="直达分组">
 <a class="chip" href="nav.html#g-cloud">云游戏</a><a class="chip" href="nav.html#g-web">网页大游戏</a><a class="chip" href="nav.html#g-oss">开源大作</a><a class="chip" href="nav.html#g-store">Steam 等平台</a><a class="chip" href="nav.html#g-board">棋牌桌游</a><a class="chip" href="nav.html#g-pvp">多人竞技</a>
 </div>
-<div class="th" data-reveal><strong>电脑上的小游戏站</strong><span>电脑浏览器点开就玩，不用装客户端；完整清单在上面那一页</span></div>
+<details class="fold"><summary><strong>电脑上的小游戏站</strong><span>手机点开多半让你下 App，建议电脑再点</span></summary>
 <div class="grid" data-reveal>
 <a class="wg ext lk" href="https://www.4399.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 4399 小游戏</b><p>几万款 Flash / HTML5 小游戏，电脑浏览器直接开。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" href="https://www.7k7k.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 7k7k 小游戏</b><p>老牌站，黄金矿工、狂扁小朋友这些经典都在。</p><span>打开 ↗</span></a>
@@ -54,14 +55,28 @@
 <a class="wg ext lk" href="https://www.37.com/" target="_blank" rel="noopener noreferrer"><b>🌐 37 网游</b><p>国内老牌网页游戏平台，点开进游戏，不用下客户端。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" href="https://www.9377.com/" target="_blank" rel="noopener noreferrer"><b>🌐 9377 页游</b><p>另一家页游平台，传奇/仙侠这类的多。</p><span>打开 ↗</span></a>
 </div>
-<p class="muted" style="font-size:12px;margin:16px 0 0">📌 这几个都是「电脑上打开」的入口：手机点开会跳手机版或让你下 App。外部站点内容不由本站控制，广告弹窗请留意。</p>
+<p class="muted" style="font-size:12px;margin:16px 0 0">📌 这几个都是「电脑上打开」的入口。外部站点内容不由本站控制，广告弹窗请留意。</p>
+</details>
 </main>
 <footer><p>口袋小站 · 游戏中心</p><p class="muted">开源游戏 · 本地托管 · 外链跳转</p>  <p class="muted">by 沫小汐 · 代码 MIT · 第三方许可见 <a href="https://github.com/mxdfghsh/pocket-tools/blob/main/CREDITS.md" target="_blank" rel="noopener">CREDITS</a></p>
 </footer>
 
+<script>
+(function(){
+  var btn=document.getElementById("randGame"); if(!btn) return;
+  var tip=document.getElementById("randTip");
+  var LIST=[["跳一跳","web/jump/index.html"],["别踩白块儿","web/bcbk/index.html"],["见缝插针","web/jfcz/index.html"],["羊了个羊","web/sheep/index.html"],["泡泡龙","web/bubble/index.html"],["推箱子","web/sokoban/index.html"],["滑块拼图","web/b2b/index.html"],["王国守卫","web/td/index.html"],["打砖块","web/breakout/index.html"],["吃豆人","web/pacman/index.htm"],["马里奥","web/mario/main.html"],["抓娃娃","web/claw/GoldMiner.html"],["钓鱼","web/fishing/index.html"],["捕鱼","web/fisharcade/index.html"],["六边形消除","web/hextris/index.html"],["宝石消消乐","web/match3/index.html"],["中国象棋","chess.html"]];
+  btn.addEventListener("click",function(){
+    var g=LIST[Math.floor(Math.random()*LIST.length)];
+    if(tip) tip.textContent="→ "+g[0];
+    location.href=g[1];
+  });
+})();
+</script>
 <script src="theme.js"></script>
 <script src="skin.js"></script>
 <script src="pwa.js"></script>
+<script src="install-tip.js"></script>
 <script src="ui.js"></script>
 <script src="motion.js"></script>
 </body>

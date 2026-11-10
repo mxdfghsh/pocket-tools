@@ -1,0 +1,210 @@
+/* ============================================================
+   口袋小站 · 动效层
+   只在 html.motion-on 时生效；系统开了「减少动态效果」就整体不加载
+   ============================================================ */
+
+/* ---------- 页面之间的转场（Chrome 126+ 的跨文档 View Transition） ---------- */
+@view-transition { navigation: auto; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.vt-theme)::view-transition-old(root) { animation: vt-out .26s ease both; }
+  html:not(.vt-theme)::view-transition-new(root) { animation: vt-in .34s cubic-bezier(.22, 1, .36, 1) both; }
+}
+@keyframes vt-out { to { opacity: 0; transform: translateY(-8px) scale(.996); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px) scale(.996); } }
+
+/* ---------- 顶部滚动进度 ---------- */
+.m-bar {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60;
+  transform: scaleX(0); transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s ease;
+}
+.m-bar.on { opacity: .85; }
+
+/* ---------- 首屏标题逐字入场 ---------- */
+.motion-on .split .ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(.5em) rotate(1.5deg);
+  animation: chIn .58s cubic-bezier(.22, 1, .36, 1) forwards;
+  animation-delay: calc(var(--d, 0) * 24ms + 60ms);
+}
+@keyframes chIn { to { opacity: 1; transform: none; } }
+
+/* ---------- 首屏其它块依次浮起 ---------- */
+.motion-on .hero-home > *:not(h1),
+.motion-on .hero > *:not(h1) {
+  animation: riseIn .7s cubic-bezier(.22, 1, .36, 1) both;
+}
+.motion-on .hero-home > *:nth-child(1), .motion-on .hero > *:nth-child(1) { animation-delay: .02s; }
+.motion-on .hero-home > *:nth-child(2), .motion-on .hero > *:nth-child(2) { animation-delay: .04s; }
+.motion-on .hero-home > *:nth-child(4), .motion-on .hero > *:nth-child(4) { animation-delay: .34s; }
+.motion-on .hero-home > *:nth-child(5), .motion-on .hero > *:nth-child(5) { animation-delay: .44s; }
+.motion-on .hero-home > *:nth-child(6), .motion-on .hero > *:nth-child(6) { animation-delay: .54s; }
+@keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* 首屏后面那层慢慢呼吸的光 */
+.motion-on .hero-home::after,
+.motion-on .hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -14% -12% -30%;
+  pointer-events: none;
+  background:
+    radial-gradient(42% 44% at 22% 28%, color-mix(in srgb, var(--accent) 17%, transparent), transparent 72%),
+    radial-gradient(38% 40% at 78% 18%, color-mix(in srgb, var(--accent2) 15%, transparent), transparent 70%);
+  animation: glowDrift 22s ease-in-out infinite alternate;
+}
+@keyframes glowDrift {
+  from { transform: translate3d(-2%, 1%, 0) scale(1); opacity: .75; }
+  to   { transform: translate3d(3%, -2%, 0) scale(1.12); opacity: 1; }
+}
+
+/* ---------- 导航：滑动的选中胶囊 ---------- */
+.motion-on .nav-links { position: relative; }
+.m-pill {
+  position: absolute; left: 0; top: 50%;
+  height: 30px; width: 0;
+  transform: translate(0, -50%);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 36%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .42s cubic-bezier(.22, 1, .36, 1), width .42s cubic-bezier(.22, 1, .36, 1), opacity .25s ease;
+}
+.m-pill.ready { opacity: 1; }
+.motion-on .nav-links a { position: relative; z-index: 1; }
+.motion-on .nav-links a.active { background: transparent; box-shadow: none; color: var(--ink); }
+
+/* ---------- 卡片：指针光晕 + 按下手感 ---------- */
+.motion-on .card,
+.motion-on .ai-card,
+.motion-on .index-row,
+.motion-on .wg,
+.motion-on .pg,
+.motion-on .gcard,
+.motion-on .b {
+  position: relative;
+  overflow: hidden;
+}
+.motion-on .card::after,
+.motion-on .ai-card::after,
+.motion-on .index-row::after,
+.motion-on .wg::after,
+.motion-on .pg::after,
+.motion-on .gcard::after,
+.motion-on .b::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%),
+              color-mix(in srgb, var(--accent) 16%, transparent), transparent 62%);
+  transition: opacity .3s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .motion-on .card:hover::after,
+  .motion-on .ai-card:hover::after,
+  .motion-on .index-row:hover::after,
+  .motion-on .wg:hover::after,
+  .motion-on .pg:hover::after,
+  .motion-on .gcard:hover::after { opacity: 1; }
+}
+.motion-on .card:active,
+.motion-on .ai-card:active,
+.motion-on .index-row:active,
+.motion-on .wg:active,
+.motion-on .pg:active { transform: scale(.988); transition: transform .12s ease; }
+
+/* ---------- 按钮涟漪 ---------- */
+.motion-on .btn-primary,
+.motion-on .btn-ghost,
+.motion-on .landing-cta,
+.motion-on .theme-btn,
+.motion-on .skin-btn,
+.motion-on .m-top,
+.motion-on .g-btn {
+  position: relative;
+  overflow: hidden;
+}
+.m-ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background: currentColor;
+  opacity: .3;
+  pointer-events: none;
+  animation: ripple .58s cubic-bezier(.2, .7, .3, 1) forwards;
+}
+@keyframes ripple { to { transform: scale(2.6); opacity: 0; } }
+
+/* ---------- 回到顶部 ---------- */
+.m-top {
+  position: fixed;
+  right: 14px;
+  bottom: calc(var(--nav-h, 62px) + 16px + env(safe-area-inset-bottom));
+  z-index: 45;
+  width: 42px; height: 42px;
+  display: grid; place-items: center;
+  font-size: 17px;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  box-shadow: 0 10px 26px -12px rgba(0, 0, 0, .6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateY(10px) scale(.9);
+  pointer-events: none;
+  transition: opacity .28s ease, transform .28s cubic-bezier(.22, 1, .36, 1), border-color .2s;
+  cursor: pointer;
+}
+.m-top.on { opacity: 1; transform: none; pointer-events: auto; }
+.m-top:hover { border-color: var(--accent); }
+
+/* ---------- 工具名跑马灯：指上去暂停 ---------- */
+.motion-on .ticker:hover .ticker-track { animation-play-state: paused; }
+
+/* ---------- 主题切换的圆形光晕（配合 View Transition） ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.vt-theme::view-transition-old(root) { animation: none; mix-blend-mode: normal; }
+  html.vt-theme::view-transition-new(root) {
+    animation: vt-circle .5s cubic-bezier(.4, 0, .2, 1) both;
+    mix-blend-mode: normal;
+  }
+}
+@keyframes vt-circle {
+  from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 50%)); }
+  to   { clip-path: circle(150vmax at var(--vt-x, 50%) var(--vt-y, 50%)); }
+}
+
+/* ---------- 悬浮的图标轻晃（游戏/工具卡） ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .motion-on .gcard:hover .gc-ico,
+  .motion-on .wg:hover .wg-ico,
+  .motion-on .pg:hover .pg-ico,
+  .motion-on .card:hover .card-ico {
+    animation: wobble .5s cubic-bezier(.36, .07, .19, .97) both;
+  }
+}
+@keyframes wobble {
+  0%, 100% { transform: rotate(0) scale(1); }
+  30% { transform: rotate(-7deg) scale(1.08); }
+  60% { transform: rotate(5deg) scale(1.04); }
+}
+
+/* ---------- 减少动态效果：全部归零 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .m-bar, .m-top, .m-pill { display: none !important; }
+  .motion-on .split .ch,
+  .motion-on .hero-home > *,
+  .motion-on .hero > *,
+  .motion-on .hero-home::after,
+  .motion-on .hero::after { animation: none !important; opacity: 1 !important; transform: none !important; }
+}

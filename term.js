@@ -58,6 +58,7 @@
     echo("  b64 <文本>        Base64 编码");
     echo("  ts                当前时间戳");
     echo("  theme dark|light  切换主题");
+    echo("  pet [on|off]      召唤 / 关掉桌宠");
     echo("  clear             清屏");
   }
 
@@ -99,6 +100,14 @@
       document.documentElement.dataset.theme = arg;
       try { localStorage.setItem("theme", arg); } catch (e) {}
       return echo("已切到 " + arg, "ok");
+    }
+    if (name === "pet") {
+      var cur = "0";
+      try { cur = localStorage.getItem("pocket-pet") || "0"; } catch (e) {}
+      var next = arg === "off" ? "0" : arg === "on" ? "1" : cur === "1" ? "0" : "1";
+      try { localStorage.setItem("pocket-pet", next); } catch (e) {}
+      echo(next === "1" ? "桌宠开了，刷新一下她就出来了 🦊" : "桌宠关了", "ok");
+      return;
     }
     echo("未知命令：" + name + "，输入 help 看看", "dim");
   }

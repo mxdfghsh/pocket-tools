@@ -1,8 +1,8 @@
 /* 口袋小站 · Service Worker（离线可用） */
-const CACHE = "pocket-v49";
+const CACHE = "pocket-v50";
 const ASSETS = [
   "./", "./index.html", "./tools.html", "./hub.html", "./web.html",
-  "./nav.html", "./about.html", "./chess.html",
+  "./nav.html", "./relay.html", "./about.html", "./chess.html",
   "./home.css", "./directory.css", "./style.css", "./theme.css", "./skins.css", "./splash.css",
   "./theme.js", "./skin.js", "./ui.js", "./motion.css", "./motion.js", "./install-tip.js", "./term.js", "./calm.js", "./fit.js", "./pad.js",
   "./app.js", "./extra.js", "./extra2.js", "./extra3.js", "./extra4.js", "./extra5.js", "./extra6.js", "./extra7.js", "./qrcode.js", "./landing.js", "./pwa.js",
@@ -31,7 +31,7 @@ self.addEventListener("fetch", (e) => {
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;
   // 模拟器大文件不进缓存（省空间）
-  if (/\/js-dos\/|\.jsdos$|\.wasm$|\/big\/|\/web\/(jump|snake-io|bcbk|jfcz|sheep|td|match3|sokoban|b2b|gobang|tetris|bubble|tdr|llk|mahjong|breakout|p15)\//.test(url.pathname)) return;
+  if (/\/js-dos\/|\.jsdos$|\.wasm$|\/big\/|\/pet\/|\/web\/(jump|snake-io|bcbk|jfcz|sheep|td|match3|sokoban|b2b|gobang|tetris|bubble|tdr|llk|mahjong|breakout|p15)\//.test(url.pathname)) return;
 
   // 页面：网络优先，离线回退缓存
   if (req.mode === "navigate") {

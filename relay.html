@@ -56,16 +56,29 @@ html[data-theme="light"] .m{background:#fbfcff}
 <header class="hero-home" style="padding-bottom:8px">
   <p class="eyebrow">MODEL CHECK</p>
   <h1>模型<em>能不能用</em></h1>
-  <p class="lead">选厂商 → 自动带出模型 → 一次批量测。不保存任何数据。</p>
+  <p class="lead">选厂商 → 自动带出模型 → 一次批量测。</p>
 </header>
 
 <main class="wrap">
+  <div class="box privacy-note" style="border-color:rgba(255,207,92,.45)">
+    <p style="margin:0 0 6px;font-size:13px"><b>这个页面会联网，先把话说清楚：</b></p>
+    <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.8;color:var(--muted)">
+      <li>你粘贴的 key 会发到本站的中转服务（Cloudflare Worker），再转发给对应厂商的接口。</li>
+      <li>中转只在内存里转发，不写入数据库、不打日志；但请求确实经过了它。</li>
+      <li>建议用<b>临时、低额度</b>的测试 key，测完就把 key 作废。</li>
+      <li>页面刷新或离开会清空输入框；测完你也可以手动清掉。</li>
+    </ul>
+  </div>
+
   <div class="box" id="autoBox">
     <label>测试任意一个 key（自动识别是哪家的）</label>
     <input id="mykey" placeholder="粘贴任意 API key，例：sk-ant-… / 32位.16位 / sk-proj-…" autocomplete="off">
     <label>中转站口令（可留空，留空就是纯直通测试）</label>
     <input id="rtoken" type="password" placeholder="可以不填" autocomplete="off">
-    <button id="goAuto" type="button">识别并测试</button>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button id="goAuto" type="button" style="flex:1">识别并测试</button>
+      <button id="clearKey" type="button" style="flex:none;padding:0 16px">清空</button>
+    </div>
     <div id="autoOut" style="margin-top:12px"></div>
   </div>
 
@@ -91,6 +104,15 @@ html[data-theme="light"] .m{background:#fbfcff}
     <div class="row"><span>结果</span><span id="sum"></span></div>
     <div id="list" style="margin-top:10px"></div>
   </div>
+<script>
+(function(){
+  var b=document.getElementById("clearKey"); if(!b) return;
+  b.addEventListener("click",function(){
+    ["mykey","rtoken"].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=""; });
+    var out=document.getElementById("autoOut"); if(out) out.innerHTML="";
+  });
+})();
+</script>
 </main>
 
 <footer><p>口袋小站 · 模型检测</p><p class="muted">不保存数据 · 刷新即清空</p>  <p class="muted">by 沫小汐 · 代码 MIT · 第三方许可见 <a href="https://github.com/mxdfghsh/pocket-tools/blob/main/CREDITS.md" target="_blank" rel="noopener">CREDITS</a></p>

@@ -49,7 +49,8 @@
     <div class="about">
       <p>几个部分：<a href="tools.html">口袋工具箱</a>（59 个常用小工具）、<a href="hub.html">游戏中心</a>（16 款本站游戏 + 12 个原作者外链 + 中国象棋），还有一份 <a href="nav.html">在线资源</a> 清单（108 个入口：小说、音乐、影视、漫画、云游戏、游戏平台）。</p>
       <p>做它的理由很简单——平时总会遇到「要转个 Base64」「要算个时间戳」「想摸鱼玩两把」「找本站哪儿看剧」这种小事，开一堆网站不如自己攒一个。</p>
-      <p>所有工具都是<b>本地计算</b>：你输入的内容不会上传到任何服务器，刷新就没了。</p>
+      <p><b>普通工具都在你的浏览器里算</b>：输入的内容不上传，刷新就没了。有两个例外，页面上都写明了——<a href="relay.html">API Key 检测</a>会把 key 发到中转服务再转给对应厂商（中转只转发、不留存）；外链点开会到别人的站。</p>
+      <p>以前在关于页挂过一个访问计数器（不蒜子），已经删掉了。现在整站没有任何统计脚本。</p>
     </div>
   </section>
 
@@ -64,16 +65,7 @@
     </div>
   </section>
 
-  <section class="section" id="stats">
-    <div class="section-head"><h2>站点统计</h2><p>来自不蒜子，仅统计访问次数</p></div>
-    <span id="busuanzi_value_site_pv" hidden></span>
-    <span id="busuanzi_value_site_uv" hidden></span>
-    <div class="stats">
-      <div class="stat"><b id="pv">—</b><span>总访问量</span></div>
-      <div class="stat"><b id="uv">—</b><span>访客数</span></div>
-    </div>
-    <p class="muted" style="font-size:12.5px;margin-top:12px">统计服务不可用时显示「—」，不影响任何功能。</p>
-  </section>
+  
 
   <section class="section">
     <div class="section-head"><h2>联系</h2></div>
@@ -84,7 +76,7 @@
 </main>
 
 <footer>
-  <p>口袋小站 · 纯静态 · 无后端 · 不收集数据</p>
+  <p>口袋小站 · 纯静态 · 无后端 · 不收集数据（无统计脚本）</p>
   <p class="muted">Built with vanilla HTML / CSS / JS</p>
   <p class="muted">by 沫小汐 · 代码 MIT · 第三方许可见 <a href="https://github.com/mxdfghsh/pocket-tools/blob/main/CREDITS.md" target="_blank" rel="noopener">CREDITS</a></p>
 </footer>
@@ -93,26 +85,7 @@
 <script src="pwa.js?v=2"></script>
 <script src="install-tip.js?v=2"></script>
 <script src="ui.js?v=2"></script>
-<script>
-  // 不蒜子统计：异步加载，失败就保持「—」
-  (function () {
-    var t = setTimeout(function () { /* 超时不做任何事 */ }, 4000);
-    var s = document.createElement("script");
-    s.async = true;
-    s.src = "https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
-    s.onload = function () { clearTimeout(t); };
-    s.onerror = function () { clearTimeout(t); };
-    document.body.appendChild(s);
-    // 定期把 busuanzi 填进去的值同步到我们自己的元素
-    var sync = setInterval(function () {
-      var pv = document.getElementById("busuanzi_value_site_pv");
-      var uv = document.getElementById("busuanzi_value_site_uv");
-      if (pv && pv.textContent) { document.getElementById("pv").textContent = pv.textContent; }
-      if (uv && uv.textContent) { document.getElementById("uv").textContent = uv.textContent; }
-      if ((pv && pv.textContent) && (uv && uv.textContent)) clearInterval(sync);
-    }, 600);
-  })();
-</script>
+
 <script src="skin.js?v=2"></script>
 <script src="calm.js?v=1"></script>
 <script src="motion.js?v=2"></script>

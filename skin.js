@@ -2,8 +2,8 @@
 (() => {
   const KEY = "pocket-skin";
   const SPLASH_KEY = "pocket-splash-done";
-  const order = ["", "retro", "tech"];
-  const names = { "": "默认", retro: "怀旧风", tech: "科技风" };
+  const order = ["", "retro", "tech", "moon"];
+  const names = { "": "默认", retro: "怀旧风", tech: "科技风", moon: "月汐" };
 
   const read = () => { try { return localStorage.getItem(KEY) || ""; } catch (e) { return ""; } };
   const save = (v) => { try { v ? localStorage.setItem(KEY, v) : localStorage.removeItem(KEY); } catch (e) {} };
@@ -12,7 +12,7 @@
     if (skin) document.documentElement.dataset.skin = skin;
     else delete document.documentElement.dataset.skin;
     document.querySelectorAll(".skin-btn").forEach((b) => {
-      b.textContent = skin === "retro" ? "📺" : skin === "tech" ? "🛰️" : "🎨";
+      b.textContent = skin === "retro" ? "📺" : skin === "tech" ? "🛰️" : skin === "moon" ? "🌙" : "🎨";
       b.title = "当前风格：" + (names[skin] || "默认") + "（点击切换）";
       b.setAttribute("aria-label", b.title);
     });
@@ -36,6 +36,15 @@
         '<div class="l2">马上回来</div>' +
         '<div class="l3">少 儿 频 道 · 请 稍 候</div>' +
         "</div>";
+    } else if (skin === "moon") {
+      el.innerHTML =
+        '<div class="sea"><i class="wave w1"></i><i class="wave w2"></i><i class="wave w3"></i></div>' +
+        '<div class="moon"></div>' +
+        '<div class="splash-text">' +
+        '<div class="l1">月临汐岸</div>' +
+        '<div class="l2">SULEN</div>' +
+        '<div class="l3">潮水正在靠岸…</div>' +
+        "</div>";
     } else {
       el.innerHTML =
         '<div class="gridbg"></div>' +
@@ -50,7 +59,7 @@
     }
 
     document.body.appendChild(el);
-    const dur = skin === "retro" ? 3000 : 2800;
+    const dur = skin === "retro" ? 3000 : skin === "moon" ? 3200 : 2800;
     setTimeout(() => {
       el.classList.add("out");
       setTimeout(() => el.remove(), 600);

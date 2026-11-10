@@ -146,3 +146,81 @@
 @keyframes spinLogo { to { transform: rotate(360deg); } }
 .splash-retro .splash-text { z-index: 3; }
 .splash-retro .splash-text .l1 { margin-top: 74px; }
+
+/* ---------------- 月汐开屏：月亮升起 + 潮水 ---------------- */
+.splash-moon {
+  background:
+    radial-gradient(80% 60% at 72% 8%, rgba(169, 200, 255, .22), transparent 60%),
+    linear-gradient(180deg, #060a14 0%, #0a1020 55%, #0d1730 100%);
+  overflow: hidden;
+}
+.splash-moon .moon {
+  position: absolute; top: 26%; left: 50%;
+  width: 132px; height: 132px; margin-left: -66px; border-radius: 50%;
+  background: radial-gradient(circle at 36% 32%, #fdfeff, #cfe0ff 46%, #9fbcff 100%);
+  box-shadow: 0 0 42px rgba(190, 214, 255, .55), 0 0 120px rgba(140, 175, 255, .35);
+  animation: moonRise 2.6s cubic-bezier(.2, .8, .25, 1) both;
+}
+.splash-moon .moon::after {
+  content: ""; position: absolute; inset: -34%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(190, 214, 255, .18), transparent 62%);
+  animation: moonHalo 3.4s ease-in-out infinite alternate;
+}
+.splash-moon .sea {
+  position: absolute; left: -10%; right: -10%; bottom: 0; height: 46%;
+  background: linear-gradient(180deg, rgba(109, 141, 205, .18), rgba(6, 10, 20, .9) 70%);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 42%);
+  mask-image: linear-gradient(180deg, transparent, #000 42%);
+}
+.splash-moon .wave {
+  position: absolute; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(169, 200, 255, .55), transparent);
+  animation: waveDrift 4.2s linear infinite;
+}
+.splash-moon .w1 { bottom: 30%; animation-duration: 5.6s; }
+.splash-moon .w2 { bottom: 22%; animation-duration: 4.4s; opacity: .7; }
+.splash-moon .w3 { bottom: 14%; animation-duration: 6.8s; opacity: .45; }
+.splash-moon .splash-text { text-align: center; color: #e9eefc; }
+.splash-moon .splash-text .l1 {
+  font-family: var(--serif), serif;
+  font-size: 34px; letter-spacing: .34em; text-indent: .34em;
+  animation: moonText 1.5s cubic-bezier(.2, .8, .25, 1) .5s both;
+}
+.splash-moon .splash-text .l2 {
+  margin-top: 10px; font: 500 11px/1 var(--mono);
+  letter-spacing: .5em; text-indent: .5em; color: #9fb4dd;
+  animation: moonText 1.5s ease .9s both;
+}
+.splash-moon .splash-text .l3 {
+  margin-top: 22px; font-size: 11px; letter-spacing: .18em; color: #7f92b8;
+  animation: moonText 1.5s ease 1.3s both;
+}
+@keyframes moonRise {
+  from { transform: translateY(90px) scale(.86); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes moonHalo {
+  from { transform: scale(.94); opacity: .7; }
+  to   { transform: scale(1.08); opacity: 1; }
+}
+@keyframes waveDrift {
+  from { transform: translateX(-14%); }
+  to   { transform: translateX(14%); }
+}
+@keyframes moonText {
+  from { opacity: 0; transform: translateY(10px); letter-spacing: .5em; }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .splash-moon .moon, .splash-moon .moon::after,
+  .splash-moon .wave, .splash-moon .splash-text > div { animation: none !important; }
+}
+@media (max-width: 480px) {
+  .splash-moon .moon { width: 104px; height: 104px; margin-left: -52px; }
+  .splash-moon .splash-text .l1 { font-size: 27px; letter-spacing: .22em; text-indent: .22em; }
+}
+
+/* 月汐：文字压到底部，别和月亮叠在一起 */
+.splash-moon .splash-text { place-content: end center; padding-bottom: 15vh; }
+@media (max-height: 620px) { .splash-moon .splash-text { padding-bottom: 9vh; } }

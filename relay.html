@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="theme.css?v=18">
 <link rel="stylesheet" href="skins.css?v=18">
 <link rel="stylesheet" href="motion.css?v=2">
-<script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
+<script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}try{if(localStorage.getItem("pocket-calm")==="1")document.documentElement.classList.add("calm");}catch(e){}</script>
 <style>
 .wrap{max-width:680px;margin:0 auto;padding:0 20px}
 .box{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
@@ -315,6 +315,7 @@ html[data-theme="light"] .m{background:#fbfcff}
 </script>
 <script src="theme.js?v=2"></script>
 <script src="skin.js?v=2"></script>
+<script src="calm.js?v=1"></script>
 <script src="motion.js?v=2"></script>
 </body>
 </html>

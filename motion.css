@@ -35,15 +35,7 @@
 
 /* ---------- 首屏其它块依次浮起 ---------- */
 .motion-on .hero-home > *:not(h1),
-.motion-on .hero > *:not(h1) {
-  animation: riseIn .7s cubic-bezier(.22, 1, .36, 1) both;
-}
-.motion-on .hero-home > *:nth-child(1), .motion-on .hero > *:nth-child(1) { animation-delay: .02s; }
-.motion-on .hero-home > *:nth-child(2), .motion-on .hero > *:nth-child(2) { animation-delay: .04s; }
-.motion-on .hero-home > *:nth-child(4), .motion-on .hero > *:nth-child(4) { animation-delay: .34s; }
-.motion-on .hero-home > *:nth-child(5), .motion-on .hero > *:nth-child(5) { animation-delay: .44s; }
-.motion-on .hero-home > *:nth-child(6), .motion-on .hero > *:nth-child(6) { animation-delay: .54s; }
-@keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.motion-on .hero > *:not(h1) { opacity: 1; } to { opacity: 1; transform: none; } }
 
 /* 首屏后面那层慢慢呼吸的光 */
 .motion-on .hero-home::after,
@@ -56,11 +48,7 @@
   background:
     radial-gradient(42% 44% at 22% 28%, color-mix(in srgb, var(--accent) 17%, transparent), transparent 72%),
     radial-gradient(38% 40% at 78% 18%, color-mix(in srgb, var(--accent2) 15%, transparent), transparent 70%);
-  animation: glowDrift 22s ease-in-out infinite alternate;
-}
-@keyframes glowDrift {
-  from { transform: translate3d(-2%, 1%, 0) scale(1); opacity: .75; }
-  to   { transform: translate3d(3%, -2%, 0) scale(1.12); opacity: 1; }
+  opacity: .85;
 }
 
 /* ---------- 导航：滑动的选中胶囊 ---------- */

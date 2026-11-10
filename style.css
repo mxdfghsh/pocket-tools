@@ -124,7 +124,7 @@ main {
   border-radius: var(--radius);
   background: var(--surface);
   transition: border-color .16s, background .16s;
-  animation: rise .42s cubic-bezier(.22,.8,.3,1) both;
+  animation: none;
 }
 .card:hover { border-color: var(--line-strong); }
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

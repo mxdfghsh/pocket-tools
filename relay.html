@@ -39,6 +39,32 @@ html[data-theme="light"] .m{background:#fbfcff}
 .m.ok{border-color:rgba(52,211,153,.35)}
 .m.bad{border-color:rgba(251,113,133,.35)}
 .m.wait{opacity:.7}
+
+/* 探测面板：进度条 + 每家的实时状态 */
+.probe{margin-top:4px}
+.probe-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline;font-size:12.5px}
+.probe-now{font-weight:700;color:var(--text)}
+.probe-tip{color:var(--muted);font-size:11.5px}
+.probe-bar{height:4px;border-radius:99px;background:var(--line);overflow:hidden;margin:9px 0 12px}
+.probe-fill{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease}
+.pm{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;margin-bottom:6px;background:rgba(255,255,255,.035);border:1px solid transparent;font-size:13px}
+html[data-theme="light"] .pm{background:#f7f9fd}
+.pm b{font-family:var(--mono,monospace);font-weight:700;min-width:74px}
+.pm em{font-style:normal;font-size:11.5px;color:var(--muted);font-family:var(--mono,monospace);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pm .mk{width:14px;text-align:center;font-weight:800}
+.pm.ok .mk{color:#34d399}
+.pm.bad .mk{color:#fb7185}
+.pm.hit{border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.1)}
+.sp{flex:none;width:13px;height:13px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--accent);animation:spSpin .7s linear infinite}
+.m .sp{margin-top:2px}
+@keyframes spSpin{to{transform:rotate(360deg)}}
+html.calm .sp{animation:none;border-top-color:var(--accent);opacity:.6}
+.probe-res{margin-top:10px}
+.res-ok{color:#34d399;font-weight:700;font-size:13.5px}
+.res-models{font-size:12px;color:var(--muted);margin-top:4px;font-family:var(--mono,monospace);word-break:break-all}
+.res-bad{color:#fb7185;font-weight:700;font-size:13px;margin-bottom:9px}
+#tryAll{padding:9px 13px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);font:600 12px/1 inherit;cursor:pointer}
+#goAuto:disabled{opacity:.55}
 </style>
 </head>
 <body>
@@ -72,7 +98,7 @@ html[data-theme="light"] .m{background:#fbfcff}
   </div>
 
   <div class="box" id="autoBox">
-    <label>测试任意一个 key（自动识别是哪家的）</label>
+    <label>测试任意一个 key（不按格式猜，会挨家去问 /models，谁返回模型列表就是谁）</label>
     <input id="mykey" placeholder="粘贴任意 API key，例：sk-ant-… / 32位.16位 / sk-proj-…" autocomplete="off">
     <label>中转站口令（可留空，留空就是纯直通测试）</label>
     <input id="rtoken" type="password" placeholder="可以不填" autocomplete="off">
@@ -184,10 +210,14 @@ html[data-theme="light"] .m{background:#fbfcff}
   async function testOne(prov, name, prompt, token) {
     var d = document.createElement("div");
     d.className = "m wait";
-    d.innerHTML = '<span class="ico">⏳</span><div class="body"><div class="name"></div><div class="meta">测试中…</div><div class="txt"></div></div>';
+    d.innerHTML = '<span class="sp"></span><div class="body"><div class="name"></div><div class="meta">连接中… 0.0s</div><div class="txt"></div></div>';
     d.querySelector(".name").textContent = name;
     $("list").appendChild(d);
     var t0 = Date.now(), first = 0, chars = 0, text = "";
+    var tick = setInterval(function () {
+      var m = d.querySelector(".meta");
+      if (m && d.className.indexOf("wait") >= 0) m.textContent = "测试中… " + ((Date.now() - t0) / 1000).toFixed(1) + "s";
+    }, 200);
     try {
       var r = await fetch(B + "/" + prov + "/chat/completions", {
         method: "POST",
@@ -199,7 +229,8 @@ html[data-theme="light"] .m{background:#fbfcff}
         var b = await r.text();
         var msg = "HTTP " + r.status;
         try { var j = JSON.parse(b); msg += "：" + ((j.error && j.error.message) || j.message || ""); } catch (e) {}
-        d.className = "m bad"; d.querySelector(".ico").textContent = "✗";
+        clearInterval(tick);
+        d.className = "m bad"; var spb = d.querySelector(".sp"); if (spb) spb.outerHTML = '<span class="ico">✗</span>';
         d.querySelector(".meta").textContent = msg.slice(0, 100);
         return false;
       }
@@ -221,12 +252,14 @@ html[data-theme="light"] .m{background:#fbfcff}
         }
       }
       var total = Date.now() - t0;
-      d.className = "m ok"; d.querySelector(".ico").textContent = "✓";
+      clearInterval(tick);
+      d.className = "m ok"; var sp = d.querySelector(".sp"); if (sp) sp.outerHTML = '<span class="ico">✓</span>';
       d.querySelector(".meta").textContent = "首字 " + (first || "?") + "ms · 共 " + total + "ms · " + (chars ? (chars / (total / 1000)).toFixed(1) : "0") + " 字/秒";
       d.querySelector(".txt").textContent = text.slice(0, 60) || "（无内容）";
       return true;
     } catch (e) {
-      d.className = "m bad"; d.querySelector(".ico").textContent = "✗";
+      clearInterval(tick);
+      d.className = "m bad"; var spc = d.querySelector(".sp"); if (spc) spc.outerHTML = '<span class="ico">✗</span>';
       d.querySelector(".meta").textContent = "失败：" + e.message.slice(0, 80);
       return false;
     }
@@ -251,86 +284,132 @@ html[data-theme="light"] .m{background:#fbfcff}
     $("sum").textContent = "共 " + models.length + " 个 · 可用 " + ok + " 个";
   });
 
-  // ---------- 自动识别 key ----------
+  // ---------- 自动识别 key：不猜格式，真的去问 ----------
+  var ALL = ["deepseek", "kimi", "zhipu", "qwen", "step", "openai", "claude", "gemini", "minimax", "ppio", "openrouter"];
+
   function guess(key) {
-    var k = key.trim(), out = [];
-    var add = function (prov, model) { out.push({ prov: prov, model: model }); };
-    if (/^sk-proj-/.test(k)) add("openai", "gpt-4o-mini");
-    if (/^sk-ant-/.test(k)) add("claude", null);
-    if (/^sk-or-v1-/.test(k)) add("openrouter", "openai/gpt-4o-mini");
-    if (/^sk-wand-/.test(k)) add("wandapi", null);
-    if (/^sk-api-/.test(k)) add("minimax", "MiniMax-Text-01");
-    if (/^AQ\./.test(k)) add("gemini", "gemini-2.5-flash");
-    if (/^sk-ws-/.test(k)) add("qwen", "qwen-plus");
-    if (/^sk_[A-Za-z0-9]{18,}$/.test(k)) add("ppio", null);
-    if (/^[0-9a-f]{32}\.[A-Za-z0-9]{16}$/.test(k)) add("zhipu", "glm-4-flash");
-    if (/^sk-[0-9a-f]{32}$/.test(k)) { add("deepseek", "deepseek-chat"); add("kimi", "kimi-k2.6"); }
-    if (!out.length) {
-      ["kimi", "deepseek", "qwen", "step", "zhipu"].forEach(function (x) {
-        add(x, { kimi: "kimi-k2.6", deepseek: "deepseek-chat", qwen: "qwen-plus", step: "step-3.5-flash", zhipu: "glm-4-flash" }[x]);
+    var k = key.trim(), hinted = [];
+    var add = function (p) { if (hinted.indexOf(p) < 0) hinted.push(p); };
+    if (/^sk-proj-/.test(k)) add("openai");
+    if (/^sk-ant-/.test(k)) add("claude");
+    if (/^sk-or-v1-/.test(k)) add("openrouter");
+    if (/^sk-api-/.test(k)) add("minimax");
+    if (/^AQ\./.test(k)) add("gemini");
+    if (/^sk-ws-/.test(k)) add("qwen");
+    if (/^[0-9a-f]{32}\.[A-Za-z0-9]{16}$/.test(k)) add("zhipu");
+    if (/^sk-[0-9a-f]{32}$/.test(k)) { add("deepseek"); add("kimi"); }
+    // 格式没线索就按常见顺序试前五家
+    ["deepseek", "kimi", "zhipu", "qwen", "step"].forEach(add);
+    return hinted;
+  }
+
+  // 用 /models 去问：能列出模型 = 这个 key 在这家能用（并且拿到的是真模型名）
+  async function askModels(prov, key, token) {
+    var headers = { authorization: "Bearer " + key, "x-relay-passthrough": "1" };
+    if (token) headers["x-relay-token"] = token;
+    if (prov === "claude") headers["anthropic-version"] = "2023-06-01";
+    var t0 = Date.now();
+    try {
+      var r = await fetch(B + "/" + prov + "/models", { headers: headers, signal: AbortSignal.timeout(15000) });
+      var txt = await r.text(), ids = [];
+      try {
+        var j = JSON.parse(txt);
+        ids = (j.data || j.models || []).map(function (m) { return m.id || m.name; }).filter(Boolean);
+      } catch (e) {}
+      ids = ids.filter(function (x) { return !/embed|tts|asr|whisper|dall|image|moderation|realtime|audio/i.test(x); });
+      var msg = "";
+      if (!r.ok || !ids.length) {
+        try { var je = JSON.parse(txt); msg = (je.error && je.error.message) || je.message || ""; } catch (e) { msg = txt.slice(0, 60); }
+      }
+      return { prov: prov, ok: r.ok && ids.length > 0, status: r.status, ids: ids, msg: String(msg).slice(0, 80), ms: Date.now() - t0 };
+    } catch (e) {
+      return { prov: prov, ok: false, status: "ERR", ids: [], msg: e.message.slice(0, 60), ms: Date.now() - t0 };
+    }
+  }
+
+  function probeRow(prov) {
+    var d = document.createElement("div");
+    d.className = "pm wait";
+    d.innerHTML = '<span class="sp"></span><b></b><em>探测中…</em>';
+    d.querySelector("b").textContent = prov;
+    return d;
+  }
+
+  var running = false;
+
+  async function runProbe(list, out) {
+    if (running) return;
+    running = true;
+    var bar = out.querySelector(".probe-fill");
+    var now = out.querySelector(".probe-now");
+    var box = document.querySelector("#probeRows");
+    var hit = null, results = [];
+
+    for (var n = 0; n < list.length; n++) {
+      var prov = list[n];
+      now.textContent = "正在问 " + prov + " …（" + (n + 1) + "/" + list.length + "）";
+      bar.style.width = Math.round((n / list.length) * 100) + "%";
+      var row = probeRow(prov);
+      box.appendChild(row);
+      var r = await askModels(prov, document.getElementById("mykey").value.trim(), document.getElementById("rtoken").value.trim());
+      results.push(r);
+      row.className = "pm " + (r.ok ? "ok" : "bad");
+      row.querySelector(".sp").outerHTML = '<span class="mk">' + (r.ok ? "✓" : "✗") + "</span>";
+      row.querySelector("em").textContent = r.ok
+        ? r.ids.length + " 个模型 · " + r.ms + "ms"
+        : (r.status === "ERR" ? r.msg : "HTTP " + r.status + (r.msg ? " · " + r.msg : ""));
+      if (r.ok && !hit) {
+        hit = r;
+        row.classList.add("hit");
+        break;
+      }
+    }
+    bar.style.width = "100%";
+    running = false;
+
+    var res = document.createElement("div");
+    res.className = "probe-res";
+    if (hit) {
+      var names = hit.ids.slice(0, 6).join("、");
+      var hint = (typeof guess === "function" ? guess(document.getElementById("mykey").value.trim())[0] : "") || "";
+      now.textContent = "完成";
+      res.innerHTML = '<div class="res-ok">✓ 这个 key 属于 <b></b>，能列出 ' + hit.ids.length + ' 个模型</div>' +
+        '<div class="res-models"></div>';
+      res.querySelector("b").textContent = hit.prov;
+      res.querySelector(".res-models").textContent = names + (hit.ids.length > 6 ? " …" : "");
+      if (hint && hint !== hit.prov) {
+        var hd = document.createElement("div");
+        hd.className = "res-models";
+        hd.style.color = "var(--muted)";
+        hd.textContent = "（格式看着像 " + hint + "，实际问出来是 " + hit.prov + "——所以别信格式）";
+        res.appendChild(hd);
+      }
+    } else {
+      now.textContent = "没找到能用的";
+      res.innerHTML = '<div class="res-bad">✗ 试了 ' + list.length + ' 家，都用不了（key 失效 / 没额度 / 没权限）</div>' +
+        '<button class="btn" type="button" id="tryAll">再试剩下几家（会多发几次请求）</button>';
+      var tb = res.querySelector("#tryAll");
+      if (tb) tb.addEventListener("click", function () {
+        tb.remove();
+        var rest = ALL.filter(function (p) { return list.indexOf(p) < 0; });
+        runProbe(rest, out);
       });
     }
-    return out;
+    out.appendChild(res);
   }
 
-  async function probe(c) {
-    var token = $("rtoken").value.trim();
-    var k = $("mykey").value.trim();
-    var url = B + "/" + c.prov + (c.model ? "/chat/completions" : "/messages");
-    var headers = {
-      "content-type": "application/json",
-      "x-relay-passthrough": "1",
-      authorization: "Bearer " + k,
-    };
-    if (token) headers["x-relay-token"] = token;
-    if (c.prov === "claude") headers["anthropic-version"] = "2023-06-01";
-    var body = c.prov === "claude"
-      ? { model: "claude-haiku-5-5", max_tokens: 5, messages: [{ role: "user", content: "hi" }] }
-      : { model: c.model, max_tokens: 5, messages: [{ role: "user", content: "hi" }] };
-    try {
-      var r = await fetch(url, { method: "POST", headers: headers, body: JSON.stringify(body), signal: AbortSignal.timeout(25000) });
-      var t = await r.text();
-      var ok = r.ok && t.indexOf("insufficient") < 0 && t.indexOf("balance") < 0 && t.indexOf("credit") < 0;
-      var msg = "";
-      if (!r.ok || !ok) {
-        try { var j = JSON.parse(t); msg = (j.error && (j.error.message || j.base_resp && j.base_resp.status_msg)) || j.message || ""; } catch (e) { msg = t.slice(0, 80); }
-      }
-      return { prov: c.prov, ok: ok, status: r.status, msg: String(msg).slice(0, 100) };
-    } catch (e) {
-      return { prov: c.prov, ok: false, status: "ERR", msg: e.message.slice(0, 60) };
-    }
-  }
-
-  $("goAuto").addEventListener("click", async function () {
-    var k = $("mykey").value.trim();
+  document.getElementById("goAuto").addEventListener("click", function () {
+    var k = document.getElementById("mykey").value.trim();
     if (!k) { alert("先粘贴要测的 key"); return; }
-    // 口令可留空：留空时走纯直通（只带你的 key）
-    var out = $("autoOut");
-    out.innerHTML = '<div class="m wait"><span class="ico">⏳</span><div class="body"><div class="name">识别中…</div></div></div>';
-    var cands = guess(k);
-    out.innerHTML = "";
-    var hit = null;
-    for (var i = 0; i < cands.length; i++) {
-      var r = await probe(cands[i]);
-      var d = document.createElement("div");
-      d.className = "m " + (r.ok ? "ok" : "bad");
-      d.innerHTML = '<span class="ico">' + (r.ok ? "✓" : "✗") + '</span><div class="body"><div class="name"></div><div class="meta"></div></div>';
-      d.querySelector(".name").textContent = r.prov + (r.status !== "ERR" ? "（HTTP " + r.status + "）" : "");
-      d.querySelector(".meta").textContent = r.ok ? "这个 key 可以用" : (r.msg || "不能用");
-      out.appendChild(d);
-      if (r.ok) { hit = r.prov; break; }
-    }
-    if (hit) {
-      var s = document.createElement("p");
-      s.style.cssText = "font-size:13px;margin-top:10px;color:#34d399;font-weight:700";
-      s.textContent = "结论：这是 " + hit + " 的 key，可用 ✅";
-      out.appendChild(s);
-    } else {
-      var s2 = document.createElement("p");
-      s2.style.cssText = "font-size:13px;margin-top:10px;color:#fb7185;font-weight:700";
-      s2.textContent = "结论：试了 " + cands.length + " 个接口都用不了（可能 key 失效 / 没额度 / 没权限）";
-      out.appendChild(s2);
-    }
+    var out = document.getElementById("autoOut");
+    out.innerHTML =
+      '<div class="probe">' +
+      '<div class="probe-top"><span class="probe-now">准备开始…</span><span class="probe-tip">key 会依次发给下面这些厂商</span></div>' +
+      '<div class="probe-bar"><i class="probe-fill"></i></div>' +
+      '<div id="probeRows"></div>' +
+      "</div>";
+    var list = guess(k);
+    runProbe(list, out);
   });
 
   health();

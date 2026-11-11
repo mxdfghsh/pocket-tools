@@ -61,3 +61,17 @@
 .nf-meta{margin:6px 0 0;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:10px}
 .nf-meta button{font:inherit;font-size:12px;padding:3px 9px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
 .nf-empty{margin:24px 0;text-align:center;color:var(--muted)}
+
+/* 分类 chip：手机上折成两行并可以上下滑，不用横向拖很远 */
+.nf-chips{
+  display:flex;flex-wrap:wrap;gap:6px;
+  max-height:78px;overflow-y:auto;overflow-x:hidden;
+  padding:9px 0 4px;
+  -webkit-overflow-scrolling:touch;
+}
+.nf-chips::-webkit-scrollbar{width:0;height:0}
+@media (min-width:900px){.nf-chips{max-height:none;overflow:visible}}
+
+/* 「再看更多」 */
+.nf-more{display:flex;justify-content:center;margin:6px 0 4px}
+.nf-more-btn{padding:10px 18px;font-size:13px;border-style:dashed}

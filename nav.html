@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="splash.css?v=4">
 <link rel="stylesheet" href="motion.css?v=3">
 <link rel="stylesheet" href="pc.css?v=2">
-<link rel="stylesheet" href="directory.css?v=3">
+<link rel="stylesheet" href="directory.css?v=2">
 </head>
 <body>
 <nav class="nav">
@@ -320,6 +320,8 @@
 </section>
 </div>
 
+<div class="nf-more" id="nfMoreWrap" hidden><button class="nf-chip nf-more-btn" type="button" id="nfMore">再看更多</button></div>
+
 <div class="empty nf-empty" id="nfEmpty" hidden><span>🔍</span><p>没搜到，换个词试试</p></div>
 <p class="muted" style="font-size:12px;margin:22px 0 0">📌 标「要装 App」「要键盘」「需代理」的都用不了网页 + 手机的组合，其余点开就能用。外部站点内容不由本站控制。</p>
 <div class="blk" data-blk="AI">
@@ -361,12 +363,18 @@
   var secs = [].slice.call(document.querySelectorAll(".grp"));
   var blks = [].slice.call(document.querySelectorAll(".blk"));
   var cur = "all";
+  var SHOW_STEP = 24;
+  var shown = SHOW_STEP;
+  var more = document.getElementById("nfMore");
+  var moreWrap = document.getElementById("nfMoreWrap");
+  var total = cards.length;
   var GAME_CATS = { "g-web":1,"g-mini":1,"g-store":1,"g-cloud":1,"g-board":1,"g-indie":1,"g-pvp":1 };
 
   function run() {
     var term = q.value.trim().toLowerCase();
     var onlyWeb = web.getAttribute("aria-pressed") === "true";
-    var n = 0;
+    var filtering = !!term || cur !== "all" || onlyWeb;
+    var n = 0, matched = [];
     cards.forEach(function (c) {
       var text = c.textContent.toLowerCase();
       var cat = c.getAttribute("data-cat");
@@ -374,29 +382,41 @@
       var ok = catOk &&
                (!term || text.indexOf(term) >= 0) &&
                (!onlyWeb || (!c.hasAttribute("data-px") && !c.hasAttribute("data-app") && !c.hasAttribute("data-kbd")));
-      c.hidden = !ok;
-      if (ok) n++;
+      if (ok) matched.push(c);
     });
+    // 不筛选时按 24 个一批露出来；筛选时全给
+    var limit = filtering ? matched.length : Math.min(shown, matched.length);
+    matched.forEach(function (c, i) { c.hidden = i >= limit; });
+    n = matched.length;
+    if (moreWrap) {
+      moreWrap.hidden = filtering || matched.length <= limit;
+      if (more) {
+        var rest = Math.max(0, matched.length - limit);
+        more.textContent = "再看 " + Math.min(SHOW_STEP, rest) + " 个（还有 " + rest + " 个）";
+      }
+    }
     secs.forEach(function (s) { s.hidden = !s.querySelector(".lk:not([hidden])"); });
     blks.forEach(function (b) { b.hidden = !b.querySelector(".grp:not([hidden])"); });
-    cnt.textContent = n;
+    cnt.textContent = filtering || n <= limit ? n : limit + " / " + n;
     if (empty) empty.hidden = n !== 0;
   }
 
-  q.addEventListener("input", run);
+  if (more) more.addEventListener("click", function () { shown += SHOW_STEP; run(); });
+  q.addEventListener("input", function () { shown = SHOW_STEP; run(); });
   web.addEventListener("click", function () {
     web.setAttribute("aria-pressed", web.getAttribute("aria-pressed") === "true" ? "false" : "true");
+    shown = SHOW_STEP;
     run();
   });
   cats.addEventListener("click", function (e) {
     var b = e.target.closest(".nf-chip");
     if (!b) return;
-    cur = b.getAttribute("data-cat");
+    cur = b.getAttribute("data-cat"); shown = SHOW_STEP;
     [].forEach.call(cats.querySelectorAll(".nf-chip"), function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
     run();
   });
   if (reset) reset.addEventListener("click", function () {
-    q.value = ""; cur = "all";
+    q.value = ""; cur = "all"; shown = SHOW_STEP;
     web.setAttribute("aria-pressed", "false");
     [].forEach.call(cats.querySelectorAll(".nf-chip"), function (x) { x.setAttribute("aria-pressed", x.getAttribute("data-cat") === "all" ? "true" : "false"); });
     run();

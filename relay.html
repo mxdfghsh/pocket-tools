@@ -310,7 +310,7 @@ html.calm .sp{animation:none;border-top-color:var(--accent);opacity:.6}
     if (prov === "claude") headers["anthropic-version"] = "2023-06-01";
     var t0 = Date.now();
     try {
-      var r = await fetch(B + "/" + prov + "/models", { headers: headers, signal: AbortSignal.timeout(15000) });
+      var r = await fetch(B + "/" + prov + "/models", { headers: headers, signal: AbortSignal.timeout(9000) });
       var txt = await r.text(), ids = [];
       try {
         var j = JSON.parse(txt);
@@ -324,6 +324,41 @@ html.calm .sp{animation:none;border-top-color:var(--accent);opacity:.6}
       return { prov: prov, ok: r.ok && ids.length > 0, status: r.status, ids: ids, msg: String(msg).slice(0, 80), ms: Date.now() - t0 };
     } catch (e) {
       return { prov: prov, ok: false, status: "ERR", ids: [], msg: e.message.slice(0, 60), ms: Date.now() - t0 };
+    }
+  }
+
+  // 兜底：用最小的一次 chat 请求判断 key 属不属于这家
+  // 200 = 能用；400/404 且提到 model = key 有效只是模型名不对；401/403 = 不是这家
+  async function askChat(prov, key, token) {
+    var model = (DEFAULTS[prov] && DEFAULTS[prov][0]) || "";
+    var headers = { "content-type": "application/json", authorization: "Bearer " + key, "x-relay-passthrough": "1" };
+    if (token) headers["x-relay-token"] = token;
+    if (prov === "claude") headers["anthropic-version"] = "2023-06-01";
+    var body = prov === "claude"
+      ? { model: "claude-haiku-5-5", max_tokens: 1, messages: [{ role: "user", content: "hi" }] }
+      : { model: model, max_tokens: 1, messages: [{ role: "user", content: "hi" }] };
+    var t0 = Date.now();
+    try {
+      var r = await fetch(B + "/" + prov + "/chat/completions", {
+        method: "POST", headers: headers, body: JSON.stringify(body), signal: AbortSignal.timeout(12000),
+      });
+      var txt = await r.text(), j = null;
+      try { j = JSON.parse(txt); } catch (e) {}
+      var msg = String((j && j.error && (j.error.message || j.error.type)) || (j && j.message) || txt).slice(0, 70);
+      var keyOk = r.ok || (r.status === 400 || r.status === 404 || r.status === 422) && /model|模型/i.test(msg);
+      return { prov: prov, ok: !!keyOk, status: r.status, ids: [], msg: msg, ms: Date.now() - t0, via: "chat" };
+    } catch (e) {
+      return { prov: prov, ok: false, status: "ERR", ids: [], msg: e.name === "TimeoutError" ? "超时" : e.message.slice(0, 50), ms: Date.now() - t0, via: "chat" };
+    }
+  }
+
+  async function preflight() {
+    var t0 = Date.now();
+    try {
+      var r = await fetch(B + "/healthz", { signal: AbortSignal.timeout(8000) });
+      return { ok: r.ok, ms: Date.now() - t0, status: r.status };
+    } catch (e) {
+      return { ok: false, ms: Date.now() - t0, status: "ERR" };
     }
   }
 
@@ -351,12 +386,20 @@ html.calm .sp{animation:none;border-top-color:var(--accent);opacity:.6}
       bar.style.width = Math.round((n / list.length) * 100) + "%";
       var row = probeRow(prov);
       box.appendChild(row);
-      var r = await askModels(prov, document.getElementById("mykey").value.trim(), document.getElementById("rtoken").value.trim());
+      var key = document.getElementById("mykey").value.trim();
+      var tk = document.getElementById("rtoken").value.trim();
+      var r = await askModels(prov, key, tk);
+      if (!r.ok && r.status !== 401 && r.status !== 403) {
+        row.querySelector("em").textContent = "models 没拿到（" + (r.status === "ERR" ? r.msg : "HTTP " + r.status) + "），改用 chat 试…";
+        var r2 = await askChat(prov, key, tk);
+        if (r2.ok) r = Object.assign({}, r2, { via: "chat" });
+        else r = Object.assign({}, r, { msg: r.msg || r2.msg, via: "models+chat" });
+      }
       results.push(r);
       row.className = "pm " + (r.ok ? "ok" : "bad");
       row.querySelector(".sp").outerHTML = '<span class="mk">' + (r.ok ? "✓" : "✗") + "</span>";
       row.querySelector("em").textContent = r.ok
-        ? r.ids.length + " 个模型 · " + r.ms + "ms"
+        ? (r.ids.length ? r.ids.length + " 个模型" : "key 有效（模型名待定）") + " · " + r.ms + "ms"
         : (r.status === "ERR" ? r.msg : "HTTP " + r.status + (r.msg ? " · " + r.msg : ""));
       if (r.ok && !hit) {
         hit = r;
@@ -408,8 +451,19 @@ html.calm .sp{animation:none;border-top-color:var(--accent);opacity:.6}
       '<div class="probe-bar"><i class="probe-fill"></i></div>' +
       '<div id="probeRows"></div>' +
       "</div>";
-    var list = guess(k);
-    runProbe(list, out);
+    var now0 = out.querySelector(".probe-now");
+    now0.textContent = "先连一下中转站…";
+    preflight().then(function (pf) {
+      var tip = out.querySelector(".probe-tip");
+      if (!pf.ok) {
+        tip.innerHTML = '<b style="color:#fb7185">中转连不上</b>（' + pf.ms + 'ms）——不是 key 的问题，是网络到 workers.dev 不通（国内经常被墙）。换个网络或开代理再试。';
+        now0.textContent = "网络不通，先别试 key";
+        return;
+      }
+      tip.textContent = "中转 " + pf.ms + "ms ✓ · key 会依次发给下面这些厂商";
+      var list = guess(k);
+      runProbe(list, out);
+    });
   });
 
   health();

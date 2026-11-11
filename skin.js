@@ -34,7 +34,6 @@
         '<div class="splash-text">' +
         '<div class="l1">休息一下</div>' +
         '<div class="l2">马上回来</div>' +
-        '<div class="l3">少 儿 频 道 · 请 稍 候</div>' +
         "</div>";
     } else if (skin === "moon") {
       el.innerHTML =

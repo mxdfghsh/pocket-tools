@@ -26,7 +26,7 @@
   .hero-home > h1 { grid-column: 1; grid-row: 2; margin-bottom: 18px; font-size: clamp(40px, 4.2vw, 62px); }
   .hero-home > .lead { grid-column: 1; grid-row: 3; font-size: 16.5px; max-width: 34em; }
   .hero-home > .cta-row { grid-column: 1; grid-row: 4; margin-top: 26px; align-self: start; }
-  .hero-home > .scene {
+  .hero-home > .scene-grid {
     grid-column: 2; grid-row: 2 / span 3; margin: 6px 0 0;
     max-width: none; grid-template-columns: 1fr;
   }

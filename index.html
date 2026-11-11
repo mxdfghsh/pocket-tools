@@ -17,12 +17,12 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧰</text></svg>">
 <script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}try{if(localStorage.getItem("pocket-calm")==="1")document.documentElement.classList.add("calm");}catch(e){}</script>
-<link rel="stylesheet" href="home.css?v=7">
+<link rel="stylesheet" href="home.css?v=8">
 <link rel="stylesheet" href="theme.css?v=7">
 <link rel="stylesheet" href="skins.css?v=7">
 <link rel="stylesheet" href="splash.css?v=4">
 <link rel="stylesheet" href="motion.css?v=3">
-<link rel="stylesheet" href="pc.css?v=1">
+<link rel="stylesheet" href="pc.css?v=2">
 </head>
 <body>
 
@@ -39,85 +39,63 @@
 
 <header class="hero-home">
   <p class="eyebrow">SULEN · 沫小汐</p>
-  <h1>把顺手做的小东西，<br><span class="serif">停在月临的岸上</span></h1>
-  <p class="lead">几个每天都在用的小东西：乱码转一下、大写金额算一下、颜色配不配、还有多久下班。顺手收了点能直接玩的游戏和能在浏览器里用的资源。工具都在本地算，只有 API 检测会联网。</p>
+  <h1>顺手做的小东西，<br><span class="serif">搁在月临的岸上</span></h1>
+  <p class="lead">一个手写的个人小站：每天要用的小工具、能直接打开就玩的游戏，和一份筛过的资源清单。工具都在本地跑，不上传、不记录。</p>
   <div class="cta-row">
-    <a class="btn-primary" href="tools.html">进入工具箱 <span aria-hidden="true">→</span></a>
-    <a class="btn-ghost" href="hub.html">玩两把</a>
+    <a class="btn-primary" href="tools.html">进工具箱 <span aria-hidden="true">→</span></a>
+    <a class="btn-ghost" href="hub.html">随便玩点</a>
   </div>
-  <ul class="scene">
-    <li><a href="tools.html#tool-base64">微信里粘回来的乱码，<b>解开看看是什么</b></a></li>
-    <li><a href="tools.html#tool-money">报销单要填大写，<b>1234.56 → 壹仟贰佰叁拾肆元伍角陆分</b></a></li>
-    <li><a href="tools.html#tool-contrast">这两个颜色配不配，<b>算一下对比度</b></a></li>
-    <li><a href="tools.html#tool-timer">下班还有多久，<b>开个倒计时</b></a></li>
-  </ul>
-</header>
 
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track">
-    <span>Base64</span><span>时间戳</span><span>JSON</span><span>哈希</span><span>密码</span><span>UUID</span><span>正则</span><span>JWT</span><span>Markdown</span><span>进制</span><span>抽签</span><span>文本统计</span><span>颜色</span>
-    <span>Base64</span><span>时间戳</span><span>JSON</span><span>哈希</span><span>密码</span><span>UUID</span><span>正则</span><span>JWT</span><span>Markdown</span><span>进制</span><span>抽签</span><span>文本统计</span><span>颜色</span>
+  <div class="scene-grid">
+    <a href="tools.html#tool-base64"><span class="sc-ico">🔤</span><span class="sc-t"><b>乱码转一下</b><i>微信粘来的，解开看看是什么</i></span></a>
+    <a href="tools.html#tool-money"><span class="sc-ico">💴</span><span class="sc-t"><b>大写金额</b><i>1234.56 → 壹仟贰佰叁拾肆元伍角陆分</i></span></a>
+    <a href="tools.html#tool-contrast"><span class="sc-ico">🎨</span><span class="sc-t"><b>颜色配不配</b><i>两个色号，算下对比度</i></span></a>
+    <a href="tools.html#tool-timer"><span class="sc-ico">⏳</span><span class="sc-t"><b>还有多久下班</b><i>开个倒计时</i></span></a>
   </div>
-</div>
+</header>
 
 <main>
   <section class="section" id="projects" data-reveal>
     <div class="section-head">
-      <h2>项目</h2>
-      <p>三块：工具、游戏、在线资源</p>
+      <h2>三块</h2>
+      <p>工具、游戏、资源清单</p>
     </div>
     <div class="index-list">
       <a class="index-row" href="tools.html">
         <span class="num">01</span>
         <div>
-          <h3>口袋工具箱 <span class="tag">已上线</span></h3>
-          <p>59 个纯前端小工具：Base64、JSON、哈希、正则、JWT、二维码、个税、房贷、单位换算、curl 转代码……还有一个 API Key 检测。</p>
+          <h3>口袋工具箱 <span class="tag">59 个</span></h3>
+          <p>编码转换、JSON、哈希、正则、二维码、个税房贷、单位换算、curl 转代码……纯前端，离线也能用。</p>
           <span class="go">打开</span>
         </div>
       </a>
       <a class="index-row" href="hub.html">
         <span class="num">02</span>
         <div>
-          <h3>游戏中心 <span class="tag">新</span></h3>
-          <p>16 款网页游戏在本站直接玩，另外 12 款跳到原作者的外链；还有中国象棋。打开就玩，不用下载。</p>
+          <h3>游戏中心 <span class="tag">16 + 12</span></h3>
+          <p>16 款网页游戏本站托管，12 款跳原作者 demo，另加中国象棋。不用下载，打开就走。</p>
           <span class="go">开一局</span>
         </div>
       </a>
       <a class="index-row" href="nav.html">
         <span class="num">03</span>
         <div>
-          <h3>在线资源 <span class="tag">新</span></h3>
-          <p>120 个入口全在浏览器里用：游戏平台、云游戏、小游戏站、小说、音乐、影视、漫画。标明哪些要装 App、哪些要代理。</p>
+          <h3>在线资源 <span class="tag">120 个</span></h3>
+          <p>AI 对话、游戏平台、小说、音乐、影视、漫画——都标了能不能直接开、要不要装 App。</p>
           <span class="go">去逛逛</span>
         </div>
       </a>
     </div>
   </section>
 
-    <section class="section" id="more" data-reveal>
-    <div class="section-head">
-      <h2>还有别的</h2>
-      <p>AI 对话、小说、音乐、影视、漫画、云游戏，都收在一页里</p>
-    </div>
-    <a class="index-row" href="nav.html">
-      <span class="num">↗</span>
-      <div>
-        <h3>在线资源 <span class="tag">120 个入口</span></h3>
-        <p>智谱 / Kimi / 豆包 / DeepSeek 这些 AI，加上阅读、影视、游戏平台——都能在浏览器里直接用。</p>
-        <span class="go">去逛逛</span>
-      </div>
-    </a>
-  </section>
-
   <section class="section" id="about" data-reveal>
     <div class="section-head">
-      <h2>关于</h2>
-      <p>这个站是什么</p>
+      <h2>说明</h2>
+      <p>两句话</p>
     </div>
     <div class="about">
-      <p>一个纯静态页面集合：没有后端、没有数据库、没有跟踪脚本。所有工具都在浏览器里跑，输入的内容不会发到任何地方。</p>
-      <p>托管在 GitHub Pages 上，开源，改起来也方便——想加个新工具，往 <code>extra.js</code> 里丢一段就行。</p>
-      <p class="about-note">有问题或想提点什么，<a href="https://github.com/mxdfghsh/pocket-tools">在仓库里说</a>。</p>
+      <p>没有后端、没有数据库、没有统计脚本。工具都在浏览器里算，刷新即清空。</p>
+      <p>开源的，代码在 <a href="https://github.com/mxdfghsh/pocket-tools">GitHub</a>；想加什么、发现哪里坏了，<a href="about.html">关于页</a>有联系方式。</p>
     </div>
   </section>
 </main>

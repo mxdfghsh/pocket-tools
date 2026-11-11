@@ -102,11 +102,11 @@
       return echo("已切到 " + arg, "ok");
     }
     if (name === "pet") {
-      var cur = "0";
-      try { cur = localStorage.getItem("pocket-pet") || "0"; } catch (e) {}
-      var next = arg === "off" ? "0" : arg === "on" ? "1" : cur === "1" ? "0" : "1";
-      try { localStorage.setItem("pocket-pet", next); } catch (e) {}
-      echo(next === "1" ? "桌宠开了，刷新一下她就出来了 🦊" : "桌宠关了", "ok");
+      var pet = window.PocketPet;
+      if (!pet) { echo("桌宠脚本没加载，先刷新一下", "dim"); return; }
+      var want = arg === "off" ? false : arg === "on" ? true : !pet.isOn();
+      if (want) { pet.enable(); echo("桌宠出来了 🦊", "ok"); }
+      else { pet.disable(); echo("桌宠收起来了", "ok"); }
       return;
     }
     echo("未知命令：" + name + "，输入 help 看看", "dim");

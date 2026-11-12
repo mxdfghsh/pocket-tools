@@ -32,301 +32,219 @@
 <header class="hero-home">
 <p class="eyebrow">ONLINE LINKS</p>
 <h1>在线<em>资源</em></h1>
-<p class="lead">201 个入口里，<b>167 个国内直连、点开就能用</b>；剩下 23 个需代理、9 个要装 App、2 个要键盘，都标在卡片上了。上面能搜、能按类型筛，也可以一键只看能直接用的。</p>
+<p class="lead">201 个入口，分成 12 类：游戏按玩法分（动作 / 策略 / RPG / 休闲 / 经营 / 多人 / 经典），另外是小说、音乐、影视、漫画和 AI。<b>标「要登录」「需代理」的可以一键筛掉。</b></p>
 </header>
 <main class="wrap dir">
 <div class="nf" role="search">
   <div class="nf-row">
-    <input id="nfQ" type="search" placeholder="搜一下，比如 steam / MMO / 小说 / 音乐" autocomplete="off" aria-label="搜索资源">
+    <input id="nfQ" type="search" placeholder="搜一下，比如 steam / 塔防 / 小说 / AI" autocomplete="off" aria-label="搜索资源">
     <button id="nfWeb" class="nf-toggle" type="button" aria-pressed="false">只看网页直用</button>
   </div>
   <div class="nf-quick">
-      <span class="nf-q-label">筛选</span>
-      <button class="nf-q" id="nfNoLogin" type="button" aria-pressed="false">免登录</button>
-      <button class="nf-q" id="nfNoPx" type="button" aria-pressed="false">免代理</button>
-      <button class="nf-q" id="nfNoKbd" type="button" aria-pressed="false">免键盘</button>
-      <button class="nf-q" id="nfGameOnly" type="button" aria-pressed="false">只看游戏</button>
-    </div>
-    <div class="nf-chips" id="nfCats">
+    <span class="nf-q-label">筛选</span>
+    <button class="nf-q" id="nfNoLogin" type="button" aria-pressed="false">免登录</button>
+    <button class="nf-q" id="nfNoPx" type="button" aria-pressed="false">免代理</button>
+    <button class="nf-q" id="nfNoKbd" type="button" aria-pressed="false">免键盘</button>
+    <button class="nf-q" id="nfGameOnly" type="button" aria-pressed="false">只看游戏</button>
+  </div>
+  <div class="nf-chips" id="nfCats">
     <button class="nf-chip" type="button" data-cat="all" aria-pressed="true">全部<small>201</small></button>
-    <button class="nf-chip" type="button" data-cat="games">🎮 全部游戏<small>54</small></button>
-    <button class="nf-chip" type="button" data-cat="g-web">网页里直接玩的大游戏<small>6</small></button><button class="nf-chip" type="button" data-cat="g-mmo">网页大作 · 在线 MMO<small>12</small></button>
-    <button class="nf-chip" type="button" data-cat="g-rogue">肉鸽<small>7</small></button>
-    <button class="nf-chip" type="button" data-cat="g-td">塔防<small>13</small></button>
-    <button class="nf-chip" type="button" data-cat="g-action">动作<small>6</small></button>
-    <button class="nf-chip" type="button" data-cat="g-strategy">策略<small>7</small></button>
-    <button class="nf-chip" type="button" data-cat="g-race">竞速<small>6</small></button>
-    <button class="nf-chip" type="button" data-cat="g-puzzle">解谜<small>8</small></button>
-    <button class="nf-chip" type="button" data-cat="g-music">音乐<small>6</small></button>
-    <button class="nf-chip" type="button" data-cat="g-sim">模拟<small>6</small></button>
-    <button class="nf-chip" type="button" data-cat="g-mow">割草<small>5</small></button>
-    <button class="nf-chip" type="button" data-cat="g-rpg">RPG<small>7</small></button>
-    <button class="nf-chip" type="button" data-cat="g-story">剧情<small>5</small></button>
-    <button class="nf-chip" type="button" data-cat="g-idle">放置<small>4</small></button>
-    <button class="nf-chip" type="button" data-cat="g-raise">养成<small>4</small></button><button class="nf-chip" type="button" data-cat="g-mini">小游戏站<small>8</small></button><button class="nf-chip" type="button" data-cat="g-store">游戏平台 · 商店<small>11</small></button><button class="nf-chip" type="button" data-cat="g-cloud">云游戏<small>5</small></button><button class="nf-chip" type="button" data-cat="g-board">棋牌 · 桌游<small>5</small></button><button class="nf-chip" type="button" data-cat="g-indie">独立 · 剧情<small>4</small></button><button class="nf-chip" type="button" data-cat="g-pvp">多人竞技<small>3</small></button><button class="nf-chip" type="button" data-cat="r-book">小说<small>17</small></button><button class="nf-chip" type="button" data-cat="m-music">音乐<small>14</small></button><button class="nf-chip" type="button" data-cat="v-movie">影视<small>13</small></button><button class="nf-chip" type="button" data-cat="c-comic">漫画<small>10</small></button>
-    <button class="nf-chip" type="button" data-cat="g-ai">AI 对话<small>12</small></button>
+    <button class="nf-chip" type="button" data-cat="games">🎮 全部游戏<small>145</small></button>
+    <button class="nf-chip" type="button" data-cat="c-act">动作<small>11</small></button>
+    <button class="nf-chip" type="button" data-cat="c-strat">策略<small>23</small></button>
+    <button class="nf-chip" type="button" data-cat="c-rpg">RPG<small>23</small></button>
+    <button class="nf-chip" type="button" data-cat="c-casual">休闲<small>26</small></button>
+    <button class="nf-chip" type="button" data-cat="c-idle">经营<small>8</small></button>
+    <button class="nf-chip" type="button" data-cat="c-multi">多人<small>19</small></button>
+    <button class="nf-chip" type="button" data-cat="c-clas">经典<small>25</small></button>
+    <button class="nf-chip" type="button" data-cat="r-book">小说<small>17</small></button>
+    <button class="nf-chip" type="button" data-cat="m-music">音乐<small>14</small></button>
+    <button class="nf-chip" type="button" data-cat="v-movie">影视<small>13</small></button>
+    <button class="nf-chip" type="button" data-cat="c-comic">漫画<small>10</small></button>
+    <button class="nf-chip" type="button" data-cat="c-ai">AI 对话<small>12</small></button>
   </div>
   <p class="nf-hint" id="nfHint"></p>
   <p class="nf-meta"><span id="nfCount">201</span> 个结果<button id="nfReset" type="button">清空</button></p>
 </div>
 
 <div class="blk" data-blk="玩">
-<div class="th" data-reveal><strong>玩</strong><span>游戏平台、云游戏、小游戏站、棋牌和竞技</span></div>
-<section class="grp" id="g-web" data-block="玩">
-<div class="sec" data-reveal><h2>网页里直接玩的大游戏</h2><span>不用下载，打开网页就进</span></div>
+<div class="th" data-reveal><strong>玩</strong><span>按玩法分，点上面的标签可以只看一类</span></div>
+<section class="grp" id="c-act" data-block="玩">
+<div class="sec" data-reveal><h2>动作 · 冒险</h2><span>跑、打、砍，一波接一波</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-web" href="https://zombsroyale.io/" target="_blank" rel="noopener noreferrer"><b>🪂 Zombs Royale</b><p>100 人大逃杀，缩圈捡装备，浏览器直接排。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-web" data-login href="https://tankionline.com/" target="_blank" rel="noopener noreferrer"><b>🛡️ Tanki Online<i class="px">要登录</i></b><p>坦克对战 MMO，一局几分钟。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-web" data-login href="https://crawl.develz.org/" target="_blank" rel="noopener noreferrer"><b>🕯️ 地牢爬行 DCSS<i class="px">要登录</i></b><p>老牌 roguelike，一局能玩很久。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-web" href="https://hexgl.bkcore.com/" target="_blank" rel="noopener noreferrer"><b>🏎️ HexGL 在线版</b><p>3D 未来赛车，原作者官网直接开跑。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-web" href="https://www.retrogames.cc/" target="_blank" rel="noopener noreferrer"><b>🕹️ RetroGames.cc</b><p>FC / SFC / MD / GBA 老游戏，浏览器里直接玩。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-web" data-px href="https://dos.zone/" target="_blank" rel="noopener noreferrer"><b>🗄 DOS 游戏在线<i class="px">需代理</i></b><p>js-dos 官方游戏库，DOOM 这些浏览器里跑。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-act" href="https://www.crazygames.com/game/hordeloop" target="_blank" rel="noopener noreferrer"><b>🌀 HordeLoop</b><p>一圈一圈的怪围上来，边跑边打，越晚越难。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-act" href="https://www.crazygames.com/game/world-survivors" target="_blank" rel="noopener noreferrer"><b>🧟 World Survivors</b><p>杀怪升级、三选一强化，典型的割草循环。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-act" href="https://ricardo-foundry.github.io/canvas-vampire-survivors/" target="_blank" rel="noopener noreferrer"><b>🧛 Survivor（开源）</b><p>开源的吸血鬼幸存者式肉鸽，源码在 GitHub。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-act" href="https://jdesolate.github.io/neon-void/" target="_blank" rel="noopener noreferrer"><b>🌌 Neon Void</b><p>霓虹风弹幕生存，一波一波顶过去。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-act" href="https://poki.com/en/survival" target="_blank" rel="noopener noreferrer"><b>💥 Poki 生存合集</b><p>手机友好的割草/生存合集。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-act" href="web/huggers/index.html"><b>🚀 太空拥抱者（本站）</b><p>横版跑轰 + 肉鸽，地图可破坏，支持双人同屏。</p><span>开始 →</span></a>
+<a class="wg ext lk" data-cat="c-act" href="web/mario/main.html"><b>🍄 超级马里奥（本站）</b><p>经典横版闯关，键盘或虚拟按键。</p><span>开始 →</span></a>
+<a class="wg ext lk" data-cat="c-act" href="https://www.lexaloffle.com/bbs/?tid=2145" target="_blank" rel="noopener noreferrer"><b>🏔️ Celeste Classic</b><p>硬核平台跳跃的原点，PICO-8 版本，浏览器里直接玩。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-act" href="https://www.lexaloffle.com/bbs/?cat=7" target="_blank" rel="noopener noreferrer"><b>🧩 PICO-8 作品集</b><p>几千个小游戏，都是浏览器直接跑。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-act" href="https://poki.com/en/action" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 动作合集</b><p>手机友好的动作游戏合集，点开就玩。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-act" href="https://js13kgames.com/entries/2024" target="_blank" rel="noopener noreferrer"><b>⚡ js13k 合集</b><p>13KB 极限体积的小游戏，动作类特别多。</p><span>打开 ↗</span></a>
 </div>
 </section>
-<section class="grp" id="g-mmo" data-block="玩">
-<div class="sec" data-reveal><h2>网页大作 · 在线 MMO</h2><span>要注册、能玩很久的那种，打开浏览器就进</span></div>
+<section class="grp" id="c-strat" data-block="玩">
+<div class="sec" data-reveal><h2>策略 · 模拟</h2><span>建东西、摆塔、看着它自己跑</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-mmo" data-login href="https://www.drakensang.com/" target="_blank" rel="noopener noreferrer"><b>🐉 Drakensang Online<i class="px">要登录</i></b><p>3D 网页 MMO，暗黑风刷装备，浏览器直接跑。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" data-login href="https://ogame.gameforge.com/" target="_blank" rel="noopener noreferrer"><b>🚀 OGame<i class="px">要登录</i></b><p>太空策略 MMO，造舰队抢资源，一局能玩几个月。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" data-login href="https://ikariam.gameforge.com/" target="_blank" rel="noopener noreferrer"><b>🏝️ Ikariam<i class="px">要登录</i></b><p>建岛、贸易、打仗，老牌网页策略。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" data-login href="https://www.travian.com/" target="_blank" rel="noopener noreferrer"><b>⚔️ Travian<i class="px">要登录</i></b><p>经典战争策略，发展村子 + 联合作战。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" href="https://shellshock.io/" target="_blank" rel="noopener noreferrer"><b>🥚 Shell Shockers</b><p>拿鸡蛋打仗的 FPS，一局几分钟。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" href="https://slay.one/" target="_blank" rel="noopener noreferrer"><b>🔫 Slay.one</b><p>2D 射击 MMO，和真人混战。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" href="https://zombs.io/" target="_blank" rel="noopener noreferrer"><b>🧟 Zombs.io</b><p>塔防 + 生存，自己盖基地扛尸潮。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" href="https://splix.io/" target="_blank" rel="noopener noreferrer"><b>🟩 Splix.io</b><p>圈地扩张，和几十个人抢地盘。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" href="https://wormate.io/" target="_blank" rel="noopener noreferrer"><b>🪱 Wormate.io</b><p>贪吃蛇类多人在线，抢糖长大。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" data-kbd href="https://classic.minecraft.net/" target="_blank" rel="noopener noreferrer"><b>⛏️ Minecraft Classic<i class="px">要键盘</i></b><p>官方网页版（2009 年的 Classic），要电脑键盘。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" href="https://scratch.mit.edu/projects/10128407/" target="_blank" rel="noopener noreferrer"><b>📦 Paper Minecraft</b><p>Scratch 上的 2D 我的世界，手机也能玩。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://micropolisweb.com/" target="_blank" rel="noopener noreferrer"><b>🏙️ Micropolis</b><p>开源版《模拟城市》：划地块、拉水电、收税，看城市自己长。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://sandboxels.r74n.com/" target="_blank" rel="noopener noreferrer"><b>🧪 Sandboxels</b><p>化学沙盒：几十种元素，倒下去会自己反应、烧起来、结冰。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://sandspiel.club/" target="_blank" rel="noopener noreferrer"><b>⏳ Sandspiel</b><p>落沙模拟，画沙、水、火、植物，看它们互相作用。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://www.linerider.com/" target="_blank" rel="noopener noreferrer"><b>✏️ Line Rider</b><p>物理沙盒：画一条轨道，让雪橇小人飞起来。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://www.geo-fs.com/" target="_blank" rel="noopener noreferrer"><b>✈️ GeoFS</b><p>免费在线飞行模拟，真实全球地图，浏览器直接飞。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://poki.com/en/simulation" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 模拟合集</b><p>手机友好的模拟类小游戏合集。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://venerons.github.io/civis/" target="_blank" rel="noopener noreferrer"><b>🏛 Civis</b><p>文明 1 的网页复刻：建城、科技、外交、打仗。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://flaque.github.io/merchant.js/" target="_blank" rel="noopener noreferrer"><b>🛒 merchant.js</b><p>开店做买卖，开源 MIT，一局几十分钟。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://poki.com/en/strategy" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 策略合集</b><p>手机友好的策略游戏合集，点开就玩。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://poki.com/en/management" target="_blank" rel="noopener noreferrer"><b>🏪 Poki 经营合集</b><p>开餐厅、开工厂、当老板，都是网页小游戏。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="web/tdc/td.html"><b>🛡 经典塔防（本站）</b><p>2011 年 oldj 做的 HTML5 塔防，中文界面，本站托管，直接玩。</p><span>开一局 →</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="web/td/index.html"><b>🏰 王国守卫（本站）</b><p>摆塔防怪，弓箭 / 炮台 / 冰霜 / 魔法四种塔。</p><span>开一局 →</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://canvas-td.teddy.io/" target="_blank" rel="noopener noreferrer"><b>🧱 Canvas TD</b><p>极简像素塔防，放塔堵路，节奏快。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://ionmateus.github.io/poliguard/" target="_blank" rel="noopener noreferrer"><b>🛡️ PoliGuard</b><p>守护基地，造塔升级，开源。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://milchreis.github.io/tinydefence2/" target="_blank" rel="noopener noreferrer"><b>🐣 TinyDefence 2</b><p>小小塔防，单位小地图大，适合手机。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://dev-tanay.github.io/Tower-Bloxx/" target="_blank" rel="noopener noreferrer"><b>🏙️ Tower Bloxx</b><p>叠塔 + 塔防的混合玩法。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://pshenok.github.io/server-survival/" target="_blank" rel="noopener noreferrer"><b>☁️ Server Survival</b><p>多人联机，一边学云架构一边守服务器。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://mrthris32ra.github.io/endless-math-tower-defense/" target="_blank" rel="noopener noreferrer"><b>➗ Endless Math Tower Defense</b><p>算数学题当弹药，算得越快输出越高。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://dog-squad-game-app.web.app/" target="_blank" rel="noopener noreferrer"><b>🐶 Dog Squad</b><p>狗子守家，松鼠来犯，卡通风格的塔防。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="http://js13kgames.com/entries/elematter" target="_blank" rel="noopener noreferrer"><b>🧪 Elematter</b><p>js13k 参赛作品，用元素合成来防守，13KB 一整局。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://berkerol.github.io/typer/" target="_blank" rel="noopener noreferrer"><b>⌨️ Typer</b><p>打字塔防：敲对单词就把怪打掉，练手速也练英文。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="http://platane.github.io/13k-alchemist-defence/sources/app.html" target="_blank" rel="noopener noreferrer"><b>🧙 Alchemist Defence</b><p>炼金术士守塔，13KB 的极限体量。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-strat" href="https://dorianbayart.github.io/TowerDefenseGame/" target="_blank" rel="noopener noreferrer"><b>🏰 Dorian Tower Defense</b><p>Three.js 做的 3D 塔防，视角能转。</p><span>打开 ↗</span></a>
 </div>
 </section>
+<section class="grp" id="c-rpg" data-block="玩">
+<div class="sec" data-reveal><h2>RPG · 剧情 · 肉鸽</h2><span>打怪升级、看故事、死了重开</span></div>
+<div class="grid" data-reveal>
+<a class="wg ext lk" data-cat="c-rpg" data-login href="https://www.dragonfable.com/" target="_blank" rel="noopener noreferrer"><b>🐉 DragonFable<i class="px">要登录</i></b><p>2D 回合制 RPG，运营二十多年，剧情和装备一直在更新。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" data-login href="https://www.battleon.com/" target="_blank" rel="noopener noreferrer"><b>⚔️ AdventureQuest<i class="px">要登录</i></b><p>Artix 的老牌回合制 RPG，打怪、刷装备、做任务。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://easyrpg.org/player/" target="_blank" rel="noopener noreferrer"><b>🎮 EasyRPG Player</b><p>在浏览器里跑 RPG Maker 2000/2003 的游戏，站内有可直接玩的 demo。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" data-login href="https://www.fallenlondon.com/" target="_blank" rel="noopener noreferrer"><b>🌫️ Fallen London<i class="px">要登录</i></b><p>维多利亚风文字 RPG，靠选择和写故事推进，文笔很好。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" data-login href="https://www.kingdomofloathing.com/" target="_blank" rel="noopener noreferrer"><b>🐱 Kingdom of Loathing<i class="px">要登录</i></b><p>文字 RPG，20 多年还在更新，黑色幽默。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://progressquest.com/" target="_blank" rel="noopener noreferrer"><b>🤖 Progress Quest</b><p>全自动挂机 RPG——你什么都不用做，它自己打怪升级。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://poki.com/en/rpg" target="_blank" rel="noopener noreferrer"><b>🎲 Poki RPG 合集</b><p>手机友好的 RPG 小游戏合集。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://www.choiceofgames.com/" target="_blank" rel="noopener noreferrer"><b>📖 Choice of Games</b><p>几百部文字冒险，免费的多，靠选择推进剧情。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" data-login href="https://play.aidungeon.com/" target="_blank" rel="noopener noreferrer"><b>🧠 AI Dungeon<i class="px">要登录</i></b><p>AI 现编的文字冒险，你想干什么就写什么。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://www.inklestudios.com/" target="_blank" rel="noopener noreferrer"><b>🎭 inkle</b><p>《80 Days》《Sorcery!》的开发商，站内有网页版 demo。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://adarkroom.doublespeakgames.com/" target="_blank" rel="noopener noreferrer"><b>🌑 A Dark Room</b><p>从一堆火开始的文字生存，剧情是慢慢渗出来的。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://candybox2.github.io/" target="_blank" rel="noopener noreferrer"><b>🍬 Candy Box 2</b><p>文字 + ASCII 的怪游戏，越往后越离谱。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://www.slaytheweb.cards/" target="_blank" rel="noopener noreferrer"><b>🃏 Slay the Web</b><p>杀戮尖塔式的卡牌肉鸽：抽牌、加卡、爬塔，一局十几分钟。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://rotten-soup.larkenx.me/" target="_blank" rel="noopener noreferrer"><b>🍲 Rotten Soup</b><p>地牢爬行 + 装备构筑，像素风，开源自制。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://rogule.com/" target="_blank" rel="noopener noreferrer"><b>🎲 Rogule</b><p>每天一个随机地牢，短局，死了重开。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://ondras.github.io/sleeping-beauty/" target="_blank" rel="noopener noreferrer"><b>🌙 Sleeping Beauty</b><p>7 天一轮的小 roguelike，rot.js 作者做的。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://ondras.github.io/trw/" target="_blank" rel="noopener noreferrer"><b>💍 The Royal Wedding</b><p>同作者，婚礼主题的小地牢。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://mazmorra.io/" target="_blank" rel="noopener noreferrer"><b>🏰 Mazmorra</b><p>多人联机地牢，和别人一起往下挖。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" data-kbd href="https://angband.live/play" target="_blank" rel="noopener noreferrer"><b>⌨️ Angband Live<i class="px">要键盘</i></b><p>老牌 roguelike 的网页版，要注册、要键盘。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://www.66rpg.com/" target="_blank" rel="noopener noreferrer"><b>📖 橙光游戏</b><p>中文互动小说平台。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" data-px href="https://itch.io/" target="_blank" rel="noopener noreferrer"><b>🎮 itch.io<i class="px">需代理</i></b><p>独立游戏大本营，网页能玩的小作品很多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://www.crazygames.com/" target="_blank" rel="noopener noreferrer"><b>🎯 CrazyGames</b><p>海外网页游戏站，量大加载慢。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-rpg" href="https://poki.com/" target="_blank" rel="noopener noreferrer"><b>🎯 Poki</b><p>同类，界面干净。</p><span>打开 ↗</span></a>
+</div>
+</section>
+<section class="grp" id="c-casual" data-block="玩">
+<div class="sec" data-reveal><h2>休闲 · 益智 · 棋牌</h2><span>动脑子，或者随手来一把</span></div>
+<div class="grid" data-reveal>
+<a class="wg ext lk" data-cat="c-casual" href="https://cwtickle.github.io/danoniplus/" target="_blank" rel="noopener noreferrer"><b>🎵 Dancing☆Onigiri</b><p>日式下落式节奏游戏，网页版，曲库很大。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://urlate.coupy.dev/" target="_blank" rel="noopener noreferrer"><b>🎧 URLATE</b><p>开源网页节奏游戏，上传自己的曲子也能玩。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://toaster.locust.lol/" target="_blank" rel="noopener noreferrer"><b>🥁 Toaster</b><p>小而美的节奏游戏，判定手感不错。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://aidn.jp/mikutap/" target="_blank" rel="noopener noreferrer"><b>🎹 Mikutap</b><p>点屏幕就出初音的音效，随手解压。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://patatap.com/" target="_blank" rel="noopener noreferrer"><b>🎶 Patatap</b><p>按键/触摸出音画，交互音乐的经典。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://poki.com/en/music" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 音乐合集</b><p>手机友好的音乐游戏合集。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://flechajm.github.io/sokoban" target="_blank" rel="noopener noreferrer"><b>📦 推箱子</b><p>开源实现（GPL-3.0），带音效和关卡，作者托管。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/" target="_blank" rel="noopener noreferrer"><b>🧩 Simon Tatham 谜题集</b><p>几十种逻辑谜题合在一页：数独、连线、扫雷变体……</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://www.websudoku.com/" target="_blank" rel="noopener noreferrer"><b>🔢 Web Sudoku</b><p>几亿个数独，四档难度，打开就做。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://sudoku.com/" target="_blank" rel="noopener noreferrer"><b>🧮 Sudoku.com</b><p>另一家数独站，界面更适合手机。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://www.puzzle-nonograms.com/" target="_blank" rel="noopener noreferrer"><b>⬛ Nonograms</b><p>数织/像素拼图，按数字涂格子，涂完是一幅图。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://lichess.org/training" target="_blank" rel="noopener noreferrer"><b>♟️ Lichess 谜题</b><p>国际象棋战术题，从入门到大师级。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://poki.com/en/puzzle" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 解谜合集</b><p>手机友好的解谜游戏合集。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="http://hugeen.github.io/jmatch3/" target="_blank" rel="noopener noreferrer"><b>💎 Match3</b><p>开源三消，MIT 协议，作者托管。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://who-is-apo.github.io/The-Melon-Man/" target="_blank" rel="noopener noreferrer"><b>🍉 The Melon Man</b><p>合成西瓜那类玩法，MIT 开源。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://killedbyapixel.github.io/SP13KTRA/" target="_blank" rel="noopener noreferrer"><b>🏎️ SP13KTRA</b><p>13KB 极限体积的 3D 赛车，程序化赛道，作者是 LittleJS 的作者。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://stunts-recomp.pages.dev/" target="_blank" rel="noopener noreferrer"><b>🚗 Stunts HD</b><p>《4D Sports Driving》的网页复刻，1989 年那套物理。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://starknightt.github.io/redrock/" target="_blank" rel="noopener noreferrer"><b>🏔️ REDROCK</b><p>下坡速降，一路冲下去别翻车。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://antonio-r1.github.io/racing-js/multiplayer" target="_blank" rel="noopener noreferrer"><b>🏁 Racing JS</b><p>3D 多人车辆模拟，能和朋友同场跑。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" data-px href="https://hexgl.bkcore.com/play/" target="_blank" rel="noopener noreferrer"><b>🚀 HexGL<i class="px">需代理</i></b><p>反重力赛道竞速，画面最好的一个（要代理）。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://poki.com/en/racing" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 赛车合集</b><p>手机友好的赛车游戏合集，点开就玩。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://web.sanguosha.com/" target="_blank" rel="noopener noreferrer"><b>🃏 三国杀 OL</b><p>网页版直接开，经典身份局。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://www.ourgame.com/" target="_blank" rel="noopener noreferrer"><b>♟️ 联众游戏</b><p>老牌棋牌平台。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://www.bianfeng.com/" target="_blank" rel="noopener noreferrer"><b>♟️ 边锋游戏</b><p>浙江那家棋牌站。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" href="https://lichess.org/" target="_blank" rel="noopener noreferrer"><b>♞ lichess</b><p>免费国际象棋，不用注册。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-casual" data-px href="https://boardgamearena.com/" target="_blank" rel="noopener noreferrer"><b>🎲 Board Game Arena<i class="px">需代理</i></b><p>在线桌游，卡坦岛这些。</p><span>打开 ↗</span></a>
+</div>
+</section>
+<section class="grp" id="c-idle" data-block="玩">
+<div class="sec" data-reveal><h2>经营 · 养成</h2><span>养点什么，慢慢变大</span></div>
+<div class="grid" data-reveal>
+<a class="wg ext lk" data-cat="c-idle" href="https://ivark.github.io/" target="_blank" rel="noopener noreferrer"><b>⚛️ Antimatter Dimensions</b><p>从 1 个反物质开始，一路膨胀到宇宙尺度。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-idle" href="https://trimps.github.io/" target="_blank" rel="noopener noreferrer"><b>🐜 Trimps</b><p>养一群小东西替你打工，挂机加策略。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-idle" href="https://www.decisionproblem.com/paperclips/index2.html" target="_blank" rel="noopener noreferrer"><b>📎 Universal Paperclips</b><p>从造回形针做到统治宇宙，放置类的神作。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-idle" href="https://poki.com/en/idle" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 放置合集</b><p>手机友好的挂机游戏合集。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-idle" data-login href="https://www.neopets.com/" target="_blank" rel="noopener noreferrer"><b>🐾 Neopets<i class="px">要登录</i></b><p>最老牌的虚拟宠物站之一，养宠物、玩小游戏、做任务。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-idle" data-login href="https://www.howrse.com/" target="_blank" rel="noopener noreferrer"><b>🐴 Howrse<i class="px">要登录</i></b><p>养马、配种、比赛，运营了很多年的养成站。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-idle" data-login href="https://www.marapets.com/" target="_blank" rel="noopener noreferrer"><b>🌈 Marapets<i class="px">要登录</i></b><p>另一家虚拟宠物社区，画风偏卡通。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-idle" data-login href="https://subeta.net/" target="_blank" rel="noopener noreferrer"><b>🎨 Subeta<i class="px">要登录</i></b><p>养宠物 + 装扮 + 社区，老玩家很多。</p><span>打开 ↗</span></a>
+</div>
+</section>
+<section class="grp" id="c-multi" data-block="玩">
+<div class="sec" data-reveal><h2>多人 · 联机</h2><span>和真人一起玩</span></div>
+<div class="grid" data-reveal>
+<a class="wg ext lk" data-cat="c-multi" data-login href="https://www.drakensang.com/" target="_blank" rel="noopener noreferrer"><b>🐉 Drakensang Online<i class="px">要登录</i></b><p>3D 网页 MMO，暗黑风刷装备，浏览器直接跑。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" data-login href="https://ogame.gameforge.com/" target="_blank" rel="noopener noreferrer"><b>🚀 OGame<i class="px">要登录</i></b><p>太空策略 MMO，造舰队抢资源，一局能玩几个月。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" data-login href="https://ikariam.gameforge.com/" target="_blank" rel="noopener noreferrer"><b>🏝️ Ikariam<i class="px">要登录</i></b><p>建岛、贸易、打仗，老牌网页策略。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" data-login href="https://www.travian.com/" target="_blank" rel="noopener noreferrer"><b>⚔️ Travian<i class="px">要登录</i></b><p>经典战争策略，发展村子 + 联合作战。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" href="https://shellshock.io/" target="_blank" rel="noopener noreferrer"><b>🥚 Shell Shockers</b><p>拿鸡蛋打仗的 FPS，一局几分钟。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" href="https://slay.one/" target="_blank" rel="noopener noreferrer"><b>🔫 Slay.one</b><p>2D 射击 MMO，和真人混战。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" href="https://zombs.io/" target="_blank" rel="noopener noreferrer"><b>🧟 Zombs.io</b><p>塔防 + 生存，自己盖基地扛尸潮。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" href="https://splix.io/" target="_blank" rel="noopener noreferrer"><b>🟩 Splix.io</b><p>圈地扩张，和几十个人抢地盘。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" href="https://wormate.io/" target="_blank" rel="noopener noreferrer"><b>🪱 Wormate.io</b><p>贪吃蛇类多人在线，抢糖长大。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" data-kbd href="https://classic.minecraft.net/" target="_blank" rel="noopener noreferrer"><b>⛏️ Minecraft Classic<i class="px">要键盘</i></b><p>官方网页版（2009 年的 Classic），要电脑键盘。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" href="https://scratch.mit.edu/projects/10128407/" target="_blank" rel="noopener noreferrer"><b>📦 Paper Minecraft</b><p>Scratch 上的 2D 我的世界，手机也能玩。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" href="https://cg.163.com/" target="_blank" rel="noopener noreferrer"><b>☁️ 网易云游戏</b><p>网易官方，云电脑 / 云手机，免下载直接玩 PC 大作。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" data-app href="https://start.qq.com/" target="_blank" rel="noopener noreferrer"><b>☁️ 腾讯 START<i class="px">要装 App</i></b><p>腾讯云游戏，原神、王者这些。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" data-px href="https://play.geforcenow.com/" target="_blank" rel="noopener noreferrer"><b>🖥️ GeForce NOW<i class="px">需代理</i></b><p>英伟达云游戏，接自己的 Steam / Epic 库。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" data-px href="https://luna.amazon.com/" target="_blank" rel="noopener noreferrer"><b>🎮 Amazon Luna<i class="px">需代理</i></b><p>亚马逊云游戏，Prime 有免费档。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" data-px href="https://www.xbox.com/play" target="_blank" rel="noopener noreferrer"><b>🎮 Xbox 云游戏<i class="px">需代理</i></b><p>Game Pass 云游戏，浏览器里玩 3A。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" data-px href="https://krunker.io/" target="_blank" rel="noopener noreferrer"><b>🔫 Krunker<i class="px">需代理</i></b><p>浏览器里的 FPS，点开就能对枪。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" data-px href="https://slither.io/" target="_blank" rel="noopener noreferrer"><b>🐍 slither.io<i class="px">需代理</i></b><p>大蛇吃小蛇，全球同服。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-multi" data-px href="https://skribbl.io/" target="_blank" rel="noopener noreferrer"><b>✏️ skribbl.io<i class="px">需代理</i></b><p>你画我猜，能和陌生人开局。</p><span>打开 ↗</span></a>
+</div>
+</section>
+<section class="grp" id="c-clas" data-block="玩">
+<div class="sec" data-reveal><h2>经典 · 合集</h2><span>老游戏、小游戏站、平台商店</span></div>
+<div class="grid" data-reveal>
+<a class="wg ext lk" data-cat="c-clas" href="https://zombsroyale.io/" target="_blank" rel="noopener noreferrer"><b>🪂 Zombs Royale</b><p>100 人大逃杀，缩圈捡装备，浏览器直接排。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" data-login href="https://tankionline.com/" target="_blank" rel="noopener noreferrer"><b>🛡️ Tanki Online<i class="px">要登录</i></b><p>坦克对战 MMO，一局几分钟。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" data-login href="https://crawl.develz.org/" target="_blank" rel="noopener noreferrer"><b>🕯️ 地牢爬行 DCSS<i class="px">要登录</i></b><p>老牌 roguelike，一局能玩很久。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://hexgl.bkcore.com/" target="_blank" rel="noopener noreferrer"><b>🏎️ HexGL 在线版</b><p>3D 未来赛车，原作者官网直接开跑。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.retrogames.cc/" target="_blank" rel="noopener noreferrer"><b>🕹️ RetroGames.cc</b><p>FC / SFC / MD / GBA 老游戏，浏览器里直接玩。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" data-px href="https://dos.zone/" target="_blank" rel="noopener noreferrer"><b>🗄 DOS 游戏在线<i class="px">需代理</i></b><p>js-dos 官方游戏库，DOOM 这些浏览器里跑。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.4399.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 4399 小游戏</b><p>几万款 Flash / HTML5 小游戏。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.7k7k.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 7k7k 小游戏</b><p>老牌站，双人和经典 Flash 多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.2144.cn/" target="_blank" rel="noopener noreferrer"><b>🕹️ 2144 小游戏</b><p>小游戏 + 页游都有，广告相对少。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.37.com/" target="_blank" rel="noopener noreferrer"><b>🌐 37 网游</b><p>老牌页游平台，点开进游戏。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.9377.com/" target="_blank" rel="noopener noreferrer"><b>🌐 9377 页游</b><p>同类平台，开服游戏多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.602.com/" target="_blank" rel="noopener noreferrer"><b>🌐 602 游戏</b><p>页游平台，主打网页游戏开服。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.youzu.com/" target="_blank" rel="noopener noreferrer"><b>🌐 游族网络</b><p>页游 + 手游，少年三国志那家。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.ledu.com/" target="_blank" rel="noopener noreferrer"><b>🌐 乐都网</b><p>页游排行榜，先看榜单再挑。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://store.steampowered.com/" target="_blank" rel="noopener noreferrer"><b>🎮 Steam 商店</b><p>PC 游戏最大的一家，看评测买游戏。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://store.steampowered.com/specials" target="_blank" rel="noopener noreferrer"><b>💸 Steam 特惠</b><p>打折专区，史低多在夏促冬促。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://steampp.net/" target="_blank" rel="noopener noreferrer"><b>⚡ Steam++（Watt Toolkit）</b><p>给 Steam 社区 / GitHub 做加速的工具。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" data-px href="https://steamcommunity.com/" target="_blank" rel="noopener noreferrer"><b>🧩 Steam 社区<i class="px">需代理</i></b><p>创意工坊、讨论区、好友。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" data-px href="https://steamdb.info/" target="_blank" rel="noopener noreferrer"><b>📊 SteamDB<i class="px">需代理</i></b><p>查历史最低价、在线人数。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" data-px href="https://store.epicgames.com/zh-CN/" target="_blank" rel="noopener noreferrer"><b>🛒 Epic 商店<i class="px">需代理</i></b><p>每周送免费游戏。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.gog.com/" target="_blank" rel="noopener noreferrer"><b>🕹 GOG</b><p>全 DRM-free，老游戏多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.humblebundle.com/" target="_blank" rel="noopener noreferrer"><b>📦 Humble Bundle</b><p>打包卖游戏，钱能捐慈善。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.nintendo.com.hk/" target="_blank" rel="noopener noreferrer"><b>🎮 任天堂 Switch</b><p>港服官网，含 eShop 入口。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://store.playstation.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ PlayStation</b><p>PS Store 网页版。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-clas" href="https://www.xbox.com/zh-CN/" target="_blank" rel="noopener noreferrer"><b>🟩 Xbox</b><p>微软官网 / 商店，Game Pass 入口。</p><span>打开 ↗</span></a>
+</div>
+</section>
+</div>
 
-
-
-
-
-
-
-
-
-
-<section class="grp" id="g-rpg" data-block="玩">
-<div class="sec" data-reveal><h2>RPG · 角色扮演</h2><span>打怪、刷装备、看故事</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-rpg" data-login href="https://www.dragonfable.com/" target="_blank" rel="noopener noreferrer"><b>🐉 DragonFable<i class="px">要登录</i></b><p>2D 回合制 RPG，运营二十多年，剧情和装备一直在更新。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rpg" data-login href="https://www.battleon.com/" target="_blank" rel="noopener noreferrer"><b>⚔️ AdventureQuest<i class="px">要登录</i></b><p>Artix 的老牌回合制 RPG，打怪、刷装备、做任务。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rpg" href="https://easyrpg.org/player/" target="_blank" rel="noopener noreferrer"><b>🎮 EasyRPG Player</b><p>在浏览器里跑 RPG Maker 2000/2003 的游戏，站内有可直接玩的 demo。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rpg" data-login href="https://www.fallenlondon.com/" target="_blank" rel="noopener noreferrer"><b>🌫️ Fallen London<i class="px">要登录</i></b><p>维多利亚风文字 RPG，靠选择和写故事推进，文笔很好。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rpg" data-login href="https://www.kingdomofloathing.com/" target="_blank" rel="noopener noreferrer"><b>🐱 Kingdom of Loathing<i class="px">要登录</i></b><p>文字 RPG，20 多年还在更新，黑色幽默。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rpg" href="https://progressquest.com/" target="_blank" rel="noopener noreferrer"><b>🤖 Progress Quest</b><p>全自动挂机 RPG——你什么都不用做，它自己打怪升级。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rpg" href="https://poki.com/en/rpg" target="_blank" rel="noopener noreferrer"><b>🎲 Poki RPG 合集</b><p>手机友好的 RPG 小游戏合集。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-mow" data-block="玩">
-<div class="sec" data-reveal><h2>割草 · Survivors</h2><span>怪一波波来，你只管变强</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-mow" href="https://www.crazygames.com/game/hordeloop" target="_blank" rel="noopener noreferrer"><b>🌀 HordeLoop</b><p>一圈一圈的怪围上来，边跑边打，越晚越难。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mow" href="https://www.crazygames.com/game/world-survivors" target="_blank" rel="noopener noreferrer"><b>🧟 World Survivors</b><p>杀怪升级、三选一强化，典型的割草循环。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mow" href="https://ricardo-foundry.github.io/canvas-vampire-survivors/" target="_blank" rel="noopener noreferrer"><b>🧛 Survivor（开源）</b><p>开源的吸血鬼幸存者式肉鸽，源码在 GitHub。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mow" href="https://jdesolate.github.io/neon-void/" target="_blank" rel="noopener noreferrer"><b>🌌 Neon Void</b><p>霓虹风弹幕生存，一波一波顶过去。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mow" href="https://poki.com/en/survival" target="_blank" rel="noopener noreferrer"><b>💥 Poki 生存合集</b><p>手机友好的割草/生存合集。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-story" data-block="玩">
-<div class="sec" data-reveal><h2>剧情 · Story</h2><span>文字和选择为主，慢慢看</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-story" href="https://www.choiceofgames.com/" target="_blank" rel="noopener noreferrer"><b>📖 Choice of Games</b><p>几百部文字冒险，免费的多，靠选择推进剧情。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-story" data-login href="https://play.aidungeon.com/" target="_blank" rel="noopener noreferrer"><b>🧠 AI Dungeon<i class="px">要登录</i></b><p>AI 现编的文字冒险，你想干什么就写什么。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-story" href="https://www.inklestudios.com/" target="_blank" rel="noopener noreferrer"><b>🎭 inkle</b><p>《80 Days》《Sorcery!》的开发商，站内有网页版 demo。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-story" href="https://adarkroom.doublespeakgames.com/" target="_blank" rel="noopener noreferrer"><b>🌑 A Dark Room</b><p>从一堆火开始的文字生存，剧情是慢慢渗出来的。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-story" href="https://candybox2.github.io/" target="_blank" rel="noopener noreferrer"><b>🍬 Candy Box 2</b><p>文字 + ASCII 的怪游戏，越往后越离谱。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-idle" data-block="玩">
-<div class="sec" data-reveal><h2>放置 · 挂机</h2><span>开着它自己会跑，想起来点一下</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-idle" href="https://ivark.github.io/" target="_blank" rel="noopener noreferrer"><b>⚛️ Antimatter Dimensions</b><p>从 1 个反物质开始，一路膨胀到宇宙尺度。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-idle" href="https://trimps.github.io/" target="_blank" rel="noopener noreferrer"><b>🐜 Trimps</b><p>养一群小东西替你打工，挂机加策略。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-idle" href="https://www.decisionproblem.com/paperclips/index2.html" target="_blank" rel="noopener noreferrer"><b>📎 Universal Paperclips</b><p>从造回形针做到统治宇宙，放置类的神作。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-idle" href="https://poki.com/en/idle" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 放置合集</b><p>手机友好的挂机游戏合集。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-raise" data-block="玩">
-<div class="sec" data-reveal><h2>模拟养成</h2><span>养点什么，看着它长大</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-raise" data-login href="https://www.neopets.com/" target="_blank" rel="noopener noreferrer"><b>🐾 Neopets<i class="px">要登录</i></b><p>最老牌的虚拟宠物站之一，养宠物、玩小游戏、做任务。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-raise" data-login href="https://www.howrse.com/" target="_blank" rel="noopener noreferrer"><b>🐴 Howrse<i class="px">要登录</i></b><p>养马、配种、比赛，运营了很多年的养成站。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-raise" data-login href="https://www.marapets.com/" target="_blank" rel="noopener noreferrer"><b>🌈 Marapets<i class="px">要登录</i></b><p>另一家虚拟宠物社区，画风偏卡通。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-raise" data-login href="https://subeta.net/" target="_blank" rel="noopener noreferrer"><b>🎨 Subeta<i class="px">要登录</i></b><p>养宠物 + 装扮 + 社区，老玩家很多。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-sim" data-block="玩">
-<div class="sec" data-reveal><h2>模拟 · Sandbox</h2><span>不用通关，看着它自己变化就很有意思</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-sim" href="https://micropolisweb.com/" target="_blank" rel="noopener noreferrer"><b>🏙️ Micropolis</b><p>开源版《模拟城市》：划地块、拉水电、收税，看城市自己长。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-sim" href="https://sandboxels.r74n.com/" target="_blank" rel="noopener noreferrer"><b>🧪 Sandboxels</b><p>化学沙盒：几十种元素，倒下去会自己反应、烧起来、结冰。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-sim" href="https://sandspiel.club/" target="_blank" rel="noopener noreferrer"><b>⏳ Sandspiel</b><p>落沙模拟，画沙、水、火、植物，看它们互相作用。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-sim" href="https://www.linerider.com/" target="_blank" rel="noopener noreferrer"><b>✏️ Line Rider</b><p>物理沙盒：画一条轨道，让雪橇小人飞起来。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-sim" href="https://www.geo-fs.com/" target="_blank" rel="noopener noreferrer"><b>✈️ GeoFS</b><p>免费在线飞行模拟，真实全球地图，浏览器直接飞。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-sim" href="https://poki.com/en/simulation" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 模拟合集</b><p>手机友好的模拟类小游戏合集。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-music" data-block="玩">
-<div class="sec" data-reveal><h2>音乐 · 节奏</h2><span>跟着节拍敲，手速和乐感</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-music" href="https://cwtickle.github.io/danoniplus/" target="_blank" rel="noopener noreferrer"><b>🎵 Dancing☆Onigiri</b><p>日式下落式节奏游戏，网页版，曲库很大。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-music" href="https://urlate.coupy.dev/" target="_blank" rel="noopener noreferrer"><b>🎧 URLATE</b><p>开源网页节奏游戏，上传自己的曲子也能玩。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-music" href="https://toaster.locust.lol/" target="_blank" rel="noopener noreferrer"><b>🥁 Toaster</b><p>小而美的节奏游戏，判定手感不错。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-music" href="https://aidn.jp/mikutap/" target="_blank" rel="noopener noreferrer"><b>🎹 Mikutap</b><p>点屏幕就出初音的音效，随手解压。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-music" href="https://patatap.com/" target="_blank" rel="noopener noreferrer"><b>🎶 Patatap</b><p>按键/触摸出音画，交互音乐的经典。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-music" href="https://poki.com/en/music" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 音乐合集</b><p>手机友好的音乐游戏合集。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-puzzle" data-block="玩">
-<div class="sec" data-reveal><h2>解谜 · Puzzle</h2><span>动脑子的那类，坐下来慢慢想</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-puzzle" href="https://flechajm.github.io/sokoban" target="_blank" rel="noopener noreferrer"><b>📦 推箱子</b><p>开源实现（GPL-3.0），带音效和关卡，作者托管。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-puzzle" href="https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/" target="_blank" rel="noopener noreferrer"><b>🧩 Simon Tatham 谜题集</b><p>几十种逻辑谜题合在一页：数独、连线、扫雷变体……</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-puzzle" href="https://www.websudoku.com/" target="_blank" rel="noopener noreferrer"><b>🔢 Web Sudoku</b><p>几亿个数独，四档难度，打开就做。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-puzzle" href="https://sudoku.com/" target="_blank" rel="noopener noreferrer"><b>🧮 Sudoku.com</b><p>另一家数独站，界面更适合手机。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-puzzle" href="https://www.puzzle-nonograms.com/" target="_blank" rel="noopener noreferrer"><b>⬛ Nonograms</b><p>数织/像素拼图，按数字涂格子，涂完是一幅图。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-puzzle" href="https://lichess.org/training" target="_blank" rel="noopener noreferrer"><b>♟️ Lichess 谜题</b><p>国际象棋战术题，从入门到大师级。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-puzzle" href="https://poki.com/en/puzzle" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 解谜合集</b><p>手机友好的解谜游戏合集。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-puzzle" href="http://hugeen.github.io/jmatch3/" target="_blank" rel="noopener noreferrer"><b>💎 Match3</b><p>开源三消，MIT 协议，作者托管。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-puzzle" href="https://who-is-apo.github.io/The-Melon-Man/" target="_blank" rel="noopener noreferrer"><b>🍉 The Melon Man</b><p>合成西瓜那类玩法，MIT 开源。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-race" data-block="玩">
-<div class="sec" data-reveal><h2>竞速 · Racing</h2><span>加速、漂移、别撞墙</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-race" href="https://killedbyapixel.github.io/SP13KTRA/" target="_blank" rel="noopener noreferrer"><b>🏎️ SP13KTRA</b><p>13KB 极限体积的 3D 赛车，程序化赛道，作者是 LittleJS 的作者。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-race" href="https://stunts-recomp.pages.dev/" target="_blank" rel="noopener noreferrer"><b>🚗 Stunts HD</b><p>《4D Sports Driving》的网页复刻，1989 年那套物理。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-race" href="https://starknightt.github.io/redrock/" target="_blank" rel="noopener noreferrer"><b>🏔️ REDROCK</b><p>下坡速降，一路冲下去别翻车。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-race" href="https://antonio-r1.github.io/racing-js/multiplayer" target="_blank" rel="noopener noreferrer"><b>🏁 Racing JS</b><p>3D 多人车辆模拟，能和朋友同场跑。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-race" data-px href="https://hexgl.bkcore.com/play/" target="_blank" rel="noopener noreferrer"><b>🚀 HexGL<i class="px">需代理</i></b><p>反重力赛道竞速，画面最好的一个（要代理）。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-race" href="https://poki.com/en/racing" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 赛车合集</b><p>手机友好的赛车游戏合集，点开就玩。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-strategy" data-block="玩">
-<div class="sec" data-reveal><h2>策略 · 经营</h2><span>建城、开店、放置，慢慢来</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-strategy" href="https://venerons.github.io/civis/" target="_blank" rel="noopener noreferrer"><b>🏛 Civis</b><p>文明 1 的网页复刻：建城、科技、外交、打仗。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-strategy" href="https://flaque.github.io/merchant.js/" target="_blank" rel="noopener noreferrer"><b>🛒 merchant.js</b><p>开店做买卖，开源 MIT，一局几十分钟。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-strategy" href="https://poki.com/en/strategy" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 策略合集</b><p>手机友好的策略游戏合集，点开就玩。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-strategy" href="https://poki.com/en/management" target="_blank" rel="noopener noreferrer"><b>🏪 Poki 经营合集</b><p>开餐厅、开工厂、当老板，都是网页小游戏。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-action" data-block="玩">
-<div class="sec" data-reveal><h2>动作 · Action</h2><span>跑、跳、打，手快就行</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-action" href="web/huggers/index.html"><b>🚀 太空拥抱者（本站）</b><p>横版跑轰 + 肉鸽，地图可破坏，支持双人同屏。</p><span>开始 →</span></a>
-<a class="wg ext lk" data-cat="g-action" href="web/mario/main.html"><b>🍄 超级马里奥（本站）</b><p>经典横版闯关，键盘或虚拟按键。</p><span>开始 →</span></a>
-<a class="wg ext lk" data-cat="g-action" href="https://www.lexaloffle.com/bbs/?tid=2145" target="_blank" rel="noopener noreferrer"><b>🏔️ Celeste Classic</b><p>硬核平台跳跃的原点，PICO-8 版本，浏览器里直接玩。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-action" href="https://www.lexaloffle.com/bbs/?cat=7" target="_blank" rel="noopener noreferrer"><b>🧩 PICO-8 作品集</b><p>几千个小游戏，都是浏览器直接跑。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-action" href="https://poki.com/en/action" target="_blank" rel="noopener noreferrer"><b>🎯 Poki 动作合集</b><p>手机友好的动作游戏合集，点开就玩。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-action" href="https://js13kgames.com/entries/2024" target="_blank" rel="noopener noreferrer"><b>⚡ js13k 合集</b><p>13KB 极限体积的小游戏，动作类特别多。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-td" data-block="玩">
-<div class="sec" data-reveal><h2>塔防 · Tower Defense</h2><span>摆塔、堵路、守到最后一波</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-td" href="web/tdc/td.html"><b>🛡 经典塔防（本站）</b><p>2011 年 oldj 做的 HTML5 塔防，中文界面，本站托管，直接玩。</p><span>开一局 →</span></a>
-<a class="wg ext lk" data-cat="g-td" href="web/td/index.html"><b>🏰 王国守卫（本站）</b><p>摆塔防怪，弓箭 / 炮台 / 冰霜 / 魔法四种塔。</p><span>开一局 →</span></a>
-<a class="wg ext lk" data-cat="g-td" href="https://canvas-td.teddy.io/" target="_blank" rel="noopener noreferrer"><b>🧱 Canvas TD</b><p>极简像素塔防，放塔堵路，节奏快。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-td" href="https://ionmateus.github.io/poliguard/" target="_blank" rel="noopener noreferrer"><b>🛡️ PoliGuard</b><p>守护基地，造塔升级，开源。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-td" href="https://milchreis.github.io/tinydefence2/" target="_blank" rel="noopener noreferrer"><b>🐣 TinyDefence 2</b><p>小小塔防，单位小地图大，适合手机。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-td" href="https://dev-tanay.github.io/Tower-Bloxx/" target="_blank" rel="noopener noreferrer"><b>🏙️ Tower Bloxx</b><p>叠塔 + 塔防的混合玩法。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-td" href="https://pshenok.github.io/server-survival/" target="_blank" rel="noopener noreferrer"><b>☁️ Server Survival</b><p>多人联机，一边学云架构一边守服务器。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-td" href="https://mrthris32ra.github.io/endless-math-tower-defense/" target="_blank" rel="noopener noreferrer"><b>➗ Endless Math Tower Defense</b><p>算数学题当弹药，算得越快输出越高。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-td" href="https://dog-squad-game-app.web.app/" target="_blank" rel="noopener noreferrer"><b>🐶 Dog Squad</b><p>狗子守家，松鼠来犯，卡通风格的塔防。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-td" href="http://js13kgames.com/entries/elematter" target="_blank" rel="noopener noreferrer"><b>🧪 Elematter</b><p>js13k 参赛作品，用元素合成来防守，13KB 一整局。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-td" href="https://berkerol.github.io/typer/" target="_blank" rel="noopener noreferrer"><b>⌨️ Typer</b><p>打字塔防：敲对单词就把怪打掉，练手速也练英文。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-td" href="http://platane.github.io/13k-alchemist-defence/sources/app.html" target="_blank" rel="noopener noreferrer"><b>🧙 Alchemist Defence</b><p>炼金术士守塔，13KB 的极限体量。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-td" href="https://dorianbayart.github.io/TowerDefenseGame/" target="_blank" rel="noopener noreferrer"><b>🏰 Dorian Tower Defense</b><p>Three.js 做的 3D 塔防，视角能转。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-rogue" data-block="玩">
-<div class="sec" data-reveal><h2>肉鸽 · Roguelike</h2><span>死了重开，每局都不一样；大部分手机也能玩</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-rogue" href="https://www.slaytheweb.cards/" target="_blank" rel="noopener noreferrer"><b>🃏 Slay the Web</b><p>杀戮尖塔式的卡牌肉鸽：抽牌、加卡、爬塔，一局十几分钟。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rogue" href="https://rotten-soup.larkenx.me/" target="_blank" rel="noopener noreferrer"><b>🍲 Rotten Soup</b><p>地牢爬行 + 装备构筑，像素风，开源自制。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rogue" href="https://rogule.com/" target="_blank" rel="noopener noreferrer"><b>🎲 Rogule</b><p>每天一个随机地牢，短局，死了重开。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rogue" href="https://ondras.github.io/sleeping-beauty/" target="_blank" rel="noopener noreferrer"><b>🌙 Sleeping Beauty</b><p>7 天一轮的小 roguelike，rot.js 作者做的。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rogue" href="https://ondras.github.io/trw/" target="_blank" rel="noopener noreferrer"><b>💍 The Royal Wedding</b><p>同作者，婚礼主题的小地牢。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rogue" href="https://mazmorra.io/" target="_blank" rel="noopener noreferrer"><b>🏰 Mazmorra</b><p>多人联机地牢，和别人一起往下挖。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rogue" data-kbd href="https://angband.live/play" target="_blank" rel="noopener noreferrer"><b>⌨️ Angband Live<i class="px">要键盘</i></b><p>老牌 roguelike 的网页版，要注册、要键盘。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-mini" data-block="玩">
-<div class="sec" data-reveal><h2>小游戏站</h2><span>电脑浏览器点开就玩</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-mini" href="https://www.4399.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 4399 小游戏</b><p>几万款 Flash / HTML5 小游戏。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mini" href="https://www.7k7k.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ 7k7k 小游戏</b><p>老牌站，双人和经典 Flash 多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mini" href="https://www.2144.cn/" target="_blank" rel="noopener noreferrer"><b>🕹️ 2144 小游戏</b><p>小游戏 + 页游都有，广告相对少。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mini" href="https://www.37.com/" target="_blank" rel="noopener noreferrer"><b>🌐 37 网游</b><p>老牌页游平台，点开进游戏。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mini" href="https://www.9377.com/" target="_blank" rel="noopener noreferrer"><b>🌐 9377 页游</b><p>同类平台，开服游戏多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mini" href="https://www.602.com/" target="_blank" rel="noopener noreferrer"><b>🌐 602 游戏</b><p>页游平台，主打网页游戏开服。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mini" href="https://www.youzu.com/" target="_blank" rel="noopener noreferrer"><b>🌐 游族网络</b><p>页游 + 手游，少年三国志那家。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mini" href="https://www.ledu.com/" target="_blank" rel="noopener noreferrer"><b>🌐 乐都网</b><p>页游排行榜，先看榜单再挑。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-store" data-block="玩">
-<div class="sec" data-reveal><h2>游戏平台 · 商店</h2><span>买断制游戏的大卖场</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-store" href="https://store.steampowered.com/" target="_blank" rel="noopener noreferrer"><b>🎮 Steam 商店</b><p>PC 游戏最大的一家，看评测买游戏。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-store" href="https://store.steampowered.com/specials" target="_blank" rel="noopener noreferrer"><b>💸 Steam 特惠</b><p>打折专区，史低多在夏促冬促。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-store" href="https://steampp.net/" target="_blank" rel="noopener noreferrer"><b>⚡ Steam++（Watt Toolkit）</b><p>给 Steam 社区 / GitHub 做加速的工具。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-store" data-px href="https://steamcommunity.com/" target="_blank" rel="noopener noreferrer"><b>🧩 Steam 社区<i class="px">需代理</i></b><p>创意工坊、讨论区、好友。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-store" data-px href="https://steamdb.info/" target="_blank" rel="noopener noreferrer"><b>📊 SteamDB<i class="px">需代理</i></b><p>查历史最低价、在线人数。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-store" data-px href="https://store.epicgames.com/zh-CN/" target="_blank" rel="noopener noreferrer"><b>🛒 Epic 商店<i class="px">需代理</i></b><p>每周送免费游戏。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-store" href="https://www.gog.com/" target="_blank" rel="noopener noreferrer"><b>🕹 GOG</b><p>全 DRM-free，老游戏多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-store" href="https://www.humblebundle.com/" target="_blank" rel="noopener noreferrer"><b>📦 Humble Bundle</b><p>打包卖游戏，钱能捐慈善。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-store" href="https://www.nintendo.com.hk/" target="_blank" rel="noopener noreferrer"><b>🎮 任天堂 Switch</b><p>港服官网，含 eShop 入口。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-store" href="https://store.playstation.com/" target="_blank" rel="noopener noreferrer"><b>🕹️ PlayStation</b><p>PS Store 网页版。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-store" href="https://www.xbox.com/zh-CN/" target="_blank" rel="noopener noreferrer"><b>🟩 Xbox</b><p>微软官网 / 商店，Game Pass 入口。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-cloud" data-block="玩">
-<div class="sec" data-reveal><h2>云游戏</h2><span>游戏跑在服务器上，浏览器只负责显示</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-cloud" href="https://cg.163.com/" target="_blank" rel="noopener noreferrer"><b>☁️ 网易云游戏</b><p>网易官方，云电脑 / 云手机，免下载直接玩 PC 大作。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-cloud" data-app href="https://start.qq.com/" target="_blank" rel="noopener noreferrer"><b>☁️ 腾讯 START<i class="px">要装 App</i></b><p>腾讯云游戏，原神、王者这些。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-cloud" data-px href="https://play.geforcenow.com/" target="_blank" rel="noopener noreferrer"><b>🖥️ GeForce NOW<i class="px">需代理</i></b><p>英伟达云游戏，接自己的 Steam / Epic 库。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-cloud" data-px href="https://luna.amazon.com/" target="_blank" rel="noopener noreferrer"><b>🎮 Amazon Luna<i class="px">需代理</i></b><p>亚马逊云游戏，Prime 有免费档。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-cloud" data-px href="https://www.xbox.com/play" target="_blank" rel="noopener noreferrer"><b>🎮 Xbox 云游戏<i class="px">需代理</i></b><p>Game Pass 云游戏，浏览器里玩 3A。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-board" data-block="玩">
-<div class="sec" data-reveal><h2>棋牌 · 桌游</h2><span>慢一点的，坐下来玩</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-board" href="https://web.sanguosha.com/" target="_blank" rel="noopener noreferrer"><b>🃏 三国杀 OL</b><p>网页版直接开，经典身份局。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-board" href="https://www.ourgame.com/" target="_blank" rel="noopener noreferrer"><b>♟️ 联众游戏</b><p>老牌棋牌平台。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-board" href="https://www.bianfeng.com/" target="_blank" rel="noopener noreferrer"><b>♟️ 边锋游戏</b><p>浙江那家棋牌站。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-board" href="https://lichess.org/" target="_blank" rel="noopener noreferrer"><b>♞ lichess</b><p>免费国际象棋，不用注册。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-board" data-px href="https://boardgamearena.com/" target="_blank" rel="noopener noreferrer"><b>🎲 Board Game Arena<i class="px">需代理</i></b><p>在线桌游，卡坦岛这些。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-indie" data-block="玩">
-<div class="sec" data-reveal><h2>独立 · 剧情</h2><span>重剧情、重创意的那类</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-indie" href="https://www.66rpg.com/" target="_blank" rel="noopener noreferrer"><b>📖 橙光游戏</b><p>中文互动小说平台。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-indie" data-px href="https://itch.io/" target="_blank" rel="noopener noreferrer"><b>🎮 itch.io<i class="px">需代理</i></b><p>独立游戏大本营，网页能玩的小作品很多。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-indie" href="https://www.crazygames.com/" target="_blank" rel="noopener noreferrer"><b>🎯 CrazyGames</b><p>海外网页游戏站，量大加载慢。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-indie" href="https://poki.com/" target="_blank" rel="noopener noreferrer"><b>🎯 Poki</b><p>同类，界面干净。</p><span>打开 ↗</span></a>
-</div>
-</section>
-<section class="grp" id="g-pvp" data-block="玩">
-<div class="sec" data-reveal><h2>多人竞技</h2><span>和真人打，基本都要代理</span></div>
-<div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-pvp" data-px href="https://krunker.io/" target="_blank" rel="noopener noreferrer"><b>🔫 Krunker<i class="px">需代理</i></b><p>浏览器里的 FPS，点开就能对枪。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-pvp" data-px href="https://slither.io/" target="_blank" rel="noopener noreferrer"><b>🐍 slither.io<i class="px">需代理</i></b><p>大蛇吃小蛇，全球同服。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-pvp" data-px href="https://skribbl.io/" target="_blank" rel="noopener noreferrer"><b>✏️ skribbl.io<i class="px">需代理</i></b><p>你画我猜，能和陌生人开局。</p><span>打开 ↗</span></a>
-</div>
-</section>
-</div>
 <div class="blk" data-blk="看">
 <div class="th" data-reveal><strong>看</strong><span>小说、音乐、影视、漫画</span></div>
 <section class="grp" id="r-book" data-block="看">
-<div class="sec" data-reveal><h2>小说</h2><span>正版站，免费章节能看</span></div>
+<div class="sec" data-reveal><h2>小说</h2><span>在线阅读</span></div>
 <div class="grid" data-reveal>
 <a class="wg ext lk" data-cat="r-book" data-app href="https://fanqienovel.com/" target="_blank" rel="noopener noreferrer"><b>🍅 番茄小说<i class="px">要装 App</i></b><p>字节的，全站免费看，广告换免费。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="r-book" data-app href="https://www.qimao.com/" target="_blank" rel="noopener noreferrer"><b>🐱 七猫中文网<i class="px">要装 App</i></b><p>全本免费，排行榜清楚。</p><span>打开 ↗</span></a>
@@ -348,7 +266,7 @@
 </div>
 </section>
 <section class="grp" id="m-music" data-block="看">
-<div class="sec" data-reveal><h2>音乐</h2><span>网页版能直接放，会员曲目另说</span></div>
+<div class="sec" data-reveal><h2>音乐</h2><span>听歌、找歌</span></div>
 <div class="grid" data-reveal>
 <a class="wg ext lk" data-cat="m-music" href="https://music.163.com/" target="_blank" rel="noopener noreferrer"><b>🎵 网易云音乐</b><p>评论区和歌单做得最好。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="m-music" href="https://y.qq.com/" target="_blank" rel="noopener noreferrer"><b>🐧 QQ 音乐</b><p>版权最全，新歌首发都在这。</p><span>打开 ↗</span></a>
@@ -367,7 +285,7 @@
 </div>
 </section>
 <section class="grp" id="v-movie" data-block="看">
-<div class="sec" data-reveal><h2>影视</h2><span>正版平台，网页版能放</span></div>
+<div class="sec" data-reveal><h2>影视</h2><span>在线看片</span></div>
 <div class="grid" data-reveal>
 <a class="wg ext lk" data-cat="v-movie" href="https://www.bilibili.com/" target="_blank" rel="noopener noreferrer"><b>📺 哔哩哔哩</b><p>番剧、纪录片、免费视频最多。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="v-movie" href="https://v.qq.com/" target="_blank" rel="noopener noreferrer"><b>🐧 腾讯视频</b><p>独播剧和综艺多。</p><span>打开 ↗</span></a>
@@ -385,7 +303,7 @@
 </div>
 </section>
 <section class="grp" id="c-comic" data-block="看">
-<div class="sec" data-reveal><h2>漫画</h2><span>正版站，免费章节能看</span></div>
+<div class="sec" data-reveal><h2>漫画</h2><span>在线看漫画</span></div>
 <div class="grid" data-reveal>
 <a class="wg ext lk" data-cat="c-comic" href="https://manga.bilibili.com/" target="_blank" rel="noopener noreferrer"><b>📖 哔哩哔哩漫画</b><p>正版日漫最全，有免费试读。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="c-comic" data-app href="https://www.kuaikanmanhua.com/" target="_blank" rel="noopener noreferrer"><b>💬 快看漫画<i class="px">要装 App</i></b><p>国漫大本营，条漫多。</p><span>打开 ↗</span></a>
@@ -401,31 +319,30 @@
 </section>
 </div>
 
-<div class="nf-more" id="nfMoreWrap" hidden><button class="nf-chip nf-more-btn" type="button" id="nfMore">再看更多</button></div>
-
-<div class="empty nf-empty" id="nfEmpty" hidden><span>🔍</span><p>没搜到，换个词试试</p></div>
-<p class="muted" style="font-size:12px;margin:22px 0 0">📌 标「要装 App」「要键盘」「需代理」的都用不了网页 + 手机的组合，其余点开就能用。外部站点内容不由本站控制。</p>
 <div class="blk" data-blk="AI">
 <div class="th" data-reveal><strong>AI</strong><span>对话助手和模型检测</span></div>
-<section class="grp" id="g-ai" data-block="AI">
-<div class="sec" data-reveal><h2>AI 对话</h2><span>国内直连，点开就能聊；国外三家要代理</span></div>
+<section class="grp" id="c-ai" data-block="AI">
+<div class="sec" data-reveal><h2>AI 对话</h2><span>国内直连，国外几家要代理</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-ai" href="https://chatglm.cn/" target="_blank" rel="noopener noreferrer"><b>🧠 智谱清言</b><p>GLM 系列，免费额度大。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-ai" href="https://kimi.moonshot.cn/" target="_blank" rel="noopener noreferrer"><b>🌙 Kimi</b><p>长文本阅读很强，能塞整本书。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-ai" href="https://tongyi.aliyun.com/" target="_blank" rel="noopener noreferrer"><b>☁️ 通义千问</b><p>阿里出品，功能全。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-ai" href="https://www.doubao.com/" target="_blank" rel="noopener noreferrer"><b>🫘 豆包</b><p>字节出品，语音好用。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-ai" href="https://yiyan.baidu.com/" target="_blank" rel="noopener noreferrer"><b>🅱️ 文心一言</b><p>百度出品。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-ai" href="https://yuanbao.tencent.com/" target="_blank" rel="noopener noreferrer"><b>🐧 腾讯元宝</b><p>腾讯出品，接 DeepSeek。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-ai" href="https://xinghuo.xfyun.cn/" target="_blank" rel="noopener noreferrer"><b>✨ 讯飞星火</b><p>语音识别强。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-ai" href="https://chat.deepseek.com/" target="_blank" rel="noopener noreferrer"><b>🐋 DeepSeek</b><p>代码和推理很强。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-ai" data-px href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer"><b>💬 ChatGPT<i class="px">需代理</i></b><p>OpenAI 官方。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-ai" data-px href="https://claude.ai/" target="_blank" rel="noopener noreferrer"><b>📜 Claude<i class="px">需代理</i></b><p>Anthropic 官方。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-ai" data-px href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><b>♊ Gemini<i class="px">需代理</i></b><p>Google 官方。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-ai" href="relay.html" target="_blank" rel="noopener noreferrer"><b>🛰️ 模型检测</b><p>这个 key 是哪家的、还能不能用（本站工具）。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-ai" href="https://chatglm.cn/" target="_blank" rel="noopener noreferrer"><b>🧠 智谱清言</b><p>GLM 系列，免费额度大。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-ai" href="https://kimi.moonshot.cn/" target="_blank" rel="noopener noreferrer"><b>🌙 Kimi</b><p>长文本阅读很强，能塞整本书。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-ai" href="https://tongyi.aliyun.com/" target="_blank" rel="noopener noreferrer"><b>☁️ 通义千问</b><p>阿里出品，功能全。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-ai" href="https://www.doubao.com/" target="_blank" rel="noopener noreferrer"><b>🫘 豆包</b><p>字节出品，语音好用。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-ai" href="https://yiyan.baidu.com/" target="_blank" rel="noopener noreferrer"><b>🅱️ 文心一言</b><p>百度出品。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-ai" href="https://yuanbao.tencent.com/" target="_blank" rel="noopener noreferrer"><b>🐧 腾讯元宝</b><p>腾讯出品，接 DeepSeek。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-ai" href="https://xinghuo.xfyun.cn/" target="_blank" rel="noopener noreferrer"><b>✨ 讯飞星火</b><p>语音识别强。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-ai" href="https://chat.deepseek.com/" target="_blank" rel="noopener noreferrer"><b>🐋 DeepSeek</b><p>代码和推理很强。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-ai" data-px href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer"><b>💬 ChatGPT<i class="px">需代理</i></b><p>OpenAI 官方。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-ai" data-px href="https://claude.ai/" target="_blank" rel="noopener noreferrer"><b>📜 Claude<i class="px">需代理</i></b><p>Anthropic 官方。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-ai" data-px href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><b>♊ Gemini<i class="px">需代理</i></b><p>Google 官方。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="c-ai" href="relay.html" target="_blank" rel="noopener noreferrer"><b>🛰️ 模型检测</b><p>这个 key 是哪家的、还能不能用（本站工具）。</p><span>打开 ↗</span></a>
 </div>
 </section>
 </div>
 
+<div class="nf-more" id="nfMoreWrap" hidden><button class="nf-chip nf-more-btn" type="button" id="nfMore">再看更多</button></div>
+<div class="empty nf-empty" id="nfEmpty" hidden><span>🔍</span><p>没搜到，换个词试试</p></div>
+<p class="muted" style="font-size:12px;margin:22px 0 0">📌 标「要装 App」「要键盘」「需代理」「要登录」的都点不进去或不好用，其余打开就能玩。外部站点内容不由本站控制。</p>
 </main>
 
 <footer><p>月临汐岸 · 在线资源</p><p class="muted">开源游戏 · 本地托管 · 外链跳转</p>  <p class="muted">by 沫小汐 · 代码 MIT · 第三方许可见 <a href="https://github.com/mxdfghsh/pocket-tools/blob/main/CREDITS.md" target="_blank" rel="noopener">CREDITS</a></p>
@@ -449,7 +366,7 @@
   var more = document.getElementById("nfMore");
   var moreWrap = document.getElementById("nfMoreWrap");
   var total = cards.length;
-  var GAME_CATS = { "g-web":1,"g-mini":1,"g-store":1,"g-cloud":1,"g-board":1,"g-indie":1,"g-pvp":1,"g-mmo":1,"g-rpg":1,"g-mow":1,"g-story":1,"g-idle":1,"g-raise":1,"g-sim":1,"g-music":1,"g-puzzle":1,"g-race":1,"g-strategy":1,"g-action":1,"g-td":1,"g-rogue":1 };
+  var GAME_CATS = {"c-act":1,"c-strat":1,"c-rpg":1,"c-casual":1,"c-idle":1,"c-multi":1,"c-clas":1};
 
   // 快筛按钮
   var qs = {

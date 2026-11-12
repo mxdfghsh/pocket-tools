@@ -1,76 +1,41 @@
-/* 桌宠：按需加载 + 界面开关
-   - 默认关闭，存在 localStorage 的 pocket-pet === "1" 时自动加载
-   - 导航栏会多一个 🦊 按钮，点一下即时开关，不用刷新
-   - 终端里的 pet 命令也走同一套 API */
+/* 桌宠：按需加载 + 导航栏开关
+   - 只在开启时才注入 pet.css / pet.js（默认关闭）
+   - 开关状态存 localStorage: pocket-pet = "1" */
 (function () {
   var KEY = "pocket-pet";
-  var CSS = "pet.css?v=3";
-  var JS = "pet.js?v=4";
+  var on = false;
+  try { on = localStorage.getItem(KEY) === "1"; } catch (e) {}
 
-  function isOn() {
-    try { return localStorage.getItem(KEY) === "1"; } catch (e) { return false; }
-  }
-
-  function setFlag(v) {
-    try { localStorage.setItem(KEY, v); } catch (e) {}
-    syncButton();
-  }
-
-  function enable() {
-    if (document.getElementById("pocket-pet")) { setFlag("1"); return; }
-    if (!document.querySelector('link[href*="pet.css"]')) {
-      var css = document.createElement("link");
-      css.rel = "stylesheet";
-      css.href = CSS;
-      document.head.appendChild(css);
-    }
-    var js = document.createElement("script");
-    js.src = JS;
-    js.onload = function () { setFlag("1"); };
-    document.body.appendChild(js);
-  }
-
-  function disable() {
-    var pet = document.getElementById("pocket-pet");
-    if (pet) pet.remove();
-    var css = document.querySelector('link[href*="pet.css"]');
-    if (css) css.remove();
-    setFlag("0");
-  }
-
-  function toggle() {
-    if (isOn() || document.getElementById("pocket-pet")) disable();
-    else enable();
-  }
-
-  function syncButton() {
-    var b = document.querySelector(".pet-btn");
-    if (!b) return;
-    var on = isOn() || !!document.getElementById("pocket-pet");
-    b.textContent = on ? "🦊" : "💤";
-    b.title = on ? "桌宠开着，点一下收起来" : "叫出桌宠";
-    b.setAttribute("aria-pressed", on ? "true" : "false");
-  }
-
-  function mountButton() {
+  // 1) 开关按钮
+  function mountBtn() {
     var links = document.querySelector(".nav-links");
     if (!links || links.querySelector(".pet-btn")) return;
     var b = document.createElement("button");
     b.type = "button";
     b.className = "pet-btn";
-    b.setAttribute("aria-label", "桌宠开关");
-    b.addEventListener("click", function () { toggle(); syncButton(); });
+    b.textContent = "🦊";
+    b.title = on ? "桌宠已开（点一下关掉）" : "召唤桌宠（点一下开启）";
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+    b.setAttribute("aria-label", b.title);
+    b.addEventListener("click", function () {
+      var next = !(localStorage.getItem(KEY) === "1");
+      try { localStorage.setItem(KEY, next ? "1" : "0"); } catch (e) {}
+      location.reload();
+    });
     links.appendChild(b);
-    syncButton();
   }
 
-  window.PocketPet = { isOn: isOn, enable: enable, disable: disable, toggle: toggle };
-
-  function boot() {
-    mountButton();
-    if (isOn()) enable();
-    syncButton();
+  // 2) 开启时才加载桌宠本体
+  function loadPet() {
+    var css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = "pet.css?v=3";
+    document.head.appendChild(css);
+    var js = document.createElement("script");
+    js.src = "pet.js?v=4";
+    document.body.appendChild(js);
   }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
-  else boot();
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { mountBtn(); if (on) loadPet(); });
+  else { mountBtn(); if (on) loadPet(); }
 })();

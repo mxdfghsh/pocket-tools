@@ -715,3 +715,7 @@ html.calm .ticker-track{animation:none!important}
 .pet-btn{width:38px;height:38px;display:grid;place-items:center;font-size:15px;line-height:1;cursor:pointer;color:var(--ink);border:1px solid var(--line);border-radius:9px;background:transparent}
 .pet-btn[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
 .pet-btn:hover{border-color:var(--accent)}
+
+/* 桌宠开关（和主题 / 皮肤 / 减少动效并排） */
+.pet-btn{width:38px;height:38px;display:grid;place-items:center;font-size:15px;line-height:1;cursor:pointer;color:var(--ink);border:1px solid var(--line);border-radius:9px;background:transparent;flex:none}
+.pet-btn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}

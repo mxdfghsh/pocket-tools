@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f19">
+<meta name="robots" content="noindex">
+<meta name="description" content="自然语言转正则：用自己的 API Key 让模型写出正则，再在本地测试。会联网，页面顶部写明。">
+<title>自然语言转正则 · 月临汐岸 SULEN</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+<link rel="stylesheet" href="home.css?v=8">
+<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="theme.css?v=19">
+<link rel="stylesheet" href="skins.css?v=19">
+<link rel="stylesheet" href="splash.css?v=4">
+<link rel="stylesheet" href="motion.css?v=3">
+<link rel="stylesheet" href="directory.css?v=4">
+<link rel="stylesheet" href="pc.css?v=2">
+<style>
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+.box{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
+html[data-theme="light"] .box{background:#fff;border-color:rgba(0,0,0,.09)}
+label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}
+input,textarea,select{width:100%;font:13px var(--mono,monospace);color:var(--text);background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:11px;padding:12px;outline:0}
+html[data-theme="light"] input,html[data-theme="light"] textarea,html[data-theme="light"] select{background:#f8fafc;border-color:rgba(0,0,0,.12)}
+textarea{resize:vertical}
+button{font:inherit;cursor:pointer}
+#go{width:100%;margin:14px 0 0;padding:15px;border-radius:13px;border:0;font:800 15px/1 inherit;color:#04121a;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+#go:disabled{opacity:.55}
+.mini{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.mini button{flex:1;min-width:120px;padding:10px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);font:600 12.5px/1 inherit}
+.out{margin-top:14px;font:13px/1.7 var(--mono,monospace);white-space:pre-wrap;word-break:break-word}
+.re{display:block;padding:12px;border-radius:11px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--ok);font:13px/1.6 var(--mono,monospace);word-break:break-all;margin:8px 0}
+html[data-theme="light"] .re{background:#f4f7fc;color:#0f766e}
+.hit{background:color-mix(in srgb,var(--accent) 30%,transparent);border-radius:3px}
+.note{font-size:12.5px;line-height:1.75;color:var(--muted)}
+.err{color:var(--err)}
+</style>
+<script>try{var m=localStorage.getItem("theme")||"system";var d=m==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.dataset.theme=d;}catch(e){}</script>
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
+<nav class="nav">
+  <a class="nav-brand" href="./">🌙 <span>月临汐岸</span></a>
+  <div class="nav-links">
+    <a href="./">首页</a>
+    <a href="tools.html">工具箱</a>
+    <a href="hub.html">游戏</a>
+    <a href="about.html">关于</a>
+    <button class="theme-btn" type="button" aria-label="切换主题">☀️</button>
+  </div>
+</nav>
+
+<header class="hero-home" style="padding-bottom:8px">
+  <p class="eyebrow">REGEX · 会联网</p>
+  <h1>说人话，<em>让它写正则</em></h1>
+  <p class="lead">用你自己的 API Key，把需求交给模型写成正则；拿回来在本地测，匹配高亮实时看。</p>
+</header>
+
+<main class="wrap">
+  <div class="box" id="privacy" style="border-color:rgba(255,207,92,.45)">
+    <p style="margin:0 0 6px;font-size:13px"><b>这个页面会联网，先说清楚：</b></p>
+    <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.8;color:var(--muted)">
+      <li>你填的 key 会发到本站的中转服务（Cloudflare Worker），再转给对应厂商。</li>
+      <li>中转只在内存里转发，不写库、不打日志；但请求确实经过了它。</li>
+      <li>你的需求文本也会一起发过去，请别写敏感信息。</li>
+      <li>建议用临时、低额度的测试 key，用完作废；页面刷新即清空输入。</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <label for="need">你要匹配什么（说人话就行）</label>
+    <textarea id="need" rows="3" placeholder="例：匹配中国大陆手机号，允许带 +86 或者 86 前缀，中间可以有空格或短横线"></textarea>
+
+    <label for="key">你的 API Key</label>
+    <input id="key" type="password" placeholder="sk-... （只存在这个浏览器里，不写入任何地方）" autocomplete="off">
+
+    <label for="prov">厂商</label>
+    <select id="prov">
+      <option value="deepseek">DeepSeek</option>
+      <option value="kimi">Kimi（Moonshot）</option>
+      <option value="zhipu">智谱 GLM</option>
+      <option value="qwen">通义千问</option>
+      <option value="step">阶跃星辰</option>
+    </select>
+
+    <label for="model">模型名（留空用默认）</label>
+    <input id="model" placeholder="例如 deepseek-chat">
+
+    <button id="go" type="button">生成正则</button>
+    <div class="mini">
+      <button id="clear" type="button">清空 key</button>
+    </div>
+    <div class="out" id="out"></div>
+  </div>
+
+  <div class="box">
+    <label for="test">在本地测（不上传）</label>
+    <textarea id="test" rows="3" placeholder="把要匹配的文本贴进来，命中的会高亮"></textarea>
+    <div class="out" id="preview"></div>
+  </div>
+
+  <p class="note">生成的正则只是起点：记得在本地测边界情况，尤其是空串、超长串和特殊字符。</p>
+</main>
+
+<footer>
+  <p>月临汐岸 · 自然语言转正则</p>
+  <p class="muted">by 沫小汐 · 代码 MIT · 第三方许可见 <a href="https://github.com/mxdfghsh/pocket-tools/blob/main/CREDITS.md" target="_blank" rel="noopener">CREDITS</a></p>
+</footer>
+
+<script src="theme.js?v=3"></script>
+<script src="skin.js?v=4"></script>
+<script src="calm.js?v=2"></script>
+<script src="pwa.js?v=3"></script>
+<script src="install-tip.js?v=3"></script>
+<script src="ui.js?v=3"></script>
+<script src="motion.js?v=3"></script>
+<script src="term.js?v=2"></script>
+<script src="pet-loader.js?v=3"></script>
+<script>
+(function () {
+  var B = "https://relay.3498341186.workers.dev";
+  var $ = function (id) { return document.getElementById(id); };
+  var defaults = { deepseek: "deepseek-chat", kimi: "kimi-k2.6", zhipu: "glm-4-flash", qwen: "qwen-plus", step: "step-3.5-flash" };
+  var lastRe = null;
+
+  function renderPreview() {
+    var box = $("preview"), text = $("test").value;
+    if (!lastRe) { box.innerHTML = ""; return; }
+    if (!text) { box.innerHTML = '<span class="note">上面有正则了，这里贴点文本试试</span>'; return; }
+    var re = new RegExp(lastRe, "g");
+    var html = text.replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; });
+    var hits = 0;
+    html = html.replace(re, function (m) { hits++; return '<span class="hit">' + m + "</span>"; });
+    box.innerHTML = '<p class="note">命中 ' + hits + ' 处</p><div>' + html + "</div>";
+  }
+
+  $("test").addEventListener("input", renderPreview);
+  $("prov").addEventListener("change", function () { $("model").placeholder = "例如 " + defaults[this.value]; });
+
+  $("clear").addEventListener("click", function () {
+    $("key").value = "";
+    $("out").textContent = "";
+    lastRe = null; renderPreview();
+  });
+
+  $("go").addEventListener("click", async function () {
+    var need = $("need").value.trim();
+    var key = $("key").value.trim();
+    var prov = $("prov").value;
+    var model = $("model").value.trim() || defaults[prov];
+    var out = $("out");
+    if (!need) { out.innerHTML = '<span class="err">先写需求</span>'; return; }
+    if (!key) { out.innerHTML = '<span class="err">填一个 key</span>'; return; }
+
+    this.disabled = true;
+    out.innerHTML = "请求中…（中转 → " + prov + "）";
+    var t0 = Date.now();
+    try {
+      var r = await fetch(B + "/" + prov + "/chat/completions", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: "Bearer " + key,
+          "x-relay-passthrough": "1",
+        },
+        body: JSON.stringify({
+          model: model,
+          temperature: 0,
+          max_tokens: 600,
+          messages: [
+            { role: "system", content: "你是正则表达式专家。只输出一个 JSON 对象：{\"regex\":\"...\",\"lang\":\"js\",\"explain\":\"一句话说明\",\"examples\":{\"match\":[\"...\"],\"reject\":[\"...\"]}}。regex 必须是 JavaScript 风格、不带 / 分隔符、不加 g 以外的标志。" },
+            { role: "user", content: need },
+          ],
+        }),
+        signal: AbortSignal.timeout(45000),
+      });
+      var txt = await r.text();
+      var ms = Date.now() - t0;
+      if (!r.ok) {
+        out.innerHTML = '<span class="err">HTTP ' + r.status + "：" + txt.slice(0, 200) + "</span>";
+        return;
+      }
+      var j = JSON.parse(txt);
+      var content = (j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content) || "";
+      var data = null;
+      var m = content.match(/\{[\s\S]*\}/);
+      if (m) { try { data = JSON.parse(m[0]); } catch (e) {} }
+      if (!data || !data.regex) {
+        out.textContent = content || "(没有返回内容)";
+        return;
+      }
+      lastRe = data.regex;
+      out.innerHTML = '<p class="note">' + ms + "ms · " + prov + " · " + model + "</p>";
+      var pre = document.createElement("code");
+      pre.className = "re";
+      pre.textContent = "/" + data.regex + "/g";
+      out.appendChild(pre);
+      if (data.explain) {
+        var p = document.createElement("p");
+        p.className = "note";
+        p.textContent = data.explain;
+        out.appendChild(p);
+      }
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "nf-q";
+      btn.textContent = "复制正则";
+      btn.addEventListener("click", function () {
+        navigator.clipboard.writeText(data.regex).then(function () { btn.textContent = "已复制"; }, function () { btn.textContent = "复制失败"; });
+        setTimeout(function () { btn.textContent = "复制正则"; }, 1500);
+      });
+      out.appendChild(btn);
+      renderPreview();
+    } catch (e) {
+      out.innerHTML = '<span class="err">失败：' + e.message + "</span>";
+    } finally {
+      this.disabled = false;
+    }
+  });
+
+  // 离开时清掉 key
+  window.addEventListener("pagehide", function () { $("key").value = ""; });
+})();
+</script>
+</body>
+</html>

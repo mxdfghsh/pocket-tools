@@ -22,8 +22,6 @@
 <div class="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
 <nav class="nav">
   <a class="nav-brand" href="./">🌙 <span>月临汐岸</span></a>
-<a class="wg lk" href="web/huggers/index.html"><b>🚀 太空拥抱者</b><p>横版跑轰 + 肉鸽：装备随机、地图可破坏，支持双人同屏。</p><span>开始 →</span></a>
-<a class="wg lk" href="web/tdc/td.html"><b>🛡 经典塔防（oldj）</b><p>2011 年的 HTML5 塔防，中文界面，摆炮塔守路线，一局二十分钟。</p><span>开始 →</span></a>
   <div class="nav-links">
     <a href="./">首页</a>
     <a href="tools.html">工具箱</a>
@@ -35,13 +33,13 @@
 <header class="hero-home" style="padding-bottom:20px">
   <p class="eyebrow">WEB GAMES</p>
   <h1>网上搬来的<em>经典</em></h1>
-  <p class="lead">16 款在本站直接玩；另外 12 款换成原作者自己挂在外面的 demo——都是 GitHub Pages 上的纯页面，没有广告也没有下载，点开就是游戏。</p>
+  <p class="lead">10 款在本站直接玩；另外 21 款是原作者自己挂在 GitHub Pages 上的 demo——没有广告、不用下载，点开就是游戏。</p>
 </header>
 <main class="wrap dir web-games">
 <div class="bar" role="toolbar" aria-label="筛选与跳转">
 <button class="chip" id="onlyWeb" type="button" aria-pressed="false">只看网页直接玩</button>
 <a class="chip" href="#g-speed">手速</a><a class="chip" href="#g-puzzle">益智</a><a class="chip" href="#g-board">棋牌</a><a class="chip" href="#g-retro">老游戏</a><a class="chip" href="#g-action">动作 · 街机</a><a class="chip" href="#g-big">大游戏</a>
-<span class="cnt" id="cnt" aria-live="polite">34 / 34</span>
+<span class="cnt" id="cnt" aria-live="polite">— / —</span>
 </div>
 <section class="grp" id="g-speed">
 <div class="sec"><h2>手速</h2><span>点、跳、躲，拼反应</span></div>
@@ -85,6 +83,8 @@
 <section class="grp" id="g-action">
 <div class="sec"><h2>动作 · 街机</h2><span>跑、打、抓，带点街机味</span></div>
 <div class="grid">
+<a class="wg lk" href="web/huggers/index.html"><b>🚀 太空拥抱者</b><p>横版跑轰 + 肉鸽：装备随机、地图可破坏，支持双人同屏。</p><span>开始 →</span></a>
+<a class="wg lk" href="web/tdc/td.html"><b>🛡 经典塔防（oldj）</b><p>2011 年的 HTML5 塔防，中文界面，摆炮塔守路线，一局二十分钟。</p><span>开始 →</span></a>
 <a class="wg lk" href="web/mario/main.html"><b>🍄 超级马里奥（无限版）</b><p>Infinite Mario 网页版：跑跳、踩蘑菇、顶砖块，关卡无限生成。开源（Unlicense），不是任天堂原版但玩法一样。</p><span>开始 →</span></a>
 <a class="wg lk ext" data-off href="https://lanbomo.github.io/laya-snakes/" target="_blank" rel="noopener noreferrer"><b>🐍 贪吃蛇小作战</b><p>贪吃蛇大作战那种：吃豆变长、绕晕对手，有 AI 对手和摇杆操作。</p><span>开始 →</span></a>
 <a class="wg lk" href="web/fishing/index.html"><b>🎣 钓鱼生活</b><p>离线摸鱼小游戏，钓上来什么全看运气。适合发呆的时候玩。</p><span>开始 →</span></a>
@@ -133,7 +133,7 @@
 <script>
 (function(){var b=document.getElementById("onlyWeb");if(!b)return;var n=document.getElementById("cnt"),m=document.querySelector("main"),cs=[].slice.call(document.querySelectorAll(".lk")),bx=[].slice.call(document.querySelectorAll(".grp"));
 function run(){var on=b.getAttribute("aria-pressed")==="true",k=0;cs.forEach(function(c){var h=on&&c.hasAttribute("data-off");c.hidden=h;if(!h)k++});bx.forEach(function(g){g.hidden=!g.querySelector(".lk:not([hidden])")});n.textContent=k+" / "+cs.length;m.classList.add("filtered")}
-b.addEventListener("click",function(){b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")==="true"?"false":"true");run()});})();
+b.addEventListener("click",function(){b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")==="true"?"false":"true");run()});run();})();
 </script>
 </body>
 </html>

@@ -131,12 +131,18 @@ html.calm .sp{animation:none;border-top-color:var(--accent);opacity:.6}
     <div class="row"><span>结果</span><span id="sum"></span></div>
     <div id="list" style="margin-top:10px"></div>
   </div>
+  </div>
 <script>
-(function(){
-  var b=document.getElementById("clearKey"); if(!b) return;
-  b.addEventListener("click",function(){
-    ["mykey","rtoken"].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=""; });
-    var out=document.getElementById("autoOut"); if(out) out.innerHTML="";
+(function () {
+  var b = document.getElementById("clearKey");
+  if (!b) return;
+  b.addEventListener("click", function () {
+    ["mykey", "rtoken"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.value = "";
+    });
+    var out = document.getElementById("autoOut");
+    if (out) out.innerHTML = "";
   });
 })();
 </script>

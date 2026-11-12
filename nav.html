@@ -492,7 +492,9 @@
     });
     // 不筛选时按 24 个一批露出来；筛选时全给
     var limit = filtering ? matched.length : Math.min(shown, matched.length);
-    matched.forEach(function (c, i) { c.hidden = i >= limit; });
+    // 先把所有卡藏起来，再放行命中的（否则没命中的会一直显示）
+    cards.forEach(function (c) { c.hidden = true; });
+    matched.slice(0, limit).forEach(function (c) { c.hidden = false; });
     n = matched.length;
     if (moreWrap) {
       moreWrap.hidden = filtering || matched.length <= limit;

@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="splash.css?v=4">
 <link rel="stylesheet" href="motion.css?v=3">
 <link rel="stylesheet" href="pc.css?v=2">
-<link rel="stylesheet" href="directory.css?v=3">
+<link rel="stylesheet" href="directory.css?v=4">
 </head>
 <body>
 <nav class="nav">
@@ -39,8 +39,14 @@
   <div class="nf-row">
     <input id="nfQ" type="search" placeholder="搜一下，比如 steam / MMO / 小说 / 音乐" autocomplete="off" aria-label="搜索资源">
     <button id="nfWeb" class="nf-toggle" type="button" aria-pressed="false">只看网页直用</button>
-  </div>
-  <div class="nf-chips" id="nfCats">
+  <div class="nf-quick">
+      <span class="nf-q-label">筛选</span>
+      <button class="nf-q" id="nfNoLogin" type="button" aria-pressed="false">免登录</button>
+      <button class="nf-q" id="nfNoPx" type="button" aria-pressed="false">免代理</button>
+      <button class="nf-q" id="nfNoKbd" type="button" aria-pressed="false">免键盘</button>
+      <button class="nf-q" id="nfGameOnly" type="button" aria-pressed="false">只看游戏</button>
+    </div>
+    <div class="nf-chips" id="nfCats">
     <button class="nf-chip" type="button" data-cat="all" aria-pressed="true">全部<small>201</small></button>
     <button class="nf-chip" type="button" data-cat="games">🎮 全部游戏<small>54</small></button>
     <button class="nf-chip" type="button" data-cat="g-web">网页里直接玩的大游戏<small>6</small></button><button class="nf-chip" type="button" data-cat="g-mmo">网页大作 · 在线 MMO<small>12</small></button>
@@ -59,6 +65,7 @@
     <button class="nf-chip" type="button" data-cat="g-raise">养成<small>4</small></button><button class="nf-chip" type="button" data-cat="g-mini">小游戏站<small>8</small></button><button class="nf-chip" type="button" data-cat="g-store">游戏平台 · 商店<small>11</small></button><button class="nf-chip" type="button" data-cat="g-cloud">云游戏<small>5</small></button><button class="nf-chip" type="button" data-cat="g-board">棋牌 · 桌游<small>5</small></button><button class="nf-chip" type="button" data-cat="g-indie">独立 · 剧情<small>4</small></button><button class="nf-chip" type="button" data-cat="g-pvp">多人竞技<small>3</small></button><button class="nf-chip" type="button" data-cat="r-book">小说<small>17</small></button><button class="nf-chip" type="button" data-cat="m-music">音乐<small>14</small></button><button class="nf-chip" type="button" data-cat="v-movie">影视<small>13</small></button><button class="nf-chip" type="button" data-cat="c-comic">漫画<small>10</small></button>
     <button class="nf-chip" type="button" data-cat="g-ai">AI 对话<small>12</small></button>
   </div>
+  <p class="nf-hint" id="nfHint"></p>
   <p class="nf-meta"><span id="nfCount">201</span> 个结果<button id="nfReset" type="button">清空</button></p>
 </div>
 
@@ -68,8 +75,8 @@
 <div class="sec" data-reveal><h2>网页里直接玩的大游戏</h2><span>不用下载，打开网页就进</span></div>
 <div class="grid" data-reveal>
 <a class="wg ext lk" data-cat="g-web" href="https://zombsroyale.io/" target="_blank" rel="noopener noreferrer"><b>🪂 Zombs Royale</b><p>100 人大逃杀，缩圈捡装备，浏览器直接排。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-web" href="https://tankionline.com/" target="_blank" rel="noopener noreferrer"><b>🛡️ Tanki Online</b><p>坦克对战 MMO，一局几分钟。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-web" href="https://crawl.develz.org/" target="_blank" rel="noopener noreferrer"><b>🕯️ 地牢爬行 DCSS</b><p>老牌 roguelike，一局能玩很久。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-web" data-login href="https://tankionline.com/" target="_blank" rel="noopener noreferrer"><b>🛡️ Tanki Online<i class="px">要登录</i></b><p>坦克对战 MMO，一局几分钟。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-web" data-login href="https://crawl.develz.org/" target="_blank" rel="noopener noreferrer"><b>🕯️ 地牢爬行 DCSS<i class="px">要登录</i></b><p>老牌 roguelike，一局能玩很久。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="g-web" href="https://hexgl.bkcore.com/" target="_blank" rel="noopener noreferrer"><b>🏎️ HexGL 在线版</b><p>3D 未来赛车，原作者官网直接开跑。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="g-web" href="https://www.retrogames.cc/" target="_blank" rel="noopener noreferrer"><b>🕹️ RetroGames.cc</b><p>FC / SFC / MD / GBA 老游戏，浏览器里直接玩。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="g-web" data-px href="https://dos.zone/" target="_blank" rel="noopener noreferrer"><b>🗄 DOS 游戏在线<i class="px">需代理</i></b><p>js-dos 官方游戏库，DOOM 这些浏览器里跑。</p><span>打开 ↗</span></a>
@@ -78,10 +85,10 @@
 <section class="grp" id="g-mmo" data-block="玩">
 <div class="sec" data-reveal><h2>网页大作 · 在线 MMO</h2><span>要注册、能玩很久的那种，打开浏览器就进</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-mmo" href="https://www.drakensang.com/" target="_blank" rel="noopener noreferrer"><b>🐉 Drakensang Online</b><p>3D 网页 MMO，暗黑风刷装备，浏览器直接跑。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" href="https://ogame.gameforge.com/" target="_blank" rel="noopener noreferrer"><b>🚀 OGame</b><p>太空策略 MMO，造舰队抢资源，一局能玩几个月。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" href="https://ikariam.gameforge.com/" target="_blank" rel="noopener noreferrer"><b>🏝️ Ikariam</b><p>建岛、贸易、打仗，老牌网页策略。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-mmo" href="https://www.travian.com/" target="_blank" rel="noopener noreferrer"><b>⚔️ Travian</b><p>经典战争策略，发展村子 + 联合作战。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-mmo" data-login href="https://www.drakensang.com/" target="_blank" rel="noopener noreferrer"><b>🐉 Drakensang Online<i class="px">要登录</i></b><p>3D 网页 MMO，暗黑风刷装备，浏览器直接跑。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-mmo" data-login href="https://ogame.gameforge.com/" target="_blank" rel="noopener noreferrer"><b>🚀 OGame<i class="px">要登录</i></b><p>太空策略 MMO，造舰队抢资源，一局能玩几个月。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-mmo" data-login href="https://ikariam.gameforge.com/" target="_blank" rel="noopener noreferrer"><b>🏝️ Ikariam<i class="px">要登录</i></b><p>建岛、贸易、打仗，老牌网页策略。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-mmo" data-login href="https://www.travian.com/" target="_blank" rel="noopener noreferrer"><b>⚔️ Travian<i class="px">要登录</i></b><p>经典战争策略，发展村子 + 联合作战。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="g-mmo" href="https://shellshock.io/" target="_blank" rel="noopener noreferrer"><b>🥚 Shell Shockers</b><p>拿鸡蛋打仗的 FPS，一局几分钟。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="g-mmo" href="https://slay.one/" target="_blank" rel="noopener noreferrer"><b>🔫 Slay.one</b><p>2D 射击 MMO，和真人混战。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="g-mmo" href="https://zombs.io/" target="_blank" rel="noopener noreferrer"><b>🧟 Zombs.io</b><p>塔防 + 生存，自己盖基地扛尸潮。</p><span>打开 ↗</span></a>
@@ -104,11 +111,11 @@
 <section class="grp" id="g-rpg" data-block="玩">
 <div class="sec" data-reveal><h2>RPG · 角色扮演</h2><span>打怪、刷装备、看故事</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-rpg" href="https://www.dragonfable.com/" target="_blank" rel="noopener noreferrer"><b>🐉 DragonFable</b><p>2D 回合制 RPG，运营二十多年，剧情和装备一直在更新。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rpg" href="https://www.battleon.com/" target="_blank" rel="noopener noreferrer"><b>⚔️ AdventureQuest</b><p>Artix 的老牌回合制 RPG，打怪、刷装备、做任务。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-rpg" data-login href="https://www.dragonfable.com/" target="_blank" rel="noopener noreferrer"><b>🐉 DragonFable<i class="px">要登录</i></b><p>2D 回合制 RPG，运营二十多年，剧情和装备一直在更新。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-rpg" data-login href="https://www.battleon.com/" target="_blank" rel="noopener noreferrer"><b>⚔️ AdventureQuest<i class="px">要登录</i></b><p>Artix 的老牌回合制 RPG，打怪、刷装备、做任务。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="g-rpg" href="https://easyrpg.org/player/" target="_blank" rel="noopener noreferrer"><b>🎮 EasyRPG Player</b><p>在浏览器里跑 RPG Maker 2000/2003 的游戏，站内有可直接玩的 demo。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rpg" href="https://www.fallenlondon.com/" target="_blank" rel="noopener noreferrer"><b>🌫️ Fallen London</b><p>维多利亚风文字 RPG，靠选择和写故事推进，文笔很好。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-rpg" href="https://www.kingdomofloathing.com/" target="_blank" rel="noopener noreferrer"><b>🐱 Kingdom of Loathing</b><p>文字 RPG，20 多年还在更新，黑色幽默。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-rpg" data-login href="https://www.fallenlondon.com/" target="_blank" rel="noopener noreferrer"><b>🌫️ Fallen London<i class="px">要登录</i></b><p>维多利亚风文字 RPG，靠选择和写故事推进，文笔很好。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-rpg" data-login href="https://www.kingdomofloathing.com/" target="_blank" rel="noopener noreferrer"><b>🐱 Kingdom of Loathing<i class="px">要登录</i></b><p>文字 RPG，20 多年还在更新，黑色幽默。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="g-rpg" href="https://progressquest.com/" target="_blank" rel="noopener noreferrer"><b>🤖 Progress Quest</b><p>全自动挂机 RPG——你什么都不用做，它自己打怪升级。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="g-rpg" href="https://poki.com/en/rpg" target="_blank" rel="noopener noreferrer"><b>🎲 Poki RPG 合集</b><p>手机友好的 RPG 小游戏合集。</p><span>打开 ↗</span></a>
 </div>
@@ -127,7 +134,7 @@
 <div class="sec" data-reveal><h2>剧情 · Story</h2><span>文字和选择为主，慢慢看</span></div>
 <div class="grid" data-reveal>
 <a class="wg ext lk" data-cat="g-story" href="https://www.choiceofgames.com/" target="_blank" rel="noopener noreferrer"><b>📖 Choice of Games</b><p>几百部文字冒险，免费的多，靠选择推进剧情。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-story" href="https://play.aidungeon.com/" target="_blank" rel="noopener noreferrer"><b>🧠 AI Dungeon</b><p>AI 现编的文字冒险，你想干什么就写什么。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-story" data-login href="https://play.aidungeon.com/" target="_blank" rel="noopener noreferrer"><b>🧠 AI Dungeon<i class="px">要登录</i></b><p>AI 现编的文字冒险，你想干什么就写什么。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="g-story" href="https://www.inklestudios.com/" target="_blank" rel="noopener noreferrer"><b>🎭 inkle</b><p>《80 Days》《Sorcery!》的开发商，站内有网页版 demo。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="g-story" href="https://adarkroom.doublespeakgames.com/" target="_blank" rel="noopener noreferrer"><b>🌑 A Dark Room</b><p>从一堆火开始的文字生存，剧情是慢慢渗出来的。</p><span>打开 ↗</span></a>
 <a class="wg ext lk" data-cat="g-story" href="https://candybox2.github.io/" target="_blank" rel="noopener noreferrer"><b>🍬 Candy Box 2</b><p>文字 + ASCII 的怪游戏，越往后越离谱。</p><span>打开 ↗</span></a>
@@ -145,10 +152,10 @@
 <section class="grp" id="g-raise" data-block="玩">
 <div class="sec" data-reveal><h2>模拟养成</h2><span>养点什么，看着它长大</span></div>
 <div class="grid" data-reveal>
-<a class="wg ext lk" data-cat="g-raise" href="https://www.neopets.com/" target="_blank" rel="noopener noreferrer"><b>🐾 Neopets</b><p>最老牌的虚拟宠物站之一，养宠物、玩小游戏、做任务。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-raise" href="https://www.howrse.com/" target="_blank" rel="noopener noreferrer"><b>🐴 Howrse</b><p>养马、配种、比赛，运营了很多年的养成站。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-raise" href="https://www.marapets.com/" target="_blank" rel="noopener noreferrer"><b>🌈 Marapets</b><p>另一家虚拟宠物社区，画风偏卡通。</p><span>打开 ↗</span></a>
-<a class="wg ext lk" data-cat="g-raise" href="https://subeta.net/" target="_blank" rel="noopener noreferrer"><b>🎨 Subeta</b><p>养宠物 + 装扮 + 社区，老玩家很多。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-raise" data-login href="https://www.neopets.com/" target="_blank" rel="noopener noreferrer"><b>🐾 Neopets<i class="px">要登录</i></b><p>最老牌的虚拟宠物站之一，养宠物、玩小游戏、做任务。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-raise" data-login href="https://www.howrse.com/" target="_blank" rel="noopener noreferrer"><b>🐴 Howrse<i class="px">要登录</i></b><p>养马、配种、比赛，运营了很多年的养成站。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-raise" data-login href="https://www.marapets.com/" target="_blank" rel="noopener noreferrer"><b>🌈 Marapets<i class="px">要登录</i></b><p>另一家虚拟宠物社区，画风偏卡通。</p><span>打开 ↗</span></a>
+<a class="wg ext lk" data-cat="g-raise" data-login href="https://subeta.net/" target="_blank" rel="noopener noreferrer"><b>🎨 Subeta<i class="px">要登录</i></b><p>养宠物 + 装扮 + 社区，老玩家很多。</p><span>打开 ↗</span></a>
 </div>
 </section>
 <section class="grp" id="g-sim" data-block="玩">
@@ -441,12 +448,33 @@
   var more = document.getElementById("nfMore");
   var moreWrap = document.getElementById("nfMoreWrap");
   var total = cards.length;
-  var GAME_CATS = { "g-web":1,"g-mini":1,"g-store":1,"g-cloud":1,"g-board":1,"g-indie":1,"g-pvp":1 };
+  var GAME_CATS = { "g-web":1,"g-mini":1,"g-store":1,"g-cloud":1,"g-board":1,"g-indie":1,"g-pvp":1,"g-mmo":1,"g-rpg":1,"g-mow":1,"g-story":1,"g-idle":1,"g-raise":1,"g-sim":1,"g-music":1,"g-puzzle":1,"g-race":1,"g-strategy":1,"g-action":1,"g-td":1,"g-rogue":1 };
+
+  // 快筛按钮
+  var qs = {
+    login: document.getElementById("nfNoLogin"),
+    px: document.getElementById("nfNoPx"),
+    kbd: document.getElementById("nfNoKbd"),
+    game: document.getElementById("nfGameOnly"),
+  };
+  var hint = document.getElementById("nfHint");
+  var FKEY = "pocket-nav-filters";
+  var fstate = { login: false, px: false, kbd: false, game: false };
+  try { var saved = JSON.parse(localStorage.getItem(FKEY) || "null"); if (saved) fstate = Object.assign(fstate, saved); } catch (e) {}
+  function syncBtns() {
+    Object.keys(qs).forEach(function (k) {
+      var b = qs[k];
+      if (!b) return;
+      b.setAttribute("aria-pressed", fstate[k] ? "true" : "false");
+    });
+  }
+  function saveFilters() { try { localStorage.setItem(FKEY, JSON.stringify(fstate)); } catch (e) {} }
 
   function run() {
     var term = q.value.trim().toLowerCase();
     var onlyWeb = web.getAttribute("aria-pressed") === "true";
-    var filtering = !!term || cur !== "all" || onlyWeb;
+    var anyQuick = fstate.login || fstate.px || fstate.kbd || fstate.game;
+    var filtering = !!term || cur !== "all" || onlyWeb || anyQuick;
     var n = 0, matched = [];
     cards.forEach(function (c) {
       var text = c.textContent.toLowerCase();
@@ -454,7 +482,11 @@
       var catOk = cur === "all" || (cur === "games" ? !!GAME_CATS[cat] : cat === cur);
       var ok = catOk &&
                (!term || text.indexOf(term) >= 0) &&
-               (!onlyWeb || (!c.hasAttribute("data-px") && !c.hasAttribute("data-app") && !c.hasAttribute("data-kbd")));
+               (!onlyWeb || (!c.hasAttribute("data-px") && !c.hasAttribute("data-app") && !c.hasAttribute("data-kbd"))) &&
+               (!fstate.login || !c.hasAttribute("data-login")) &&
+               (!fstate.px || !c.hasAttribute("data-px")) &&
+               (!fstate.kbd || !c.hasAttribute("data-kbd")) &&
+               (!fstate.game || !!GAME_CATS[cat]);
       if (ok) matched.push(c);
     });
     // 不筛选时按 24 个一批露出来；筛选时全给
@@ -471,9 +503,29 @@
     secs.forEach(function (s) { s.hidden = !s.querySelector(".lk:not([hidden])"); });
     blks.forEach(function (b) { b.hidden = !b.querySelector(".grp:not([hidden])"); });
     cnt.textContent = filtering || n <= limit ? n : limit + " / " + n;
+    if (hint) {
+      var dp = cards.filter(function (c) { return c.hasAttribute("data-px"); }).length;
+      var dl = cards.filter(function (c) { return c.hasAttribute("data-login"); }).length;
+      var active = [];
+      if (fstate.login) active.push("免登录");
+      if (fstate.px) active.push("免代理");
+      if (fstate.kbd) active.push("免键盘");
+      if (fstate.game) active.push("只看游戏");
+      hint.innerHTML = active.length
+        ? "已筛：" + active.join(" · ") + " · 剩 <b>" + n + "</b> 个"
+        : "共 " + cards.length + " 个 · <b>" + dp + "</b> 个需代理、<b>" + dl + "</b> 个要注册";
+    }
     if (empty) empty.hidden = n !== 0;
   }
 
+  Object.keys(qs).forEach(function (k) {
+    if (!qs[k]) return;
+    qs[k].addEventListener("click", function () {
+      fstate[k] = !fstate[k];
+      shown = SHOW_STEP;
+      syncBtns(); saveFilters(); run();
+    });
+  });
   if (more) more.addEventListener("click", function () { shown += SHOW_STEP; run(); });
   q.addEventListener("input", function () { shown = SHOW_STEP; run(); });
   web.addEventListener("click", function () {
@@ -490,6 +542,7 @@
   });
   if (reset) reset.addEventListener("click", function () {
     q.value = ""; cur = "all"; shown = SHOW_STEP;
+    fstate = { login: false, px: false, kbd: false, game: false }; syncBtns(); saveFilters();
     web.setAttribute("aria-pressed", "false");
     [].forEach.call(cats.querySelectorAll(".nf-chip"), function (x) { x.setAttribute("aria-pressed", x.getAttribute("data-cat") === "all" ? "true" : "false"); });
     run();
@@ -505,6 +558,7 @@
   }
   window.addEventListener("hashchange", syncFromHash);
   syncFromHash();
+  syncBtns();
   run();
 })();
 </script>
